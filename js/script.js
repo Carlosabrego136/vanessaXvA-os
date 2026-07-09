@@ -163,7 +163,8 @@ function addSparkleLayer(container, count = 14) {
 }
 
 document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section').forEach(el => {
-  addSparkleLayer(el, 12);
+  const isItinerary = el.id === 'itinerary';
+  addSparkleLayer(el, isItinerary ? 22 : 12);
 });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
