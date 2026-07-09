@@ -143,3 +143,47 @@ document.querySelectorAll('.lang-toggle span').forEach(span => {
     this.classList.add('active');
   });
 });
+
+// ===================== DESTELLOS FLOTANTES (bosque encantado) =====================
+// Agrega una capa de "luciérnagas" doradas a las secciones con foto grande
+function addSparkleLayer(container, count = 14) {
+  const layer = document.createElement('div');
+  layer.className = 'sparkle-layer';
+  for (let i = 0; i < count; i++) {
+    const s = document.createElement('span');
+    s.className = 'sparkle';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 4) + 's';
+    s.style.animationDuration = (3 + Math.random() * 2.5) + 's';
+    layer.appendChild(s);
+  }
+  container.style.position = container.style.position || 'relative';
+  container.appendChild(layer);
+}
+
+document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section').forEach(el => {
+  addSparkleLayer(el, 12);
+});
+
+// ===================== BRILLO QUE SIGUE AL SCROLL =====================
+// Cada vez que el usuario hace scroll (con el dedo o el mouse), aparece
+// un destello suave y breve, como si dejara un rastro de luz.
+let lastGlow = 0;
+function spawnScrollGlow() {
+  const now = Date.now();
+  if (now - lastGlow < 220) return; // limita la frecuencia para que sea sutil
+  lastGlow = now;
+
+  const glow = document.createElement('div');
+  glow.className = 'scroll-glow';
+  const x = window.innerWidth * (0.15 + Math.random() * 0.7);
+  const y = window.innerHeight * (0.2 + Math.random() * 0.6);
+  glow.style.left = x + 'px';
+  glow.style.top = y + 'px';
+  document.body.appendChild(glow);
+
+  setTimeout(() => glow.remove(), 1200);
+}
+
+window.addEventListener('scroll', spawnScrollGlow, { passive: true });
