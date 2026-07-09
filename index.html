@@ -36,7 +36,7 @@
 </audio>
 
 <!-- ============ HERO (una sola foto grande, como Laura & Santos) ============ -->
-<section id="hero" class="section">
+<section id="hero" class="section" style="min-height:90vh;">
   <div class="hero-bg-wrap">
     <img data-parallax src="assets/hero/hero-main.jpg" alt="Vanessa">
   </div>
@@ -46,8 +46,17 @@
   </div>
 </section>
 
+<div class="tag-band reveal-fade">
+  <h2 class="script">A dream fifteen years in the making</h2>
+</div>
+
+<div class="photo-divider reveal">
+  <img data-parallax src="assets/hero/hero-secondary.jpg" alt="Vanessa">
+</div>
+
 <!-- ============ COUNTDOWN ============ -->
 <section id="countdown" class="section">
+  <div class="bg-photo"><img data-parallax src="assets/countdown/countdown-photo.jpg" alt="Vanessa"></div>
   <p class="section-tag">Save the date</p>
   <h2 class="countdown-date">SEPTEMBER 27, 2025</h2>
   <div class="countdown-boxes">
@@ -56,93 +65,114 @@
     <div class="box"><div class="num" id="cd-mins">00</div><div class="label">Mins</div></div>
     <div class="box"><div class="num" id="cd-secs">00</div><div class="label">Secs</div></div>
   </div>
-  <button class="calendar-btn">Add to Calendar</button>
+  <button class="calendar-btn">&#128197; Add to Calendar</button>
 </section>
 
 <!-- ============ BLESSING / PARENTS ============ -->
-<section id="blessing" class="section section-mid">
-  <p class="section-tag">With the blessing of</p>
-  <h2 class="section-title">My <span class="script">Parents</span></h2>
-  <div class="parents-wrap">
-    <div class="reveal-left">
-      <h4>Mother</h4>
-      <p>Jessica Martínez</p>
-    </div>
-    <div class="reveal-right">
-      <h4>Father</h4>
-      <p>Juan Pérez</p>
+<section id="blessing" class="split">
+  <div class="split-photo reveal-left">
+    <img data-parallax src="assets/gallery/gallery-02.jpg" alt="Vanessa">
+  </div>
+  <div class="split-card reveal-right">
+    <p class="section-tag">With the blessing of</p>
+    <h2 class="section-title">My <span class="script">Parents</span></h2>
+    <div class="parents-wrap" style="margin-top:30px;">
+      <div>
+        <h4 style="color:var(--forest-mid);">Mother</h4>
+        <p style="color:var(--ink);">Jessica Martínez</p>
+      </div>
+      <div>
+        <h4 style="color:var(--forest-mid);">Father</h4>
+        <p style="color:var(--ink);">Juan Pérez</p>
+      </div>
     </div>
   </div>
 </section>
+
+<div class="photo-divider reveal">
+  <img data-parallax src="assets/fondo/fondo-forest.jpg" alt="Enchanted Forest">
+</div>
 
 <!-- ============ PADRINOS / HONOR COURT ============ -->
-<section id="padrinos" class="section section-dark">
-  <p class="section-tag">Sponsors</p>
-  <h2 class="section-title">Honor <span class="script">Court</span></h2>
+<section id="padrinos" class="split">
+  <div class="split-photo reveal-left">
+    <img data-parallax src="assets/gallery/gallery-06.jpg" alt="Vanessa">
+  </div>
+  <div class="split-card reveal-right" style="padding:60px 20px;">
+    <p class="section-tag">Sponsors</p>
+    <h2 class="section-title">Honor <span class="script">Court</span></h2>
 
-  <div class="carousel">
-    <div class="carousel-track" id="padrinosTrack">
-      <div class="carousel-card active">
-        <div class="icon">&#10047;</div>
-        <h3>Bouquet</h3>
-        <p>Name Surname</p>
+    <div class="carousel">
+      <div class="carousel-track" id="padrinosTrack">
+        <div class="carousel-card active">
+          <div class="icon">&#10047;</div>
+          <h3>Bouquet</h3>
+          <p>Name Surname</p>
+        </div>
+        <div class="carousel-card">
+          <div class="icon">&#128081;</div>
+          <h3>Tiara</h3>
+          <p>Name Surname</p>
+        </div>
+        <div class="carousel-card">
+          <div class="icon">&#128218;</div>
+          <h3>Bible &amp; Rosary</h3>
+          <p>Name Surname</p>
+        </div>
+        <div class="carousel-card">
+          <div class="icon">&#128096;</div>
+          <h3>Shoes</h3>
+          <p>Name Surname</p>
+        </div>
+        <div class="carousel-card">
+          <div class="icon">&#128142;</div>
+          <h3>Medallion</h3>
+          <p>Name Surname</p>
+        </div>
+        <div class="carousel-card">
+          <div class="icon">&#127909;</div>
+          <h3>Photo &amp; Video</h3>
+          <p>Name Surname</p>
+        </div>
       </div>
-      <div class="carousel-card">
-        <div class="icon">&#128081;</div>
-        <h3>Tiara</h3>
-        <p>Name Surname</p>
-      </div>
-      <div class="carousel-card">
-        <div class="icon">&#128218;</div>
-        <h3>Bible &amp; Rosary</h3>
-        <p>Name Surname</p>
-      </div>
-      <div class="carousel-card">
-        <div class="icon">&#128096;</div>
-        <h3>Shoes</h3>
-        <p>Name Surname</p>
-      </div>
-      <div class="carousel-card">
-        <div class="icon">&#128142;</div>
-        <h3>Medallion</h3>
-        <p>Name Surname</p>
-      </div>
-      <div class="carousel-card">
-        <div class="icon">&#127909;</div>
-        <h3>Photo &amp; Video</h3>
-        <p>Name Surname</p>
-      </div>
+      <div class="carousel-nav prev" id="padrinosPrev">&#10094;</div>
+      <div class="carousel-nav next" id="padrinosNext">&#10095;</div>
     </div>
-    <div class="carousel-nav prev" id="padrinosPrev">&#10094;</div>
-    <div class="carousel-nav next" id="padrinosNext">&#10095;</div>
   </div>
 </section>
 
-<!-- ============ ITINERARY ============ -->
-<section id="itinerary" class="section section-mid">
-  <p class="section-tag">Schedule</p>
-  <h2 class="section-title">Itine<span class="script">rary</span></h2>
+<div class="photo-divider reveal">
+  <img data-parallax src="assets/gallery/gallery-08.jpg" alt="Vanessa">
+</div>
 
-  <div class="itinerary-list">
-    <div class="itinerary-item reveal-left">
-      <div class="icon">&#9962;</div>
-      <div><h4>Religious Ceremony</h4><p>2:00 PM</p></div>
-    </div>
-    <div class="itinerary-item reveal-right">
-      <div class="icon">&#128247;</div>
-      <div><h4>Photo Session</h4><p>4:00 PM</p></div>
-    </div>
-    <div class="itinerary-item reveal-left">
-      <div class="icon">&#127864;</div>
-      <div><h4>Reception</h4><p>6:00 PM</p></div>
-    </div>
-    <div class="itinerary-item reveal-right">
-      <div class="icon">&#127869;</div>
-      <div><h4>Dinner</h4><p>7:00 PM</p></div>
-    </div>
-    <div class="itinerary-item reveal-left">
-      <div class="icon">&#128131;</div>
-      <div><h4>Dance &amp; Party</h4><p>8:00 PM</p></div>
+<!-- ============ ITINERARY ============ -->
+<section id="itinerary" class="photo-overlay-section">
+  <div class="bg-photo"><img data-parallax src="assets/gallery/gallery-01.jpg" alt="Vanessa"></div>
+  <div class="floating-card">
+    <p class="section-tag">Schedule</p>
+    <h2 class="section-title">Itine<span class="script">rary</span></h2>
+
+    <div class="itinerary-list" style="margin:30px auto 0;">
+      <div class="itinerary-item">
+        <div class="icon">&#9962;</div>
+        <div><h4>Religious Ceremony</h4><p>2:00 PM</p></div>
+      </div>
+      <div class="itinerary-item">
+        <div class="icon">&#128247;</div>
+        <div><h4>Photo Session</h4><p>4:00 PM</p></div>
+      </div>
+      <div class="itinerary-item">
+        <div class="icon">&#127864;</div>
+        <div><h4>Reception</h4><p>6:00 PM</p></div>
+      </div>
+      <div class="itinerary-item">
+        <div class="icon">&#127869;</div>
+        <div><h4>Dinner</h4><p>7:00 PM</p></div>
+      </div>
+      <div class="itinerary-item">
+        <div class="icon">&#128131;</div>
+        <div><h4>Dance &amp; Party</h4><p>8:00 PM</p></div>
+      </div>
     </div>
   </div>
 </section>
@@ -169,7 +199,7 @@
   <p class="section-tag">Venue</p>
   <h2 class="section-title">Enchanted <span class="script">Garden</span></h2>
   <div class="venue-photo reveal">
-    <img data-parallax src="assets/fondo/fondo-forest.jpg" alt="Venue">
+    <img data-parallax src="assets/gallery/gallery-03.jpg" alt="Vanessa">
   </div>
   <a class="map-btn" href="#" target="_blank">Go to Google Maps</a>
 </section>
@@ -193,12 +223,15 @@
 </section>
 
 <!-- ============ GIFT REGISTRY ============ -->
-<section id="registry" class="section section-mid">
-  <p class="section-tag">Gift</p>
-  <h2 class="section-title">Reg<span class="script">istry</span></h2>
-  <p style="max-width:480px;margin-top:20px;">Your presence is the best gift, but if you wish to help me celebrate this new chapter, you may visit my registry below.</p>
-  <div class="registry-links">
-    <a href="#" target="_blank">Amazon</a>
+<section id="registry" class="photo-overlay-section">
+  <div class="bg-photo"><img data-parallax src="assets/gallery/gallery-07.jpg" alt="Vanessa"></div>
+  <div class="floating-card">
+    <p class="section-tag">Gift</p>
+    <h2 class="section-title">Reg<span class="script">istry</span></h2>
+    <p style="max-width:420px;margin:20px auto 0;color:var(--ink);">Your presence is the best gift, but if you wish to help me celebrate this new chapter, you may visit my registry below.</p>
+    <div class="registry-links" style="margin-top:26px;">
+      <a href="#" target="_blank" style="border-color:var(--forest-mid);color:var(--forest-mid);">Amazon</a>
+    </div>
   </div>
 </section>
 

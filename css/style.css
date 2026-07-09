@@ -26,29 +26,113 @@ body {
   position: relative;
 }
 
-/* Fondo fijo del bosque encantado detrás de TODA la página, con profundidad */
-#forest-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background: url('../assets/fondo/fondo-forest.jpg') center/cover no-repeat;
-  background-attachment: fixed;
-}
+.section-dark { background: var(--forest-deep); }
+.section-mid { background: var(--forest-mid); }
 
-#forest-bg::before {
-  content: '';
+/* ===================== TAGLINE BAND (franja de color sólido) ===================== */
+.tag-band {
+  padding: 34px 24px;
+  text-align: center;
+  background: var(--gold);
+  color: var(--forest-deep);
+}
+.tag-band .script { color: var(--forest-deep); font-size: clamp(26px, 4vw, 40px); }
+
+/* ===================== FULL-BLEED PHOTO DIVIDER ===================== */
+.photo-divider {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+}
+.photo-divider img {
+  width: 100%;
+  height: 130%;
+  object-fit: cover;
   position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg,
-    rgba(6,20,14,0.55) 0%,
-    rgba(9,28,20,0.75) 30%,
-    rgba(6,20,14,0.85) 70%,
-    rgba(6,20,14,0.92) 100%);
+  top: -15%; left: 0;
+  will-change: transform;
 }
 
-/* Los paneles de cada sección quedan semi-transparentes para dejar ver el bosque detrás */
-.section-dark { background: rgba(6, 20, 14, 0.55); backdrop-filter: blur(1px); }
-.section-mid { background: rgba(27, 67, 50, 0.45); backdrop-filter: blur(1px); }
+/* ===================== SPLIT (foto a un lado, tarjeta papel al otro) ===================== */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 68vh;
+}
+.split-photo, .split-card {
+  flex: 1 1 420px;
+  position: relative;
+  min-height: 68vh;
+  overflow: hidden;
+}
+.split-photo img {
+  width: 100%; height: 130%;
+  object-fit: cover;
+  position: absolute; top: -15%; left: 0;
+  will-change: transform;
+}
+.split-card {
+  background: var(--cream);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 30px;
+}
+.split-card .section-tag { color: var(--forest-mid); }
+.split-card h2 { color: var(--forest-mid); }
+.split-card h2 .script { color: var(--gold); }
+
+/* ===================== PHOTO BG + FLOATING CARD OVERLAY ===================== */
+.photo-overlay-section {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 80px 24px;
+}
+.photo-overlay-section .bg-photo {
+  position: absolute; inset: 0;
+}
+.photo-overlay-section .bg-photo img {
+  width: 100%; height: 130%;
+  object-fit: cover;
+  position: absolute; top: -15%; left: 0;
+  will-change: transform;
+}
+.photo-overlay-section .bg-photo::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(6,20,14,0.55);
+}
+.floating-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(246,241,230,0.94);
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 50px 40px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+}
+.floating-card .section-tag { color: var(--forest-mid); }
+.floating-card h2 { color: var(--forest-mid); }
+.floating-card h2 .script { color: var(--gold); }
+.floating-card .itinerary-item { border-bottom-color: rgba(45,106,79,0.2); }
+.floating-card .itinerary-item h4 { color: var(--forest-mid); }
+.floating-card .itinerary-item p { color: var(--ink); }
+.floating-card .itinerary-item .icon { border-color: var(--forest-mid); color: var(--forest-mid); }
+
+/* ===================== PILL BUTTONS (no más cuadrados) ===================== */
+.enter-btn, .calendar-btn, .map-btn, .submit-btn, .registry-links a, .contact-btn {
+  border-radius: 40px !important;
+}
 
 h1, h2, h3, h4 { font-weight: 400; letter-spacing: 1px; }
 
@@ -276,8 +360,26 @@ button {
 
 /* ===================== COUNTDOWN ===================== */
 #countdown {
-  background: linear-gradient(180deg, var(--forest-deep), var(--forest-mid));
+  position: relative;
+  overflow: hidden;
+  min-height: 90vh;
+  justify-content: center;
 }
+#countdown .bg-photo {
+  position: absolute; inset: 0;
+}
+#countdown .bg-photo img {
+  width: 100%; height: 130%;
+  object-fit: cover;
+  position: absolute; top: -15%; left: 0;
+  will-change: transform;
+}
+#countdown .bg-photo::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(6,20,14,0.35), rgba(6,20,14,0.8));
+}
+#countdown > * { position: relative; z-index: 2; }
 
 .countdown-date {
   font-family: 'Marcellus', serif;
