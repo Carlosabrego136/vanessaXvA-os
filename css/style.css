@@ -23,7 +23,32 @@ body {
   overflow-x: hidden;
   font-size: 18px;
   line-height: 1.6;
+  position: relative;
 }
+
+/* Fondo fijo del bosque encantado detrás de TODA la página, con profundidad */
+#forest-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url('../assets/fondo/fondo-forest.jpg') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+#forest-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(6,20,14,0.55) 0%,
+    rgba(9,28,20,0.75) 30%,
+    rgba(6,20,14,0.85) 70%,
+    rgba(6,20,14,0.92) 100%);
+}
+
+/* Los paneles de cada sección quedan semi-transparentes para dejar ver el bosque detrás */
+.section-dark { background: rgba(6, 20, 14, 0.55); backdrop-filter: blur(1px); }
+.section-mid { background: rgba(27, 67, 50, 0.45); backdrop-filter: blur(1px); }
 
 h1, h2, h3, h4 { font-weight: 400; letter-spacing: 1px; }
 
@@ -167,8 +192,7 @@ button {
   overflow: hidden;
 }
 
-.section-dark { background: var(--forest-deep); }
-.section-mid { background: var(--forest-mid); }
+/* (fondo real ahora lo da #forest-bg fijo detrás de la página) */
 
 .section-tag {
   font-size: 13px;
@@ -208,56 +232,47 @@ button {
 .reveal-fade { opacity: 0; transition: opacity 1.6s ease; }
 .reveal-fade.is-visible { opacity: 1; }
 
-/* ===================== HERO ===================== */
+/* ===================== HERO (una sola foto grande de fondo) ===================== */
 #hero {
   min-height: 100vh;
   padding: 0;
   justify-content: center;
+  align-items: center;
+  background: none;
 }
 
-.hero-photos {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  height: 78vh;
-  margin: 0 auto;
-}
-
-.hero-photo-wrap {
+.hero-bg-wrap {
   position: absolute;
+  inset: 0;
   overflow: hidden;
-  border-radius: 6px;
-  box-shadow: 0 30px 60px var(--shadow-deep);
+  z-index: 0;
 }
 
-.hero-photo-wrap.main {
-  width: 62%;
-  height: 100%;
-  left: 0; top: 0;
-  z-index: 2;
-}
-
-.hero-photo-wrap.secondary {
-  width: 46%;
-  height: 55%;
-  right: 0; bottom: -8%;
-  z-index: 3;
-  border: 6px solid var(--forest-deep);
-}
-
-.hero-photo-wrap img {
-  width: 100%; height: 130%;
+.hero-bg-wrap img {
+  width: 100%;
+  height: 130%;
   object-fit: cover;
-  position: absolute; top: -15%; left: 0;
+  position: absolute;
+  top: -15%;
+  left: 0;
   will-change: transform;
 }
 
-.hero-text {
-  margin-top: 60px;
+.hero-bg-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6,20,14,0.35) 0%, rgba(6,20,14,0.15) 40%, rgba(6,20,14,0.75) 100%);
 }
 
-.hero-text .script { font-size: clamp(50px, 9vw, 100px); }
-.hero-text p { color: var(--gold-light); letter-spacing: 3px; margin-top: 10px; font-size: 16px; }
+.hero-text {
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+}
+
+.hero-text .script { font-size: clamp(60px, 11vw, 130px); text-shadow: 0 6px 30px rgba(0,0,0,0.5); }
+.hero-text p { color: var(--gold-light); letter-spacing: 3px; margin-top: 10px; font-size: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.6); }
 
 /* ===================== COUNTDOWN ===================== */
 #countdown {
