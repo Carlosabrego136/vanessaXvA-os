@@ -34,16 +34,44 @@ body {
 
 img { max-width: 100%; }
 
-/* ===================== FONDO "FIJO" (la foto se queda mientras la siguiente sección la tapa) =====================
-   NOTA: ya NO usamos background-attachment:fixed — esa propiedad es la que falla en iPhone/Android
-   (Safari e navegadores móviles no la soportan bien, por eso antes no se veía el efecto en el teléfono).
-   En su lugar, js/script.js mueve el background-position de estas fotos según el scroll,
-   lo cual da el mismo efecto de profundidad y SÍ funciona en computadora, iPhone y Android. */
+/* ===================== FOTO FIJA + LA SIGUIENTE SECCIÓN LA TAPA (igual que Laura & Santos) =====================
+   Cómo funciona (ya NO usamos background-attachment:fixed — eso es lo que falla en iPhone/Android):
+   1. Cada foto grande vive dentro de un contenedor normal (que sí ocupa su espacio en la página).
+   2. Mientras esa foto está "activa" en pantalla, js/script.js le agrega la clase .is-pinned,
+      que la vuelve position:fixed — se queda congelada, pixel por pixel, igual que en el video original.
+   3. En cuanto la siguiente sección (con fondo opaco) llega a cubrir toda la pantalla, se le quita
+      la clase y la foto vuelve a su lugar normal (ya tapada, así que no se nota el cambio).
+   Esto SÍ funciona igual en computadora, iPhone y Android porque usa position:fixed en un elemento
+   real (no background-attachment, que es lo que los navegadores móviles no soportan bien). */
 .fixed-bg {
   background-size: cover;
   background-position: center 20%;
   background-repeat: no-repeat;
-  will-change: background-position;
+}
+
+.pin-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.pin-photo.is-pinned {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Todas las secciones/franjas de la página necesitan su propio nivel de apilamiento
+   para que cada una tape correctamente a la foto fija de la sección anterior */
+body > section,
+body > .split,
+body > .tag-band,
+body > .photo-divider,
+body > footer {
+  position: relative;
+  z-index: 1;
 }
 
 /* (el scroll es normal, como en la invitación original — no se usa sticky) */

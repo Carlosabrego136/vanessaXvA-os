@@ -44,24 +44,46 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 revealEls.forEach(el => revealObserver.observe(el));
 
-// ===================== PARALLAX EN FOTOS GRANDES (reemplaza background-attachment:fixed) =====================
-// Estas son las fotos grandes de fondo (Hero, divisores de bosque, Countdown, Bendición,
-// Padrinos, Itinerario, Mesa de Regalos, RSVP). En vez de "background-attachment:fixed"
-// (que no funciona bien en iPhone/Android), aquí movemos el background-position con JS
-// según el scroll — el mismo efecto visual, pero sí funciona en teléfonos.
-const fixedBgEls = document.querySelectorAll('.fixed-bg');
+// ===================== FOTOS QUE SE FIJAN Y SE VAN TAPANDO (igual que Laura & Santos) =====================
+// Cada contenedor con [data-pin-wrap] tiene adentro una .pin-photo. Mientras el contenedor
+// está cruzando la parte de arriba de la pantalla, la foto se "congela" (position:fixed) —
+// se queda exactamente en el mismo lugar — y la siguiente sección (que tiene fondo opaco)
+// sube por encima y la va tapando, tal como en el sitio original. En cuanto esa siguiente
+// sección ya cubrió toda la pantalla, la foto se "descongela" (ya no se nota, porque para
+// entonces ya está completamente tapada). Esto usa position:fixed en un elemento real
+// (no background-attachment), así que funciona igual en computadora, iPhone y Android.
+const pinWraps = Array.from(document.querySelectorAll('[data-pin-wrap]')).map(wrap => ({
+  wrap,
+  photo: wrap.querySelector('.pin-photo')
+})).filter(p => p.photo);
 
-function updateFixedBgParallax() {
+function updatePinnedPhotos() {
+  pinWraps.forEach(({ wrap, photo }) => {
+    const rect = wrap.getBoundingClientRect();
+    // Se fija en cuanto su borde de arriba llega al tope de la pantalla,
+    // y se suelta justo cuando su alto natural ya habría salido por completo
+    // (que es exactamente cuando la siguiente sección ya la tapó del todo)
+    const shouldPin = rect.top <= 0 && rect.bottom > 0;
+    if (shouldPin) {
+      photo.classList.add('is-pinned');
+    } else {
+      photo.classList.remove('is-pinned');
+    }
+  });
+}
+
+// ===================== PANEO SUAVE EN FOTOS DE LADO (Bendición, Padrinos, RSVP) =====================
+// Estas no se tapan con la siguiente sección (van una al lado de la otra), así que solo
+// llevan un movimiento sutil de profundidad, no el efecto de "fijar y tapar".
+const sideBgEls = document.querySelectorAll('.split-photo.fixed-bg');
+
+function updateSideBgPan() {
   const vh = window.innerHeight;
-  fixedBgEls.forEach(el => {
+  sideBgEls.forEach(el => {
     const rect = el.getBoundingClientRect();
-    // Solo calcula si está cerca del viewport (performance, sobre todo en teléfonos)
     if (rect.bottom < -200 || rect.top > vh + 200) return;
-    // progress va de 0 (la foto apenas entra por abajo) a 1 (la foto ya casi sale por arriba)
     const progress = (vh - rect.top) / (vh + rect.height);
     const clamped = Math.max(0, Math.min(1, progress));
-    // La posición vertical de la imagen se mueve entre 8% y 42% mientras haces scroll,
-    // dando la sensación de que la foto se desliza más despacio que el resto de la página
     const posY = 8 + clamped * 34;
     el.style.backgroundPositionY = posY + '%';
   });
@@ -90,7 +112,8 @@ function onScrollParallax() {
   if (parallaxTicking) return;
   parallaxTicking = true;
   requestAnimationFrame(() => {
-    updateFixedBgParallax();
+    updatePinnedPhotos();
+    updateSideBgPan();
     updateImgParallax();
     parallaxTicking = false;
   });
@@ -98,7 +121,8 @@ function onScrollParallax() {
 
 window.addEventListener('scroll', onScrollParallax, { passive: true });
 window.addEventListener('resize', onScrollParallax);
-updateFixedBgParallax();
+updatePinnedPhotos();
+updateSideBgPan();
 updateImgParallax();
 
 // ===================== COUNTDOWN =====================
