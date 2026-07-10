@@ -36,8 +36,9 @@ img { max-width: 100%; }
 
 /* ===================== SCROLL APILADO (cada sección se queda fija y la siguiente la cubre) ===================== */
 .sticky-panel {
-  position: sticky;
-  top: 0;
+  position: -webkit-sticky;
+  position: sticky !important;
+  top: 0 !important;
   z-index: 1; /* el JS reasigna esto en orden ascendente */
 }
 
@@ -46,9 +47,6 @@ img { max-width: 100%; }
 .sticky-panel.section-mid { background: linear-gradient(180deg, var(--forest-deep), var(--teal-accent), var(--forest-deep)); }
 
 /* Costura suave entre secciones para que no se note el cambio de color */
-.section, .split, .photo-divider, #countdown, .photo-overlay-section {
-  position: relative;
-}
 .section::before, .split::before {
   content: '';
   position: absolute;
