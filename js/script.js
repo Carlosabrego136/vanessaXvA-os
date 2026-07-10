@@ -6,7 +6,10 @@ const musicBtn = document.getElementById('musicBtn');
 
 enterBtn.addEventListener('click', () => {
   enterScreen.classList.add('hidden');
-  document.body.style.overflowY = 'auto';
+  // NOTA: NO poner aquí document.body.style.overflowY = 'auto'.
+  // Un overflow-y distinto de "visible" en el <body> (aunque sea inline por JS)
+  // rompe el position:sticky de las secciones .layer, que es lo que hace que
+  // cada foto se quede fija mientras la siguiente la va tapando al hacer scroll.
   // Intenta reproducir música automáticamente al entrar (si hay fuente cargada)
   if (bgMusic.querySelector('source')) {
     bgMusic.play().then(() => {

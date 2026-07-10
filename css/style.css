@@ -25,11 +25,14 @@ body {
   font-family: 'Cormorant Garamond', serif;
   background: var(--forest-deep);
   color: var(--cream);
-  overflow-x: clip;
   width: 100%;
   font-size: 18px;
   line-height: 1.6;
   position: relative;
+  /* NOTA: no poner overflow-x aquí — el body es el padre directo de
+     las secciones .layer (position: sticky). Cualquier overflow distinto
+     de "visible" en este elemento rompe el efecto de "foto fija que la
+     siguiente va tapando" en Safari/iPhone y en varios Android. */
 }
 
 img { max-width: 100%; }
