@@ -15,17 +15,24 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+}
 
 body {
   font-family: 'Cormorant Garamond', serif;
   background: var(--forest-deep);
   color: var(--cream);
   overflow-x: hidden;
+  width: 100%;
   font-size: 18px;
   line-height: 1.6;
   position: relative;
 }
+
+img { max-width: 100%; }
 
 .section-dark { background: var(--forest-deep); }
 .section-mid { background: linear-gradient(180deg, var(--forest-deep), var(--teal-accent), var(--forest-deep)); }
@@ -121,6 +128,10 @@ body {
   position: relative;
   min-height: 68vh;
   overflow: hidden;
+}
+
+@media (max-width: 700px) {
+  .split-photo, .split-card { flex-basis: 100%; }
 }
 .split-photo img {
   width: 100%; height: 130%;
@@ -463,6 +474,9 @@ button {
   gap: 18px;
   flex-wrap: wrap;
   justify-content: center;
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
 }
 
 .countdown-boxes .box {
@@ -470,7 +484,14 @@ button {
   border-radius: 10px;
   padding: 22px 26px;
   min-width: 90px;
+  flex: 1 1 90px;
   background: rgba(207,161,94,0.06);
+}
+
+@media (max-width: 420px) {
+  .countdown-boxes { gap: 10px; }
+  .countdown-boxes .box { min-width: 70px; padding: 14px 10px; flex-basis: 70px; }
+  .countdown-boxes .num { font-size: 30px; }
 }
 
 .countdown-boxes .num {
@@ -522,7 +543,7 @@ button {
 /* ===================== PADRINOS CAROUSEL ===================== */
 .carousel {
   position: relative;
-  width: min(420px, 90vw);
+  width: min(420px, 100%);
   margin: 40px auto 0;
 }
 
@@ -570,7 +591,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 0;
-  width: min(520px, 92vw);
+  width: min(420px, 100%);
   margin-top: 40px;
 }
 
@@ -613,7 +634,7 @@ button {
 
 /* ===================== LOCATION / HOTELS ===================== */
 .venue-photo, .hotel-photo {
-  width: min(500px, 90vw);
+  width: min(500px, 100%);
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 25px 55px var(--shadow-deep);
@@ -687,12 +708,12 @@ button {
   letter-spacing: 2px;
   margin-top: 14px;
 }
-.share-photos { display: flex; gap: 16px; margin-top: 34px; flex-wrap: wrap; justify-content: center; }
-.share-photos img { width: 220px; height: 280px; object-fit: cover; object-position: center 18%; border-radius: 4px; }
+.share-photos { display: flex; gap: 16px; margin-top: 34px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 460px; margin-left: auto; margin-right: auto; }
+.share-photos img { flex: 1 1 45%; width: 45%; height: auto; aspect-ratio: 3/4; object-fit: cover; object-position: center 18%; border-radius: 4px; }
 
 /* ===================== WISHES ===================== */
 .wishes-form {
-  width: min(480px, 92vw);
+  width: min(480px, 100%);
   margin-top: 34px;
   display: flex;
   flex-direction: column;
@@ -732,7 +753,7 @@ button {
 .wish-card .author { margin-top: 10px; color: var(--gold-light); font-size: 14px; letter-spacing: 1px; }
 
 /* ===================== MY STORY ===================== */
-.story-track { position: relative; width: min(700px, 92vw); margin-top: 40px; }
+.story-track { position: relative; width: min(700px, 100%); margin-top: 40px; }
 .story-slide { display: none; flex-direction: column; align-items: center; }
 .story-slide.active { display: flex; }
 .story-photos { display: flex; gap: 12px; }
@@ -771,7 +792,7 @@ button {
 
 /* ===================== RSVP ===================== */
 .rsvp-form {
-  width: min(480px, 92vw);
+  width: min(480px, 100%);
   margin-top: 30px;
   display: flex;
   flex-direction: column;
