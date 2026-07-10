@@ -34,17 +34,16 @@ body {
 
 img { max-width: 100%; }
 
-/* ===================== FONDO FIJO (la foto se "queda" mientras la siguiente sección la tapa) ===================== */
+/* ===================== FONDO "FIJO" (la foto se queda mientras la siguiente sección la tapa) =====================
+   NOTA: ya NO usamos background-attachment:fixed — esa propiedad es la que falla en iPhone/Android
+   (Safari e navegadores móviles no la soportan bien, por eso antes no se veía el efecto en el teléfono).
+   En su lugar, js/script.js mueve el background-position de estas fotos según el scroll,
+   lo cual da el mismo efecto de profundidad y SÍ funciona en computadora, iPhone y Android. */
 .fixed-bg {
   background-size: cover;
   background-position: center 20%;
   background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-@media (max-width: 768px) {
-  /* En algunos navegadores móviles antiguos "fixed" da problemas de rendimiento;
-     mantenemos "scroll" ahí mientras se ve prácticamente igual en pantallas chicas */
-  .fixed-bg { background-attachment: scroll; }
+  will-change: background-position;
 }
 
 /* (el scroll es normal, como en la invitación original — no se usa sticky) */
@@ -531,6 +530,8 @@ button {
 .floating-card .itinerary-item:nth-child(3) { transition-delay: .2s; }
 .floating-card .itinerary-item:nth-child(4) { transition-delay: .3s; }
 .floating-card .itinerary-item:nth-child(5) { transition-delay: .4s; }
+
+.calendar-btn {
   background: transparent;
   border: 1px solid var(--gold) !important;
   color: var(--gold-light);

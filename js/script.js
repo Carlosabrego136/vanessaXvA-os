@@ -44,10 +44,33 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 revealEls.forEach(el => revealObserver.observe(el));
 
-// ===================== PARALLAX ON IMAGES =====================
+// ===================== PARALLAX EN FOTOS GRANDES (reemplaza background-attachment:fixed) =====================
+// Estas son las fotos grandes de fondo (Hero, divisores de bosque, Countdown, Bendición,
+// Padrinos, Itinerario, Mesa de Regalos, RSVP). En vez de "background-attachment:fixed"
+// (que no funciona bien en iPhone/Android), aquí movemos el background-position con JS
+// según el scroll — el mismo efecto visual, pero sí funciona en teléfonos.
+const fixedBgEls = document.querySelectorAll('.fixed-bg');
+
+function updateFixedBgParallax() {
+  const vh = window.innerHeight;
+  fixedBgEls.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    // Solo calcula si está cerca del viewport (performance, sobre todo en teléfonos)
+    if (rect.bottom < -200 || rect.top > vh + 200) return;
+    // progress va de 0 (la foto apenas entra por abajo) a 1 (la foto ya casi sale por arriba)
+    const progress = (vh - rect.top) / (vh + rect.height);
+    const clamped = Math.max(0, Math.min(1, progress));
+    // La posición vertical de la imagen se mueve entre 8% y 42% mientras haces scroll,
+    // dando la sensación de que la foto se desliza más despacio que el resto de la página
+    const posY = 8 + clamped * 34;
+    el.style.backgroundPositionY = posY + '%';
+  });
+}
+
+// ===================== PARALLAX EN FOTOS SUELTAS (galería, venue) =====================
 const parallaxImgs = document.querySelectorAll('[data-parallax]');
 
-function updateParallax() {
+function updateImgParallax() {
   const vh = window.innerHeight;
   parallaxImgs.forEach(img => {
     const rect = img.parentElement.getBoundingClientRect();
@@ -60,9 +83,23 @@ function updateParallax() {
   });
 }
 
-window.addEventListener('scroll', updateParallax, { passive: true });
-window.addEventListener('resize', updateParallax);
-updateParallax();
+// Un solo listener de scroll, sincronizado con requestAnimationFrame para que
+// se sienta fluido tanto en computadora como en teléfonos
+let parallaxTicking = false;
+function onScrollParallax() {
+  if (parallaxTicking) return;
+  parallaxTicking = true;
+  requestAnimationFrame(() => {
+    updateFixedBgParallax();
+    updateImgParallax();
+    parallaxTicking = false;
+  });
+}
+
+window.addEventListener('scroll', onScrollParallax, { passive: true });
+window.addEventListener('resize', onScrollParallax);
+updateFixedBgParallax();
+updateImgParallax();
 
 // ===================== COUNTDOWN =====================
 // Cambia esta fecha por la fecha real del evento (formato: 'YYYY-MM-DDTHH:mm:ss')
