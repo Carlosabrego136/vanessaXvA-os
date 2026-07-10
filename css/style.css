@@ -731,27 +731,28 @@ button {
   color: var(--gold-light);
 }
 
-/* ===================== GALLERY ===================== */
+/* ===================== GALLERY (mismo acomodo asimétrico 3x3 que la referencia) ===================== */
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 8px;
   width: 100%;
-  max-width: 1100px;
+  max-width: 700px;
+  aspect-ratio: 1 / 1;
   margin-top: 40px;
 }
 .gallery-grid .g-item {
   overflow: hidden;
-  border-radius: 4px;
-  aspect-ratio: 3/4;
+  border-radius: 0;
   position: relative;
 }
-.gallery-grid .g-item:nth-child(3n+1) { aspect-ratio: 3/4.6; }
-.gallery-grid img { width: 100%; height: 100%; object-fit: cover; object-position: center 18%; transition: transform .6s ease; }
-.gallery-grid .g-item:hover img { transform: scale(1.08); }
+.gallery-grid .g-item:nth-child(2) { grid-column: span 2; }
+.gallery-grid img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .6s ease; }
+.gallery-grid .g-item:hover img { transform: scale(1.1); }
 
 @media (max-width: 800px) {
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-grid { max-width: 100%; }
 }
 
 /* ===================== SHARE MOMENTS ===================== */
