@@ -99,6 +99,83 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
+// ===================== ADD TO CALENDAR (funcional, como el sitio original) =====================
+(function () {
+  const btn = document.getElementById('calendarBtn');
+  const menu = document.getElementById('calendarMenu');
+  if (!btn || !menu) return;
+
+  const eventTitle = "Vanessa's XV Años";
+  const eventLocation = "Enchanted Garden";
+  const eventDescription = "Join us to celebrate Vanessa's Sweet Fifteen.";
+  const startDate = eventDate; // ya definida arriba
+  const endDate = new Date(startDate.getTime() + 5 * 60 * 60 * 1000); // 5 horas de evento
+
+  function toGoogleFormat(d) {
+    return d.toISOString().replace(/-|:|\.\d\d\d/g, '');
+  }
+
+  function toICSFormat(d) {
+    return d.toISOString().replace(/-|:|\.\d\d\d/g, '');
+  }
+
+  // Google Calendar (link directo)
+  const googleUrl = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+    '&text=' + encodeURIComponent(eventTitle) +
+    '&dates=' + toGoogleFormat(startDate) + '/' + toGoogleFormat(endDate) +
+    '&details=' + encodeURIComponent(eventDescription) +
+    '&location=' + encodeURIComponent(eventLocation);
+  document.getElementById('calGoogle').href = googleUrl;
+
+  // Apple / Outlook (archivo .ics descargable)
+  function buildICS() {
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Vanessa XV//EN',
+      'BEGIN:VEVENT',
+      'UID:' + Date.now() + '@vanessa-xv',
+      'DTSTAMP:' + toICSFormat(new Date()),
+      'DTSTART:' + toICSFormat(startDate),
+      'DTEND:' + toICSFormat(endDate),
+      'SUMMARY:' + eventTitle,
+      'DESCRIPTION:' + eventDescription,
+      'LOCATION:' + eventLocation,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    return ics;
+  }
+
+  function downloadICS() {
+    const blob = new Blob([buildICS()], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'vanessa-xv.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('calApple').addEventListener('click', (e) => {
+    e.preventDefault();
+    downloadICS();
+  });
+  document.getElementById('calOutlook').addEventListener('click', (e) => {
+    e.preventDefault();
+    downloadICS();
+  });
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu.classList.toggle('open');
+  });
+
+  document.addEventListener('click', () => menu.classList.remove('open'));
+})();
+
 // ===================== PADRINOS CAROUSEL =====================
 (function () {
   const track = document.getElementById('padrinosTrack');

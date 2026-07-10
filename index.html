@@ -42,7 +42,7 @@
   <div class="hero-bg-wrap">
     <img data-parallax src="assets/hero/hero-main.jpg" alt="Vanessa">
   </div>
-  <div class="hero-text reveal">
+  <div class="hero-text reveal" style="transition-delay: .35s;">
     <h1 class="script">Vanessa</h1>
     <p>A MAGICAL JOURNEY BEGINS</p>
   </div>
@@ -59,15 +59,22 @@
 <!-- ============ COUNTDOWN ============ -->
 <section id="countdown" class="section">
   <div class="bg-photo"><img data-parallax src="assets/countdown/countdown-photo.jpg" alt="Vanessa"></div>
-  <p class="section-tag">Save the date</p>
-  <h2 class="countdown-date">SEPTEMBER 27, 2025</h2>
+  <p class="section-tag reveal-fade">Save the date</p>
+  <h2 class="countdown-date reveal-fade" style="transition-delay:.15s;">SEPTEMBER 27, 2025</h2>
   <div class="countdown-boxes">
-    <div class="box"><div class="num" id="cd-days">00</div><div class="label">Days</div></div>
-    <div class="box"><div class="num" id="cd-hours">00</div><div class="label">Hrs</div></div>
-    <div class="box"><div class="num" id="cd-mins">00</div><div class="label">Mins</div></div>
-    <div class="box"><div class="num" id="cd-secs">00</div><div class="label">Secs</div></div>
+    <div class="box reveal"><div class="num" id="cd-days">00</div><div class="label">Days</div></div>
+    <div class="box reveal"><div class="num" id="cd-hours">00</div><div class="label">Hrs</div></div>
+    <div class="box reveal"><div class="num" id="cd-mins">00</div><div class="label">Mins</div></div>
+    <div class="box reveal"><div class="num" id="cd-secs">00</div><div class="label">Secs</div></div>
   </div>
-  <button class="calendar-btn">&#128197; Add to Calendar</button>
+  <div class="calendar-dropdown reveal-fade" style="transition-delay:.5s;">
+    <button class="calendar-btn" id="calendarBtn">&#128197; Add to Calendar</button>
+    <div class="calendar-menu" id="calendarMenu">
+      <a href="#" id="calGoogle" target="_blank">Google Calendar</a>
+      <a href="#" id="calApple">Apple Calendar</a>
+      <a href="#" id="calOutlook">Outlook</a>
+    </div>
+  </div>
 </section>
 
 <!-- ============ BLESSING / PARENTS ============ -->
@@ -75,8 +82,7 @@
   <div class="split-photo reveal-left">
     <img data-parallax src="assets/gallery/gallery-02.jpg" alt="Vanessa">
   </div>
-  <div class="split-card reveal-right">
-    <p class="section-tag">With the blessing of</p>
+  <div class="split-card reveal-right" style="transition-delay:.3s;">
     <h2 class="section-title">My <span class="script">Parents</span></h2>
     <div class="parents-wrap" style="margin-top:30px;">
       <div>
@@ -100,7 +106,7 @@
   <div class="split-photo reveal-left">
     <img data-parallax src="assets/gallery/gallery-06.jpg" alt="Vanessa">
   </div>
-  <div class="split-card reveal-right" style="padding:60px 20px;">
+  <div class="split-card reveal-right" style="padding:60px 20px; transition-delay:.3s;">
     <p class="section-tag">Sponsors</p>
     <h2 class="section-title">Honor <span class="script">Court</span></h2>
 
@@ -155,23 +161,23 @@
     <h2 class="section-title">Itine<span class="script">rary</span></h2>
 
     <div class="itinerary-list" style="margin:30px auto 0;">
-      <div class="itinerary-item">
+      <div class="itinerary-item reveal">
         <div class="icon">&#9962;</div>
         <div><h4>Religious Ceremony</h4><p>2:00 PM</p></div>
       </div>
-      <div class="itinerary-item">
+      <div class="itinerary-item reveal">
         <div class="icon">&#128247;</div>
         <div><h4>Photo Session</h4><p>4:00 PM</p></div>
       </div>
-      <div class="itinerary-item">
+      <div class="itinerary-item reveal">
         <div class="icon">&#127864;</div>
         <div><h4>Reception</h4><p>6:00 PM</p></div>
       </div>
-      <div class="itinerary-item">
+      <div class="itinerary-item reveal">
         <div class="icon">&#127869;</div>
         <div><h4>Dinner</h4><p>7:00 PM</p></div>
       </div>
-      <div class="itinerary-item">
+      <div class="itinerary-item reveal">
         <div class="icon">&#128131;</div>
         <div><h4>Dance &amp; Party</h4><p>8:00 PM</p></div>
       </div>
@@ -258,9 +264,9 @@
   <p class="section-tag">Share your best</p>
   <h2 class="section-title">Mo<span class="script">ments</span></h2>
   <p class="hashtag">#Vanessa2025XV</p>
-  <div class="share-photos">
-    <img class="reveal-left" src="assets/story/story-01.jpg" alt="Share 1">
-    <img class="reveal-right" src="assets/story/story-02.jpg" alt="Share 2">
+  <div class="qr-wrap reveal">
+    <img src="assets/branding/qr-demo.png" alt="QR Code">
+    <p class="qr-caption">Scan to upload your photos</p>
   </div>
 </section>
 

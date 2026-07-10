@@ -508,8 +508,16 @@ button {
   margin-top: 6px;
 }
 
-.calendar-btn {
-  margin-top: 42px;
+.countdown-boxes .box:nth-child(1) { transition-delay: 0s; }
+.countdown-boxes .box:nth-child(2) { transition-delay: .08s; }
+.countdown-boxes .box:nth-child(3) { transition-delay: .16s; }
+.countdown-boxes .box:nth-child(4) { transition-delay: .24s; }
+
+.floating-card .itinerary-item:nth-child(1) { transition-delay: 0s; }
+.floating-card .itinerary-item:nth-child(2) { transition-delay: .1s; }
+.floating-card .itinerary-item:nth-child(3) { transition-delay: .2s; }
+.floating-card .itinerary-item:nth-child(4) { transition-delay: .3s; }
+.floating-card .itinerary-item:nth-child(5) { transition-delay: .4s; }
   background: transparent;
   border: 1px solid var(--gold) !important;
   color: var(--gold-light);
@@ -520,6 +528,43 @@ button {
   transition: .3s;
 }
 .calendar-btn:hover { background: var(--gold); color: var(--forest-deep); }
+
+.calendar-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.calendar-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--cream);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 210px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  z-index: 10;
+}
+.calendar-menu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.calendar-menu a {
+  display: block;
+  padding: 14px 18px;
+  color: var(--ink);
+  font-size: 15px;
+  letter-spacing: .5px;
+  text-align: left;
+  border-bottom: 1px solid rgba(207,161,94,0.25);
+}
+.calendar-menu a:last-child { border-bottom: none; }
+.calendar-menu a:hover { background: rgba(207,161,94,0.15); }
 
 /* ===================== BLESSING / PARENTS ===================== */
 .parents-wrap {
@@ -707,6 +752,25 @@ button {
   color: var(--gold-light);
   letter-spacing: 2px;
   margin-top: 14px;
+}
+
+.qr-wrap {
+  margin-top: 34px;
+  background: var(--cream);
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 25px 55px var(--shadow-deep);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.qr-wrap img { width: 200px; height: 200px; display: block; }
+.qr-wrap .qr-caption {
+  color: var(--forest-mid);
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 .share-photos { display: flex; gap: 16px; margin-top: 34px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 460px; margin-left: auto; margin-right: auto; }
 .share-photos img { flex: 1 1 45%; width: 45%; height: auto; aspect-ratio: 3/4; object-fit: cover; object-position: center 18%; border-radius: 4px; }
