@@ -45,36 +45,10 @@ const revealObserver = new IntersectionObserver((entries) => {
 revealEls.forEach(el => revealObserver.observe(el));
 
 // ===================== FOTOS QUE SE FIJAN Y SE VAN TAPANDO (igual que Laura & Santos) =====================
-// Cada contenedor con [data-pin-wrap] tiene adentro una .pin-photo, que SIEMPRE es
-// position:fixed (ya no cambia de modo — eso era lo que causaba el saltito al fijarse).
-// En su lugar, en cada cuadro calculamos su posición exacta con transform:translateY():
-// mientras el contenedor todavía no llega arriba, la foto sigue el scroll con toda
-// precisión (se ve igual que si no estuviera fija); en cuanto el contenedor llega al
-// tope de la pantalla, se congela ahí — y como el cálculo es continuo (no un cambio
-// de golpe entre "absolute" y "fixed"), no hay ningún brinco. La siguiente sección,
-// que tiene fondo opaco, sube por scroll normal y la va tapando.
-const pinWraps = Array.from(document.querySelectorAll('[data-pin-wrap]')).map(wrap => ({
-  wrap,
-  photo: wrap.querySelector('.pin-photo')
-})).filter(p => p.photo);
-
-function syncPinPhotoSizes() {
-  // Cada foto mide exactamente lo mismo que su sección (algunas son 100vh, otras un
-  // poco menos) — si no coinciden al milímetro, se nota un brinco justo al congelarse.
-  pinWraps.forEach(({ wrap, photo }) => {
-    photo.style.height = wrap.offsetHeight + 'px';
-  });
-}
-
-function updatePinnedPhotos() {
-  pinWraps.forEach(({ wrap, photo }) => {
-    const wrapTop = wrap.getBoundingClientRect().top;
-    // Antes de llegar arriba, sigue el scroll con precisión (se mueve exactamente
-    // igual que el resto de la página); en cuanto wrapTop llega a 0, se queda ahí.
-    const y = Math.max(wrapTop, 0);
-    photo.style.transform = `translateY(${y}px)`;
-  });
-}
+// Esto AHORA lo hace el CSS con position:sticky (nativo) — ver css/style.css.
+// El navegador fija cada foto en su propio hilo de composición, así que el scroll
+// queda perfectamente fluido y las fotos ya NO brincan ("saltando"). Por eso aquí
+// ya no se calcula nada por JavaScript: eso era justamente lo que causaba el salto.
 
 // ===================== PANEO SUAVE EN FOTOS DE LADO (Bendición, Padrinos, RSVP) =====================
 // Estas no se tapan con la siguiente sección (van una al lado de la otra), así que solo
@@ -116,7 +90,6 @@ function onScrollParallax() {
   if (parallaxTicking) return;
   parallaxTicking = true;
   requestAnimationFrame(() => {
-    updatePinnedPhotos();
     updateSideBgPan();
     updateImgParallax();
     parallaxTicking = false;
@@ -124,12 +97,7 @@ function onScrollParallax() {
 }
 
 window.addEventListener('scroll', onScrollParallax, { passive: true });
-window.addEventListener('resize', () => {
-  syncPinPhotoSizes();
-  onScrollParallax();
-});
-syncPinPhotoSizes();
-updatePinnedPhotos();
+window.addEventListener('resize', onScrollParallax);
 updateSideBgPan();
 updateImgParallax();
 
