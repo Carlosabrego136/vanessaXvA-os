@@ -25,7 +25,6 @@ body {
   font-family: 'Cormorant Garamond', serif;
   background: var(--forest-deep);
   color: var(--cream);
-  overflow-x: hidden;
   width: 100%;
   font-size: 18px;
   line-height: 1.6;
@@ -61,9 +60,9 @@ img { max-width: 100%; }
 }
 
 .pin-hold {
-  position: relative;
-  height: 200vh;
-  height: 200svh; /* unidad estable en móvil: no "respira" cuando aparece/desaparece la barra del navegador */
+  position: relative !important;
+  height: 200vh !important;
+  height: 200svh !important; /* unidad estable en móvil: no "respira" cuando aparece/desaparece la barra del navegador */
 }
 
 .pin-sticky {
