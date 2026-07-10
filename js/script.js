@@ -64,26 +64,14 @@ window.addEventListener('scroll', updateParallax, { passive: true });
 window.addEventListener('resize', updateParallax);
 updateParallax();
 
-// ===================== FONDO "FIJO" con JS (funciona igual en PC, Android e iPhone) =====================
-// background-attachment:fixed no es confiable en móviles, así que replicamos el
-// mismo efecto moviendo backgroundPosition según el scroll — 100% fluido y
-// exactamente igual en computadora y teléfono.
-const fixedBgEls = document.querySelectorAll('.fixed-bg');
-
-function updateFixedBg() {
-  const vh = window.innerHeight;
-  fixedBgEls.forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if (rect.bottom < -200 || rect.top > vh + 200) return; // fuera de vista, no calcular
-    // qué tan "atrás" se queda la foto respecto al scroll (efecto de quedarse fija)
-    const offset = rect.top * 0.45;
-    el.style.backgroundPosition = `center calc(20% + ${offset}px)`;
-  });
-}
-
-window.addEventListener('scroll', updateFixedBg, { passive: true });
-window.addEventListener('resize', updateFixedBg);
-updateFixedBg();
+// ===================== SISTEMA DE CAPAS (funciona igual en PC, Android e iPhone) =====================
+// Cada capa (.layer) usa position:sticky, que SÍ funciona de forma nativa,
+// fluida y consistente en computadora, Android y iPhone (a diferencia de
+// background-attachment:fixed, que falla en móviles). El z-index ascendente
+// asegura que cada capa nueva se pinte ENCIMA de la anterior al taparla.
+document.querySelectorAll('.layer').forEach((el, index) => {
+  el.style.zIndex = index + 1;
+});
 
 // ===================== COUNTDOWN =====================
 // Cambia esta fecha por la fecha real del evento (formato: 'YYYY-MM-DDTHH:mm:ss')

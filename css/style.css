@@ -34,15 +34,23 @@ body {
 
 img { max-width: 100%; }
 
-/* ===================== FONDO "FIJO" (la foto se queda mientras la siguiente sección la tapa) ===================== */
-/* Nota: NO usamos background-attachment:fixed porque falla en iOS/Android.
-   El efecto lo genera script.js moviendo backgroundPosition en cada scroll,
-   con soporte real en computadora, Android y iPhone. */
+/* ===================== FONDO GRANDE (foto de sección) ===================== */
 .fixed-bg {
   background-size: cover;
   background-position: center 20%;
   background-repeat: no-repeat;
-  will-change: background-position;
+}
+
+/* ===================== SISTEMA DE CAPAS =====================
+   Cada bloque grande de la página es una "capa": se queda fija (sticky)
+   en su lugar mientras la siguiente capa se desliza por encima y la
+   cubre por completo. El z-index ascendente (asignado por JS) garantiza
+   que cada capa nueva se pinte ENCIMA de la anterior. */
+.layer {
+  position: -webkit-sticky;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1;
 }
 
 /* (el scroll es normal, como en la invitación original — no se usa sticky) */
@@ -156,7 +164,7 @@ img { max-width: 100%; }
 /* ===================== PHOTO BG + FLOATING CARD OVERLAY ===================== */
 .photo-overlay-section {
   position: relative;
-  min-height: 90vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
