@@ -37,10 +37,11 @@ img { max-width: 100%; }
 /* ===================== FOTO FIJA + LA SIGUIENTE SECCIÓN LA TAPA (igual que Laura & Santos) =====================
    Cómo funciona (ya NO usamos background-attachment:fixed — eso es lo que falla en iPhone/Android):
    1. Cada foto grande vive dentro de un contenedor normal (que sí ocupa su espacio en la página).
-   2. Mientras esa foto está "activa" en pantalla, js/script.js le agrega la clase .is-pinned,
-      que la vuelve position:fixed — se queda congelada, pixel por pixel, igual que en el video original.
-   3. En cuanto la siguiente sección (con fondo opaco) llega a cubrir toda la pantalla, se le quita
-      la clase y la foto vuelve a su lugar normal (ya tapada, así que no se nota el cambio).
+   2. La foto SIEMPRE es position:fixed — js/script.js calcula en cada cuadro su posición exacta
+      con transform:translateY(), así que no hay ningún cambio brusco de modo (eso era lo que
+      causaba el saltito). Mientras su contenedor no llega arriba, sigue el scroll con precisión;
+      en cuanto llega, se congela ahí — pixel por pixel, igual que en el video original.
+   3. La siguiente sección (con fondo opaco) sube por scroll normal y la va tapando.
    Esto SÍ funciona igual en computadora, iPhone y Android porque usa position:fixed en un elemento
    real (no background-attachment, que es lo que los navegadores móviles no soportan bien). */
 .fixed-bg {
@@ -50,17 +51,13 @@ img { max-width: 100%; }
 }
 
 .pin-photo {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.pin-photo.is-pinned {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
+  z-index: 0;
+  will-change: transform;
 }
 
 /* Todas las secciones/franjas de la página necesitan su propio nivel de apilamiento

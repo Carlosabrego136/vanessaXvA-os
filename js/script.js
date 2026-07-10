@@ -45,30 +45,34 @@ const revealObserver = new IntersectionObserver((entries) => {
 revealEls.forEach(el => revealObserver.observe(el));
 
 // ===================== FOTOS QUE SE FIJAN Y SE VAN TAPANDO (igual que Laura & Santos) =====================
-// Cada contenedor con [data-pin-wrap] tiene adentro una .pin-photo. Mientras el contenedor
-// está cruzando la parte de arriba de la pantalla, la foto se "congela" (position:fixed) —
-// se queda exactamente en el mismo lugar — y la siguiente sección (que tiene fondo opaco)
-// sube por encima y la va tapando, tal como en el sitio original. En cuanto esa siguiente
-// sección ya cubrió toda la pantalla, la foto se "descongela" (ya no se nota, porque para
-// entonces ya está completamente tapada). Esto usa position:fixed en un elemento real
-// (no background-attachment), así que funciona igual en computadora, iPhone y Android.
+// Cada contenedor con [data-pin-wrap] tiene adentro una .pin-photo, que SIEMPRE es
+// position:fixed (ya no cambia de modo — eso era lo que causaba el saltito al fijarse).
+// En su lugar, en cada cuadro calculamos su posición exacta con transform:translateY():
+// mientras el contenedor todavía no llega arriba, la foto sigue el scroll con toda
+// precisión (se ve igual que si no estuviera fija); en cuanto el contenedor llega al
+// tope de la pantalla, se congela ahí — y como el cálculo es continuo (no un cambio
+// de golpe entre "absolute" y "fixed"), no hay ningún brinco. La siguiente sección,
+// que tiene fondo opaco, sube por scroll normal y la va tapando.
 const pinWraps = Array.from(document.querySelectorAll('[data-pin-wrap]')).map(wrap => ({
   wrap,
   photo: wrap.querySelector('.pin-photo')
 })).filter(p => p.photo);
 
+function syncPinPhotoSizes() {
+  // Cada foto mide exactamente lo mismo que su sección (algunas son 100vh, otras un
+  // poco menos) — si no coinciden al milímetro, se nota un brinco justo al congelarse.
+  pinWraps.forEach(({ wrap, photo }) => {
+    photo.style.height = wrap.offsetHeight + 'px';
+  });
+}
+
 function updatePinnedPhotos() {
   pinWraps.forEach(({ wrap, photo }) => {
-    const rect = wrap.getBoundingClientRect();
-    // Se fija en cuanto su borde de arriba llega al tope de la pantalla,
-    // y se suelta justo cuando su alto natural ya habría salido por completo
-    // (que es exactamente cuando la siguiente sección ya la tapó del todo)
-    const shouldPin = rect.top <= 0 && rect.bottom > 0;
-    if (shouldPin) {
-      photo.classList.add('is-pinned');
-    } else {
-      photo.classList.remove('is-pinned');
-    }
+    const wrapTop = wrap.getBoundingClientRect().top;
+    // Antes de llegar arriba, sigue el scroll con precisión (se mueve exactamente
+    // igual que el resto de la página); en cuanto wrapTop llega a 0, se queda ahí.
+    const y = Math.max(wrapTop, 0);
+    photo.style.transform = `translateY(${y}px)`;
   });
 }
 
@@ -120,7 +124,11 @@ function onScrollParallax() {
 }
 
 window.addEventListener('scroll', onScrollParallax, { passive: true });
-window.addEventListener('resize', onScrollParallax);
+window.addEventListener('resize', () => {
+  syncPinPhotoSizes();
+  onScrollParallax();
+});
+syncPinPhotoSizes();
 updatePinnedPhotos();
 updateSideBgPan();
 updateImgParallax();
