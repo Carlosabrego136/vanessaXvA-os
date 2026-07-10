@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "serve -l 3000 .",
-    "start": "serve -l 3000 ."
+    "dev": "serve -l 3000 public",
+    "start": "serve -l 3000 public"
   },
   "devDependencies": {
     "serve": "^14.2.4"
