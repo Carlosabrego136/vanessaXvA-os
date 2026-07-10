@@ -608,10 +608,10 @@ button {
 /* ===================== BLESSING / PARENTS ===================== */
 .parents-wrap {
   display: flex;
-  gap: 80px;
+  gap: 46px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 26px;
 }
 
 .parents-wrap h4 {
@@ -884,11 +884,7 @@ button {
 /* ===================== VERSE (PARALLAX FULL BLEED) ===================== */
 #verse {
   min-height: 70vh;
-  background: url('../assets/fondo/fondo-forest.jpg') center/cover fixed;
-  position: relative;
-  justify-content: center;
 }
-#verse::before { content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,28,30,0.35), rgba(6,20,20,0.6)); }
 #verse .content { position: relative; z-index: 2; }
 #verse .script { font-size: clamp(30px, 5vw, 48px); }
 #verse .ref { margin-top: 20px; letter-spacing: 3px; color: var(--gold); font-size: 14px; text-transform: uppercase; }
