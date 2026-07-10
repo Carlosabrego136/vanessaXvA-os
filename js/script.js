@@ -214,6 +214,14 @@ updateCountdown();
 // ===================== LANGUAGE TOGGLE (placeholder) =====================
 // Nota: el sitio ya está completo en inglés. Si más adelante quieres
 // una versión ES, se puede duplicar el contenido y alternar con este botón.
+// ===================== SCROLL APILADO =====================
+// Cada panel se queda fijo mientras el siguiente se desliza y lo cubre,
+// igual que en la invitación original. El z-index ascendente asegura
+// que cada nuevo panel se pinte ENCIMA del anterior al taparlo.
+document.querySelectorAll('.sticky-panel').forEach((panel, index) => {
+  panel.style.zIndex = index + 1;
+});
+
 document.querySelectorAll('.lang-toggle span').forEach(span => {
   span.addEventListener('click', function () {
     document.querySelectorAll('.lang-toggle span').forEach(s => s.classList.remove('active'));

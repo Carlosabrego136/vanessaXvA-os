@@ -34,8 +34,16 @@ body {
 
 img { max-width: 100%; }
 
-.section-dark { background: var(--forest-deep); }
-.section-mid { background: linear-gradient(180deg, var(--forest-deep), var(--teal-accent), var(--forest-deep)); }
+/* ===================== SCROLL APILADO (cada sección se queda fija y la siguiente la cubre) ===================== */
+.sticky-panel {
+  position: sticky;
+  top: 0;
+  z-index: 1; /* el JS reasigna esto en orden ascendente */
+}
+
+/* Aseguramos que cada panel tenga un fondo opaco para que cubra bien al anterior */
+.sticky-panel.section-dark { background: var(--forest-deep); }
+.sticky-panel.section-mid { background: linear-gradient(180deg, var(--forest-deep), var(--teal-accent), var(--forest-deep)); }
 
 /* Costura suave entre secciones para que no se note el cambio de color */
 .section, .split, .photo-divider, #countdown, .photo-overlay-section {
