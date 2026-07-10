@@ -15,70 +15,6 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ===================== FONDO VERDE SÓLIDO Y FLUIDO (bosque encantado) =====================
-   Capa fija detrás de TODA la página: un verde sólido de base + manchas de color
-   (blobs) que se mueven muy lento en bucle, dando esa sensación "fluida" y viva
-   sin perder el aspecto sólido/uniforme del verde. Va detrás de las fotos y del
-   contenido (z-index: -1), así que siempre se asoma en las costuras entre secciones. */
-#forest-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  background: linear-gradient(160deg, #0c241a 0%, #123626 28%, #1c4a37 55%, #0e2a1f 100%);
-}
-#forest-bg .blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.55;
-  will-change: transform;
-}
-#forest-bg .b1 {
-  width: 60vw; height: 60vw;
-  top: -15%; left: -10%;
-  background: radial-gradient(circle, #2d6a4f 0%, transparent 70%);
-  animation: driftBlob1 26s ease-in-out infinite;
-}
-#forest-bg .b2 {
-  width: 50vw; height: 50vw;
-  bottom: -20%; right: -15%;
-  background: radial-gradient(circle, #143a37 0%, transparent 70%);
-  animation: driftBlob2 32s ease-in-out infinite;
-}
-#forest-bg .b3 {
-  width: 40vw; height: 40vw;
-  top: 35%; right: 5%;
-  background: radial-gradient(circle, #cfa15e 0%, transparent 75%);
-  opacity: 0.18;
-  animation: driftBlob3 40s ease-in-out infinite;
-}
-#forest-bg .b4 {
-  width: 45vw; height: 45vw;
-  bottom: 10%; left: 5%;
-  background: radial-gradient(circle, #1c4a48 0%, transparent 70%);
-  animation: driftBlob4 36s ease-in-out infinite;
-}
-@keyframes driftBlob1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(8vw, 10vh) scale(1.15); }
-}
-@keyframes driftBlob2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-10vw, -6vh) scale(1.1); }
-}
-@keyframes driftBlob3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-6vw, 8vh) scale(1.2); }
-}
-@keyframes driftBlob4 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(7vw, -8vh) scale(1.12); }
-}
-@media (prefers-reduced-motion: reduce) {
-  #forest-bg .blob { animation: none; }
-}
-
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
@@ -87,7 +23,7 @@ html {
 
 body {
   font-family: 'Cormorant Garamond', serif;
-  background: transparent; /* el color de fondo real lo da #forest-bg, fijo y fluido */
+  background: var(--forest-deep);
   color: var(--cream);
   overflow-x: hidden;
   width: 100%;
@@ -99,15 +35,19 @@ body {
 img { max-width: 100%; }
 
 /* ===================== FOTO FIJA + LA SIGUIENTE SECCIÓN LA TAPA (igual que Laura & Santos) =====================
-   Cómo funciona (ya NO usamos background-attachment:fixed — eso es lo que falla en iPhone/Android):
-   1. Cada foto grande vive dentro de un contenedor normal (que sí ocupa su espacio en la página).
-   2. La foto SIEMPRE es position:fixed — js/script.js calcula en cada cuadro su posición exacta
-      con transform:translateY(), así que no hay ningún cambio brusco de modo (eso era lo que
-      causaba el saltito). Mientras su contenedor no llega arriba, sigue el scroll con precisión;
-      en cuanto llega, se congela ahí — pixel por pixel, igual que en el video original.
-   3. La siguiente sección (con fondo opaco) sube por scroll normal y la va tapando.
-   Esto SÍ funciona igual en computadora, iPhone y Android porque usa position:fixed en un elemento
-   real (no background-attachment, que es lo que los navegadores móviles no soportan bien). */
+   Esta vez es 100% CSS nativo (position: sticky) — CERO JavaScript en el scroll.
+   Por eso ya no hay ningún retraso/arrastre en el teléfono: el navegador lo calcula
+   en el mismo hilo donde ocurre el scroll (como el sitio original), no en un script
+   que reacciona un poco tarde a cada evento de scroll.
+
+   Cómo funciona cada foto que se "fija":
+   1. .pin-hold es un contenedor "fantasma" del DOBLE de alto de la pantalla (200vh).
+   2. Adentro, .pin-sticky mide 100vh y es position:sticky — el navegador la deja
+      pegada arriba mientras su .pin-hold pasa por la pantalla (los primeros 100vh
+      del recorrido se ve normal entrando, y se congela justo al llegar arriba).
+   3. La siguiente sección lleva la clase .pin-cover, que la sube exactamente 100vh
+      con margin-top negativo — así empieza pegada abajo de la pantalla y va subiendo
+      por scroll NORMAL (sin JS) hasta tapar por completo la foto ya congelada. */
 .fixed-bg {
   background-size: cover;
   background-position: center 20%;
@@ -115,31 +55,34 @@ img { max-width: 100%; }
 }
 
 .pin-photo {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100%;
-  height: 100vh;
+  position: absolute;
+  inset: 0;
   z-index: 0;
-  will-change: transform;
 }
 
-/* Todas las secciones/franjas de la página necesitan su propio nivel de apilamiento
-   para que cada una tape correctamente a la foto fija de la sección anterior */
-body > section,
-body > .split,
-body > .tag-band,
-body > .photo-divider,
-body > footer {
+.pin-hold {
+  position: relative;
+  height: 200vh;
+  height: 200svh; /* unidad estable en móvil: no "respira" cuando aparece/desaparece la barra del navegador */
+}
+
+.pin-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  height: 100svh !important;
+  overflow: hidden !important;
+}
+
+.pin-cover {
   position: relative;
   z-index: 1;
+  margin-top: -100vh;
+  margin-top: -100svh;
 }
 
-/* (el scroll es normal, como en la invitación original — no se usa sticky) */
-/* Semi-transparentes: el verde sólido de fondo (#forest-bg) se asoma y se mueve
-   detrás del contenido, dándole ese acabado "fluido" en vez de un verde plano. */
-.section-dark { background: rgba(10, 30, 22, 0.55); }
-.section-mid { background: linear-gradient(180deg, rgba(14,42,31,0.55), rgba(28,74,72,0.45), rgba(14,42,31,0.55)); }
+.section-dark { background: var(--forest-deep); }
+.section-mid { background: linear-gradient(180deg, var(--forest-deep), var(--teal-accent), var(--forest-deep)); }
 
 /* Costura suave entre secciones para que no se note el cambio de color */
 .section::before, .split::before {
@@ -206,7 +149,7 @@ body > footer {
 .photo-divider {
   position: relative;
   width: 100%;
-  height: clamp(320px, 52vh, 560px);
+  height: 100vh;
   overflow: hidden;
 }
 .photo-divider img {
@@ -459,7 +402,7 @@ button {
   overflow: hidden;
 }
 
-/* fondo real ahora lo da #forest-bg fijo detrás de la página, ver más abajo */
+/* (fondo real ahora lo da #forest-bg fijo detrás de la página) */
 
 .section-tag {
   font-size: 13px;
@@ -674,10 +617,10 @@ button {
 /* ===================== BLESSING / PARENTS ===================== */
 .parents-wrap {
   display: flex;
-  gap: 46px;
+  gap: 80px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 26px;
+  margin-top: 40px;
 }
 
 .parents-wrap h4 {
@@ -950,7 +893,11 @@ button {
 /* ===================== VERSE (PARALLAX FULL BLEED) ===================== */
 #verse {
   min-height: 70vh;
+  background: url('../assets/fondo/fondo-forest.jpg') center/cover fixed;
+  position: relative;
+  justify-content: center;
 }
+#verse::before { content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,28,30,0.35), rgba(6,20,20,0.6)); }
 #verse .content { position: relative; z-index: 2; }
 #verse .script { font-size: clamp(30px, 5vw, 48px); }
 #verse .ref { margin-top: 20px; letter-spacing: 3px; color: var(--gold); font-size: 14px; text-transform: uppercase; }
