@@ -44,31 +44,10 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 revealEls.forEach(el => revealObserver.observe(el));
 
-// ===================== FOTOS QUE SE FIJAN Y SE VAN TAPANDO (igual que Laura & Santos) =====================
-// Este efecto ya NO usa JavaScript — es 100% CSS (position: sticky), por eso no hay
-// ningún retraso ni arrastre en el teléfono. Ver css/style.css (.pin-hold / .pin-sticky / .pin-cover).
-
-// ===================== PANEO SUAVE EN FOTOS DE LADO (Bendición, Padrinos, RSVP) =====================
-// Estas no se tapan con la siguiente sección (van una al lado de la otra), así que solo
-// llevan un movimiento sutil de profundidad, no el efecto de "fijar y tapar".
-const sideBgEls = document.querySelectorAll('.split-photo.fixed-bg');
-
-function updateSideBgPan() {
-  const vh = window.innerHeight;
-  sideBgEls.forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if (rect.bottom < -200 || rect.top > vh + 200) return;
-    const progress = (vh - rect.top) / (vh + rect.height);
-    const clamped = Math.max(0, Math.min(1, progress));
-    const posY = 8 + clamped * 34;
-    el.style.backgroundPositionY = posY + '%';
-  });
-}
-
-// ===================== PARALLAX EN FOTOS SUELTAS (galería, venue) =====================
+// ===================== PARALLAX ON IMAGES =====================
 const parallaxImgs = document.querySelectorAll('[data-parallax]');
 
-function updateImgParallax() {
+function updateParallax() {
   const vh = window.innerHeight;
   parallaxImgs.forEach(img => {
     const rect = img.parentElement.getBoundingClientRect();
@@ -81,24 +60,30 @@ function updateImgParallax() {
   });
 }
 
-// Un solo listener de scroll, sincronizado con requestAnimationFrame para que
-// se sienta fluido tanto en computadora como en teléfonos
-let parallaxTicking = false;
-function onScrollParallax() {
-  if (parallaxTicking) return;
-  parallaxTicking = true;
-  requestAnimationFrame(() => {
-    updateSideBgPan();
-    updateImgParallax();
-    parallaxTicking = false;
+window.addEventListener('scroll', updateParallax, { passive: true });
+window.addEventListener('resize', updateParallax);
+updateParallax();
+
+// ===================== FONDO "FIJO" con JS (funciona igual en PC, Android e iPhone) =====================
+// background-attachment:fixed no es confiable en móviles, así que replicamos el
+// mismo efecto moviendo backgroundPosition según el scroll — 100% fluido y
+// exactamente igual en computadora y teléfono.
+const fixedBgEls = document.querySelectorAll('.fixed-bg');
+
+function updateFixedBg() {
+  const vh = window.innerHeight;
+  fixedBgEls.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.bottom < -200 || rect.top > vh + 200) return; // fuera de vista, no calcular
+    // qué tan "atrás" se queda la foto respecto al scroll (efecto de quedarse fija)
+    const offset = rect.top * 0.45;
+    el.style.backgroundPosition = `center calc(20% + ${offset}px)`;
   });
 }
 
-window.addEventListener('scroll', onScrollParallax, { passive: true });
-window.addEventListener('resize', onScrollParallax);
-updateSideBgPan();
-updateImgParallax();
-
+window.addEventListener('scroll', updateFixedBg, { passive: true });
+window.addEventListener('resize', updateFixedBg);
+updateFixedBg();
 
 // ===================== COUNTDOWN =====================
 // Cambia esta fecha por la fecha real del evento (formato: 'YYYY-MM-DDTHH:mm:ss')

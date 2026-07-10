@@ -25,6 +25,7 @@ body {
   font-family: 'Cormorant Garamond', serif;
   background: var(--forest-deep);
   color: var(--cream);
+  overflow-x: hidden;
   width: 100%;
   font-size: 18px;
   line-height: 1.6;
@@ -33,66 +34,22 @@ body {
 
 img { max-width: 100%; }
 
-/* ===================== FOTO FIJA + LA SIGUIENTE SECCIÓN LA TAPA (igual que Laura & Santos) =====================
-   Esta vez es 100% CSS nativo (position: sticky) — CERO JavaScript en el scroll.
-   Por eso ya no hay ningún retraso/arrastre en el teléfono: el navegador lo calcula
-   en el mismo hilo donde ocurre el scroll (como el sitio original), no en un script
-   que reacciona un poco tarde a cada evento de scroll.
-
-   Cómo funciona cada foto que se "fija":
-   1. .pin-hold es un contenedor "fantasma" del DOBLE de alto de la pantalla (200vh).
-   2. Adentro, .pin-sticky mide 100vh y es position:sticky — el navegador la deja
-      pegada arriba mientras su .pin-hold pasa por la pantalla (los primeros 100vh
-      del recorrido se ve normal entrando, y se congela justo al llegar arriba).
-   3. La siguiente sección lleva la clase .pin-cover, que la sube exactamente 100vh
-      con margin-top negativo — así empieza pegada abajo de la pantalla y va subiendo
-      por scroll NORMAL (sin JS) hasta tapar por completo la foto ya congelada. */
+/* ===================== FONDO "FIJO" (la foto se queda mientras la siguiente sección la tapa) ===================== */
+/* Nota: NO usamos background-attachment:fixed porque falla en iOS/Android.
+   El efecto lo genera script.js moviendo backgroundPosition en cada scroll,
+   con soporte real en computadora, Android y iPhone. */
 .fixed-bg {
   background-size: cover;
   background-position: center 20%;
   background-repeat: no-repeat;
+  will-change: background-position;
 }
 
-.pin-photo {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.pin-hold {
-  position: relative !important;
-  height: 200vh !important;
-  height: 200svh !important; /* unidad estable en móvil: no "respira" cuando aparece/desaparece la barra del navegador */
-}
-
-.pin-sticky {
-  position: sticky !important;
-  top: 0 !important;
-  height: 100vh !important;
-  height: 100svh !important;
-  overflow: hidden !important;
-}
-
-.pin-cover {
-  position: relative;
-  z-index: 1;
-  margin-top: -100vh;
-  margin-top: -100svh;
-}
-
+/* (el scroll es normal, como en la invitación original — no se usa sticky) */
 .section-dark { background: var(--forest-deep); }
 .section-mid { background: linear-gradient(180deg, var(--forest-deep), var(--teal-accent), var(--forest-deep)); }
 
-/* Costura suave entre secciones para que no se note el cambio de color */
-.section::before, .split::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 90px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.18), transparent);
-  pointer-events: none;
-  z-index: 1;
-}
+/* (se quitó la costura oscura entre secciones — causaba una sombra no deseada) */
 
 /* ===================== DESTELLOS / SPARKLES (bosque encantado) ===================== */
 .sparkle-layer {
@@ -183,7 +140,7 @@ img { max-width: 100%; }
   will-change: transform;
 }
 .split-card {
-  background: var(--cream);
+  background: #ffffff;
   color: var(--ink);
   display: flex;
   flex-direction: column;
@@ -229,13 +186,14 @@ img { max-width: 100%; }
 .floating-card {
   position: relative;
   z-index: 2;
-  background: rgba(246,241,230,0.94);
+  background: #ffffff;
   color: var(--ink);
-  border-radius: 6px;
-  padding: 50px 40px;
-  max-width: 520px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(20,20,20,0.85);
+  padding: 34px 30px;
+  max-width: 380px;
   width: 100%;
-  box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 0 rgba(20,20,20,0.85), 0 25px 45px rgba(0,0,0,0.5);
 }
 .floating-card .section-tag { color: var(--forest-mid); }
 .floating-card h2 { color: var(--forest-mid); }
@@ -563,8 +521,6 @@ button {
 .floating-card .itinerary-item:nth-child(3) { transition-delay: .2s; }
 .floating-card .itinerary-item:nth-child(4) { transition-delay: .3s; }
 .floating-card .itinerary-item:nth-child(5) { transition-delay: .4s; }
-
-.calendar-btn {
   background: transparent;
   border: 1px solid var(--gold) !important;
   color: var(--gold-light);
@@ -616,10 +572,10 @@ button {
 /* ===================== BLESSING / PARENTS ===================== */
 .parents-wrap {
   display: flex;
-  gap: 80px;
+  gap: 30px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 24px;
 }
 
 .parents-wrap h4 {
@@ -635,48 +591,45 @@ button {
 /* ===================== PADRINOS CAROUSEL ===================== */
 .carousel {
   position: relative;
-  width: min(420px, 100%);
-  margin: 40px auto 0;
+  width: min(260px, 100%);
+  margin: 24px auto 0;
 }
 
-.carousel-track { position: relative; height: 340px; }
+.carousel-track { position: relative; height: 230px; }
 
 .carousel-card {
   position: absolute;
   inset: 0;
-  background: var(--cream);
+  background: #ffffff;
   color: var(--ink);
-  border-radius: 4px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(20,20,20,0.85);
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px;
-  box-shadow: 0 20px 50px var(--shadow-deep);
+  padding: 18px;
+  box-shadow: 0 3px 0 rgba(20,20,20,0.85), 0 18px 30px rgba(0,0,0,0.45);
 }
 .carousel-card.active { display: flex; }
 
-.carousel-card .icon { font-size: 34px; margin-bottom: 14px; color: var(--forest-mid); }
-.carousel-card h3 { font-size: 30px; color: var(--forest-mid); margin: 10px 0 18px; }
-.carousel-card p { font-size: 19px; }
+.carousel-card .icon { font-size: 26px; margin-bottom: 10px; color: var(--forest-mid); }
+.carousel-card h3 { font-size: 21px; color: var(--forest-mid); margin: 6px 0 10px; }
+.carousel-card p { font-size: 15px; }
 
 .carousel-nav {
   position: absolute;
   top: 50%; transform: translateY(-50%);
-  width: 42px; height: 42px;
+  width: 30px; height: 30px;
   border-radius: 50%;
-  background: rgba(246,241,230,0.15);
-  color: var(--cream);
+  background: rgba(20,20,20,0.65);
+  color: #fff;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
+  font-size: 14px;
   z-index: 5;
 }
-.carousel-nav.prev { left: -55px; }
-.carousel-nav.next { right: -55px; }
-@media (max-width: 600px) {
-  .carousel-nav.prev { left: -8px; }
-  .carousel-nav.next { right: -8px; }
-}
+.carousel-nav.prev { left: 4px; }
+.carousel-nav.next { right: 4px; }
 
 /* ===================== ITINERARY ===================== */
 .itinerary-list {
