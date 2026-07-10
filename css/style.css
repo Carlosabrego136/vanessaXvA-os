@@ -17,10 +17,7 @@
 
 html {
   scroll-behavior: smooth;
-  /* IMPORTANTE: 'overflow-x: hidden' convierte al documento en un contenedor de
-     scroll y ROMPE position:sticky (por eso antes había que hacerlo con JS).
-     'overflow-x: clip' evita el scroll horizontal SIN romper el sticky nativo. */
-  overflow-x: clip;
+  overflow-x: hidden;
   width: 100%;
 }
 
@@ -28,7 +25,7 @@ body {
   font-family: 'Cormorant Garamond', serif;
   background: var(--forest-deep);
   color: var(--cream);
-  overflow-x: clip;
+  overflow-x: hidden;
   width: 100%;
   font-size: 18px;
   line-height: 1.6;
@@ -38,57 +35,56 @@ body {
 img { max-width: 100%; }
 
 /* ===================== FOTO FIJA + LA SIGUIENTE SECCIÓN LA TAPA (igual que Laura & Santos) =====================
-   Ahora se hace con position:sticky NATIVO (sin JavaScript), tal como el sitio original.
-   Así el navegador fija la foto en su propio hilo de composición -> queda perfectamente
-   fluido, SIN brincos ("saltando"), en computadora, iPhone y Android.
-
-   Cómo funciona:
-   1. Las SECCIONES con foto (#hero, .photo-divider, #countdown, #itinerary, #registry)
-      llevan position:sticky; top:0 y z-index:0. Suben con el scroll hasta que su borde
-      superior toca el tope de la pantalla y ahí se QUEDAN fijas, pixel por pixel.
-   2. La foto (.pin-photo) rellena la sección de forma absoluta y queda detrás del contenido.
-   3. Las secciones SÓLIDAS que vienen después (z-index:1) suben por scroll normal y van
-      TAPANDO por capas a la foto que quedó fija. */
+   Cómo funciona (ya NO usamos background-attachment:fixed — eso es lo que falla en iPhone/Android):
+   1. Cada foto grande vive dentro de un contenedor normal (que sí ocupa su espacio en la página).
+   2. La foto SIEMPRE es position:fixed — js/script.js calcula en cada cuadro su posición exacta
+      con transform:translateY(), así que no hay ningún cambio brusco de modo (eso era lo que
+      causaba el saltito). Mientras su contenedor no llega arriba, sigue el scroll con precisión;
+      en cuanto llega, se congela ahí — pixel por pixel, igual que en el video original.
+   3. La siguiente sección (con fondo opaco) sube por scroll normal y la va tapando.
+   Esto SÍ funciona igual en computadora, iPhone y Android porque usa position:fixed en un elemento
+   real (no background-attachment, que es lo que los navegadores móviles no soportan bien). */
 .fixed-bg {
   background-size: cover;
   background-position: center 20%;
   background-repeat: no-repeat;
 }
 
-/* La foto rellena por completo su sección y se queda detrás del contenido */
 .pin-photo {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   z-index: 0;
+  will-change: transform;
 }
 
-/* Las secciones SÓLIDAS suben por scroll normal y van tapando a las fotos fijas.
-   (position:relative + z-index:1 para que pinten POR ENCIMA de las fotos sticky) */
+/* Todas las secciones/franjas de la página necesitan su propio nivel de apilamiento
+   para que cada una tape correctamente a la foto fija de la sección anterior */
+body > section,
 body > .split,
 body > .tag-band,
-#dresscode, #location, #hotels,
-#gallery, #share, #wishes, #story,
-#contacts, #verse,
+body > .photo-divider,
 body > footer {
   position: relative;
   z-index: 1;
 }
 
-/* Las FOTOS se fijan solas con position:sticky (nativo = sin brincos) y se quedan
-   pegadas arriba mientras la siguiente sección sólida las tapa por capas. */
-#hero,
-body > .photo-divider,
-#countdown,
-#itinerary,
-#registry {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-  z-index: 0;
-}
-
+/* (el scroll es normal, como en la invitación original — no se usa sticky) */
 .section-dark { background: var(--forest-deep); }
 .section-mid { background: linear-gradient(180deg, var(--forest-deep), var(--teal-accent), var(--forest-deep)); }
+
+/* Costura suave entre secciones para que no se note el cambio de color */
+.section::before, .split::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 90px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.18), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
 
 /* ===================== DESTELLOS / SPARKLES (bosque encantado) ===================== */
 .sparkle-layer {
@@ -227,12 +223,11 @@ body > .photo-divider,
   z-index: 2;
   background: rgba(246,241,230,0.94);
   color: var(--ink);
-  border-radius: 10px;
+  border-radius: 6px;
   padding: 50px 40px;
   max-width: 520px;
   width: 100%;
-  /* Misma profundidad que las tarjetas de la sección Honor Court */
-  box-shadow: 0 26px 60px rgba(0,0,0,0.45), 0 6px 16px rgba(0,0,0,0.25);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.4);
 }
 .floating-card .section-tag { color: var(--forest-mid); }
 .floating-card h2 { color: var(--forest-mid); }
@@ -643,13 +638,13 @@ button {
   inset: 0;
   background: var(--cream);
   color: var(--ink);
-  border-radius: 10px;
+  border-radius: 4px;
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 30px;
-  box-shadow: 0 26px 60px rgba(0,0,0,0.45), 0 6px 16px rgba(0,0,0,0.25);
+  box-shadow: 0 20px 50px var(--shadow-deep);
 }
 .carousel-card.active { display: flex; }
 
