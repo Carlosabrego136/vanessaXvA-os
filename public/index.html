@@ -1,72 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vanessa | XV Años</title>
-<meta name="description" content="Vanessa's Sweet Fifteen — Enchanted Forest">
+<title>Vanessa | Mis XV Años</title>
+<meta name="description" content="Mis XV Años — Bosque Encantado">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- FONDO FIJO DEL BOSQUE ENCANTADO (detrás de toda la página, con profundidad) -->
-<div id="forest-bg"></div>
+<!-- FONDO VERDE FLUIDO FIJO (detrás de toda la página, con profundidad) -->
+<div id="forest-bg"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></div>
 
-<!-- ENTER SCREEN -->
+<!-- PANTALLA DE ENTRADA -->
 <div id="enter-screen">
   <div class="enter-content">
     <div>
       <h1 class="script">Vanessa</h1>
-      <p class="sub">XV AÑOS</p>
+      <p class="sub">MIS XV AÑOS</p>
     </div>
-    <button class="enter-btn" id="enterBtn">Enter</button>
+    <button class="enter-btn" id="enterBtn">Entrar</button>
   </div>
 </div>
 
-<!-- TOP BAR -->
+<!-- BARRA SUPERIOR -->
 <div class="top-bar">
   <div class="lang-toggle">
-    <span class="active">EN</span> | <span>ES</span>
+    <span class="active">ES</span> | <span>EN</span>
   </div>
 </div>
 
-<!-- MUSIC BUTTON -->
-<button class="music-btn" id="musicBtn" title="Play music">&#9835;</button>
+<!-- BOTÓN DE MÚSICA -->
+<button class="music-btn" id="musicBtn" title="Reproducir música">&#9835;</button>
 <audio id="bgMusic" loop>
   <!-- Coloca tu archivo de música en assets/audio/song.mp3 y descomenta la línea de abajo -->
   <!-- <source src="assets/audio/song.mp3" type="audio/mpeg"> -->
 </audio>
 
-<!-- ============ HERO (una sola foto grande, como Laura & Santos) ============ -->
+<!-- ============ HERO ============ -->
 <section id="hero" class="section" style="min-height:100vh;" data-pin-wrap>
   <div class="hero-bg-wrap fixed-bg pin-photo" style="background-image:url('assets/hero/hero-main.jpg');"></div>
   <div class="hero-text reveal" style="transition-delay: .35s;">
     <h1 class="script">Vanessa</h1>
-    <p>A MAGICAL JOURNEY BEGINS</p>
+    <p>UN VIAJE MÁGICO COMIENZA</p>
   </div>
 </section>
 
 <div class="tag-band reveal-fade">
-  <h2 class="script">A dream fifteen years in the making</h2>
+  <h2 class="script">Un sueño de quince años hecho realidad</h2>
 </div>
 
 <div class="photo-divider" data-pin-wrap>
   <div class="pin-photo fixed-bg" style="background-image:url('assets/hero/hero-secondary.jpg');"></div>
 </div>
 
-<!-- ============ COUNTDOWN ============ -->
+<!-- ============ CUENTA REGRESIVA ============ -->
 <section id="countdown" class="section" data-pin-wrap>
   <div class="bg-photo fixed-bg pin-photo" style="background-image:url('assets/countdown/countdown-photo.jpg');"></div>
-  <p class="section-tag reveal-fade">Save the date</p>
-  <h2 class="countdown-date reveal-fade" style="transition-delay:.15s;">SEPTEMBER 27, 2025</h2>
+  <p class="section-tag reveal-fade">Guarda la fecha</p>
+  <h2 class="countdown-date reveal-fade" style="transition-delay:.15s;">27 DE SEPTIEMBRE, 2025</h2>
   <div class="countdown-boxes">
-    <div class="box reveal"><div class="num" id="cd-days">00</div><div class="label">Days</div></div>
+    <div class="box reveal"><div class="num" id="cd-days">00</div><div class="label">Días</div></div>
     <div class="box reveal"><div class="num" id="cd-hours">00</div><div class="label">Hrs</div></div>
     <div class="box reveal"><div class="num" id="cd-mins">00</div><div class="label">Mins</div></div>
-    <div class="box reveal"><div class="num" id="cd-secs">00</div><div class="label">Secs</div></div>
+    <div class="box reveal"><div class="num" id="cd-secs">00</div><div class="label">Segs</div></div>
   </div>
   <div class="calendar-dropdown reveal-fade" style="transition-delay:.5s;">
-    <button class="calendar-btn" id="calendarBtn">&#128197; Add to Calendar</button>
+    <button class="calendar-btn" id="calendarBtn">&#128197; Agregar al Calendario</button>
     <div class="calendar-menu" id="calendarMenu">
       <a href="#" id="calGoogle" target="_blank">Google Calendar</a>
       <a href="#" id="calApple">Apple Calendar</a>
@@ -75,18 +75,18 @@
   </div>
 </section>
 
-<!-- ============ BLESSING / PARENTS ============ -->
+<!-- ============ BENDICIÓN DE PADRES ============ -->
 <section id="blessing" class="photo-overlay-section" data-pin-wrap>
   <div class="bg-photo fixed-bg pin-photo" style="background-image:url('assets/gallery/gallery-02.jpg');"></div>
   <div class="floating-card">
-    <h2 class="section-title">My <span class="script">Parents</span></h2>
+    <h2 class="section-title">Con la Bendición de mis <span class="script">Padres</span></h2>
     <div class="parents-wrap">
       <div>
-        <h4 style="color:var(--forest-mid);">Mother</h4>
+        <h4 style="color:var(--forest-mid);">Madre</h4>
         <p style="color:var(--ink);">Jessica Martínez</p>
       </div>
       <div>
-        <h4 style="color:var(--forest-mid);">Father</h4>
+        <h4 style="color:var(--forest-mid);">Padre</h4>
         <p style="color:var(--ink);">Juan Pérez</p>
       </div>
     </div>
@@ -97,44 +97,44 @@
   <div class="pin-photo fixed-bg" style="background-image:url('assets/fondo/fondo-forest.jpg');"></div>
 </div>
 
-<!-- ============ PADRINOS / HONOR COURT ============ -->
+<!-- ============ PADRINOS ============ -->
 <section id="padrinos" class="photo-overlay-section" data-pin-wrap>
   <div class="bg-photo fixed-bg pin-photo" style="background-image:url('assets/gallery/gallery-06.jpg');"></div>
   <div class="floating-card">
-    <p class="section-tag">Sponsors</p>
-    <h2 class="section-title">Honor <span class="script">Court</span></h2>
+    <p class="section-tag">Con cariño</p>
+    <h2 class="section-title"><span class="script">Padrinos</span></h2>
 
     <div class="carousel">
       <div class="carousel-track" id="padrinosTrack">
         <div class="carousel-card active">
           <div class="icon">&#10047;</div>
-          <h3>Bouquet</h3>
-          <p>Name Surname</p>
+          <h3>Ramo</h3>
+          <p>Nombre Apellido</p>
         </div>
         <div class="carousel-card">
           <div class="icon">&#128081;</div>
           <h3>Tiara</h3>
-          <p>Name Surname</p>
+          <p>Nombre Apellido</p>
         </div>
         <div class="carousel-card">
           <div class="icon">&#128218;</div>
-          <h3>Bible &amp; Rosary</h3>
-          <p>Name Surname</p>
+          <h3>Biblia y Rosario</h3>
+          <p>Nombre Apellido</p>
         </div>
         <div class="carousel-card">
           <div class="icon">&#128096;</div>
-          <h3>Shoes</h3>
-          <p>Name Surname</p>
+          <h3>Zapatillas</h3>
+          <p>Nombre Apellido</p>
         </div>
         <div class="carousel-card">
           <div class="icon">&#128142;</div>
-          <h3>Medallion</h3>
-          <p>Name Surname</p>
+          <h3>Medalla</h3>
+          <p>Nombre Apellido</p>
         </div>
         <div class="carousel-card">
           <div class="icon">&#127909;</div>
-          <h3>Photo &amp; Video</h3>
-          <p>Name Surname</p>
+          <h3>Foto y Video</h3>
+          <p>Nombre Apellido</p>
         </div>
       </div>
       <div class="carousel-nav prev" id="padrinosPrev">&#10094;</div>
@@ -147,42 +147,42 @@
   <div class="pin-photo fixed-bg" style="background-image:url('assets/gallery/gallery-08.jpg');"></div>
 </div>
 
-<!-- ============ ITINERARY ============ -->
+<!-- ============ ITINERARIO ============ -->
 <section id="itinerary" class="photo-overlay-section itinerary-bg" data-pin-wrap>
   <div class="bg-photo fixed-bg pin-photo" style="background-image:url('assets/fondo/fondo-forest.jpg');"></div>
   <div class="floating-card">
-    <p class="section-tag">Schedule</p>
-    <h2 class="section-title">Itine<span class="script">rary</span></h2>
+    <p class="section-tag">Programa</p>
+    <h2 class="section-title">Itine<span class="script">rario</span></h2>
 
     <div class="itinerary-list" style="margin:30px auto 0;">
       <div class="itinerary-item reveal">
         <div class="icon">&#9962;</div>
-        <div><h4>Religious Ceremony</h4><p>2:00 PM</p></div>
+        <div><h4>Ceremonia Religiosa</h4><p>2:00 PM</p></div>
       </div>
       <div class="itinerary-item reveal">
         <div class="icon">&#128247;</div>
-        <div><h4>Photo Session</h4><p>4:00 PM</p></div>
+        <div><h4>Sesión de Fotos</h4><p>4:00 PM</p></div>
       </div>
       <div class="itinerary-item reveal">
         <div class="icon">&#127864;</div>
-        <div><h4>Reception</h4><p>6:00 PM</p></div>
+        <div><h4>Recepción</h4><p>6:00 PM</p></div>
       </div>
       <div class="itinerary-item reveal">
         <div class="icon">&#127869;</div>
-        <div><h4>Dinner</h4><p>7:00 PM</p></div>
+        <div><h4>Cena</h4><p>7:00 PM</p></div>
       </div>
       <div class="itinerary-item reveal">
         <div class="icon">&#128131;</div>
-        <div><h4>Dance &amp; Party</h4><p>8:00 PM</p></div>
+        <div><h4>Baile y Fiesta</h4><p>8:00 PM</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ DRESS CODE ============ -->
+<!-- ============ CÓDIGO DE VESTIMENTA ============ -->
 <section id="dresscode" class="section section-dark">
-  <p class="section-tag">Dress code</p>
-  <h2 class="section-title">Enchanted <span class="script">Formal</span></h2>
+  <p class="section-tag">Código de vestimenta</p>
+  <h2 class="section-title">Elegancia <span class="script">Encantada</span></h2>
   <div class="dress-icons reveal">
     <span>&#128081;</span>
     <span>&#127925;</span>
@@ -196,112 +196,112 @@
   </div>
 </section>
 
-<!-- ============ LOCATION ============ -->
+<!-- ============ LUGAR ============ -->
 <section id="location" class="section section-mid">
-  <p class="section-tag">Venue</p>
-  <h2 class="section-title">Enchanted <span class="script">Garden</span></h2>
+  <p class="section-tag">Lugar</p>
+  <h2 class="section-title">Jardín <span class="script">Encantado</span></h2>
   <div class="venue-photo reveal">
     <img data-parallax src="assets/gallery/gallery-03.jpg" alt="Vanessa">
   </div>
-  <a class="map-btn" href="#" target="_blank">Go to Google Maps</a>
+  <a class="map-btn" href="#" target="_blank">Ir a Google Maps</a>
 </section>
 
 <!-- ============ HOSPEDAJE ============ -->
 <section id="hotels" class="section section-dark">
-  <p class="section-tag">Suggested</p>
-  <h2 class="section-title">Accommo<span class="script">dations</span></h2>
+  <p class="section-tag">Sugerencia de</p>
+  <h2 class="section-title">Hospe<span class="script">daje</span></h2>
   <div class="hotels-grid">
     <div class="reveal-left">
       <div class="hotel-photo"><img src="assets/gallery/gallery-03.jpg" alt="Hotel 1"></div>
-      <h4>Hotel Name One</h4>
-      <a class="map-btn" href="#" target="_blank">Go to Google Maps</a>
+      <h4>Nombre del Hotel Uno</h4>
+      <a class="map-btn" href="#" target="_blank">Ir a Google Maps</a>
     </div>
     <div class="reveal-right">
       <div class="hotel-photo"><img src="assets/gallery/gallery-04.jpg" alt="Hotel 2"></div>
-      <h4>Hotel Name Two</h4>
-      <a class="map-btn" href="#" target="_blank">Go to Google Maps</a>
+      <h4>Nombre del Hotel Dos</h4>
+      <a class="map-btn" href="#" target="_blank">Ir a Google Maps</a>
     </div>
   </div>
 </section>
 
-<!-- ============ GIFT REGISTRY ============ -->
+<!-- ============ MESA DE REGALOS ============ -->
 <section id="registry" class="photo-overlay-section" data-pin-wrap>
   <div class="bg-photo fixed-bg pin-photo" style="background-image:url('assets/gallery/gallery-07.jpg');"></div>
   <div class="floating-card">
-    <p class="section-tag">Gift</p>
-    <h2 class="section-title">Reg<span class="script">istry</span></h2>
-    <p style="max-width:420px;margin:20px auto 0;color:var(--ink);">Your presence is the best gift, but if you wish to help me celebrate this new chapter, you may visit my registry below.</p>
+    <p class="section-tag">Mesa de</p>
+    <h2 class="section-title">Reg<span class="script">alos</span></h2>
+    <p style="max-width:420px;margin:20px auto 0;color:var(--ink);">Tu presencia es el mejor regalo, pero si deseas ayudarme a celebrar este nuevo capítulo, puedes visitar mi mesa de regalos.</p>
     <div class="registry-links" style="margin-top:26px;">
       <a href="#" target="_blank" style="border-color:var(--forest-mid);color:var(--forest-mid);">Amazon</a>
     </div>
   </div>
 </section>
 
-<!-- ============ GALLERY ============ -->
+<!-- ============ GALERÍA ============ -->
 <section id="gallery" class="section section-dark">
-  <p class="section-tag">Memories</p>
-  <h2 class="section-title">Photo <span class="script">Gallery</span></h2>
+  <p class="section-tag">Recuerdos</p>
+  <h2 class="section-title">Galería de <span class="script">Fotos</span></h2>
   <div class="gallery-grid">
-    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-01.jpg" alt="Gallery 1"></div>
-    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-02.jpg" alt="Gallery 2"></div>
-    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-03.jpg" alt="Gallery 3"></div>
-    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-04.jpg" alt="Gallery 4"></div>
-    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-05.jpg" alt="Gallery 5"></div>
-    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-06.jpg" alt="Gallery 6"></div>
-    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-07.jpg" alt="Gallery 7"></div>
-    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-08.jpg" alt="Gallery 8"></div>
+    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-01.jpg" alt="Galería 1"></div>
+    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-02.jpg" alt="Galería 2"></div>
+    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-03.jpg" alt="Galería 3"></div>
+    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-04.jpg" alt="Galería 4"></div>
+    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-05.jpg" alt="Galería 5"></div>
+    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-06.jpg" alt="Galería 6"></div>
+    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-07.jpg" alt="Galería 7"></div>
+    <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-08.jpg" alt="Galería 8"></div>
   </div>
 </section>
 
-<!-- ============ SHARE MOMENTS ============ -->
+<!-- ============ COMPARTE EL MOMENTO ============ -->
 <section id="share" class="section section-mid">
-  <p class="section-tag">Share your best</p>
-  <h2 class="section-title">Mo<span class="script">ments</span></h2>
-  <p class="hashtag">#Vanessa2025XV</p>
+  <p class="section-tag">Comparte tus mejores</p>
+  <h2 class="section-title">Mo<span class="script">mentos</span></h2>
+  <p class="hashtag">#MisXVVanessa2025</p>
   <div class="qr-wrap reveal">
-    <img src="assets/branding/qr-demo.png" alt="QR Code">
-    <p class="qr-caption">Scan to upload your photos</p>
+    <img src="assets/branding/qr-demo.png" alt="Código QR">
+    <p class="qr-caption">Escanea para subir tus fotos</p>
   </div>
 </section>
 
-<!-- ============ WELL WISHES ============ -->
+<!-- ============ BUENOS DESEOS ============ -->
 <section id="wishes" class="section section-dark">
-  <p class="section-tag">Well</p>
-  <h2 class="section-title">Wi<span class="script">shes</span></h2>
+  <p class="section-tag">Buenos</p>
+  <h2 class="section-title">De<span class="script">seos</span></h2>
 
   <div class="wish-card reveal">
-    <p>"Wishing you the most magical XV, may all your dreams come true."</p>
-    <p class="author">— A loved one</p>
+    <p>"Deseo que tengas unos XV llenos de magia y que todos tus sueños se hagan realidad."</p>
+    <p class="author">— Con cariño</p>
   </div>
 
-  <form class="wishes-form" onsubmit="event.preventDefault(); alert('Thank you for your wishes! 🌲');">
-    <input type="text" placeholder="Your name" required>
-    <textarea placeholder="Write your wishes..." required></textarea>
-    <button class="submit-btn" type="submit">Send Wishes</button>
+  <form class="wishes-form" onsubmit="event.preventDefault(); alert('¡Gracias por tus deseos! 🌲');">
+    <input type="text" placeholder="Tu nombre" required>
+    <textarea placeholder="Escribe tus deseos..." required></textarea>
+    <button class="submit-btn" type="submit">Enviar Deseos</button>
   </form>
 </section>
 
-<!-- ============ MY STORY ============ -->
+<!-- ============ NUESTRA HISTORIA ============ -->
 <section id="story" class="section section-mid">
-  <p class="section-tag">My</p>
-  <h2 class="section-title">Sto<span class="script">ry</span></h2>
+  <p class="section-tag">Mi</p>
+  <h2 class="section-title">Histo<span class="script">ria</span></h2>
 
   <div class="story-track">
     <div class="story-slide active">
       <div class="story-photos">
-        <img src="assets/story/story-01.jpg" alt="Story 1">
-        <img src="assets/gallery/gallery-05.jpg" alt="Story 1b">
+        <img src="assets/story/story-01.jpg" alt="Historia 1">
+        <img src="assets/gallery/gallery-05.jpg" alt="Historia 1b">
       </div>
-      <h4>The Journey Begins</h4>
-      <p>A childhood full of dreams</p>
+      <h4>El Comienzo del Viaje</h4>
+      <p>Una infancia llena de sueños</p>
     </div>
     <div class="story-slide">
       <div class="story-photos">
-        <img src="assets/story/story-02.jpg" alt="Story 2">
-        <img src="assets/gallery/gallery-06.jpg" alt="Story 2b">
+        <img src="assets/story/story-02.jpg" alt="Historia 2">
+        <img src="assets/gallery/gallery-06.jpg" alt="Historia 2b">
       </div>
-      <h4>Sweet Fifteen</h4>
-      <p>September 27th, 2025</p>
+      <h4>Mis Quince Años</h4>
+      <p>27 de septiembre, 2025</p>
     </div>
   </div>
   <div style="margin-top:24px; display:flex; gap:20px;">
@@ -310,40 +310,40 @@
   </div>
 </section>
 
-<!-- ============ CONTACTS ============ -->
+<!-- ============ CONTACTOS ============ -->
 <section id="contacts" class="section section-dark">
-  <p class="section-tag">Contacts</p>
-  <h2 class="section-title">Get in <span class="script">Touch</span></h2>
+  <p class="section-tag">Contactos</p>
+  <h2 class="section-title">En <span class="script">Contacto</span></h2>
   <div class="contacts-grid">
-    <a class="contact-btn" href="https://wa.me/10000000000" target="_blank">&#128241; Mom</a>
-    <a class="contact-btn" href="https://wa.me/10000000000" target="_blank">&#128241; Dad</a>
+    <a class="contact-btn" href="https://wa.me/10000000000" target="_blank">&#128241; Mamá</a>
+    <a class="contact-btn" href="https://wa.me/10000000000" target="_blank">&#128241; Papá</a>
   </div>
-  <p class="contact-note">If you have any questions, feel free to contact us!</p>
+  <p class="contact-note">¡En caso de duda nos puedes contactar!</p>
 </section>
 
-<!-- ============ VERSE ============ -->
+<!-- ============ CITA BÍBLICA ============ -->
 <section id="verse" class="photo-overlay-section" data-pin-wrap>
   <div class="bg-photo fixed-bg pin-photo" style="background-image:url('assets/fondo/fondo-forest.jpg');"></div>
   <div class="content reveal-fade">
-    <h2 class="script">Many waters cannot quench love</h2>
-    <p class="ref">Song of Solomon 8:7</p>
+    <h2 class="script">Las muchas aguas no podrán apagar el amor</h2>
+    <p class="ref">Cantares 8:7</p>
   </div>
 </section>
 
-<!-- ============ RSVP ============ -->
+<!-- ============ CONFIRMACIÓN DE ASISTENCIA ============ -->
 <section id="rsvp" class="split">
   <div class="split-card reveal-left">
-    <p class="section-tag">Confirmation</p>
+    <p class="section-tag">Confirmación</p>
     <h2 class="section-title">RSVP</h2>
-    <form class="rsvp-form" onsubmit="event.preventDefault(); alert('Thank you for confirming! 🌲');">
-      <input type="text" placeholder="Full name" required>
-      <input type="tel" placeholder="Phone number 📞" required>
-      <input type="email" placeholder="Email address" required>
+    <form class="rsvp-form" onsubmit="event.preventDefault(); alert('¡Gracias por confirmar! 🌲');">
+      <input type="text" placeholder="Nombre completo" required>
+      <input type="tel" placeholder="Número de teléfono 📞" required>
+      <input type="email" placeholder="Correo electrónico" required>
       <div class="checkbox-row">
         <input type="checkbox" id="noKids" style="width:auto;">
-        <label for="noKids">Respectfully, no children</label>
+        <label for="noKids">Respetuosamente, sin niños</label>
       </div>
-      <button class="submit-btn" type="submit">Confirm</button>
+      <button class="submit-btn" type="submit">Confirmar</button>
     </form>
   </div>
   <div class="split-photo fixed-bg" style=" background-image:url('assets/hero/hero-secondary.jpg');"></div>
@@ -351,7 +351,7 @@
 
 <footer >
   <p class="script">Vanessa</p>
-  <p>XV AÑOS · SEPTEMBER 27, 2025</p>
+  <p>MIS XV AÑOS · 27 DE SEPTIEMBRE, 2025</p>
 </footer>
 
 <script src="js/script.js"></script>

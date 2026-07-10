@@ -15,6 +15,70 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* ===================== FONDO VERDE SÓLIDO Y FLUIDO (bosque encantado) =====================
+   Capa fija detrás de TODA la página: un verde sólido de base + manchas de color
+   (blobs) que se mueven muy lento en bucle, dando esa sensación "fluida" y viva
+   sin perder el aspecto sólido/uniforme del verde. Va detrás de las fotos y del
+   contenido (z-index: -1), así que siempre se asoma en las costuras entre secciones. */
+#forest-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(160deg, #0c241a 0%, #123626 28%, #1c4a37 55%, #0e2a1f 100%);
+}
+#forest-bg .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  will-change: transform;
+}
+#forest-bg .b1 {
+  width: 60vw; height: 60vw;
+  top: -15%; left: -10%;
+  background: radial-gradient(circle, #2d6a4f 0%, transparent 70%);
+  animation: driftBlob1 26s ease-in-out infinite;
+}
+#forest-bg .b2 {
+  width: 50vw; height: 50vw;
+  bottom: -20%; right: -15%;
+  background: radial-gradient(circle, #143a37 0%, transparent 70%);
+  animation: driftBlob2 32s ease-in-out infinite;
+}
+#forest-bg .b3 {
+  width: 40vw; height: 40vw;
+  top: 35%; right: 5%;
+  background: radial-gradient(circle, #cfa15e 0%, transparent 75%);
+  opacity: 0.18;
+  animation: driftBlob3 40s ease-in-out infinite;
+}
+#forest-bg .b4 {
+  width: 45vw; height: 45vw;
+  bottom: 10%; left: 5%;
+  background: radial-gradient(circle, #1c4a48 0%, transparent 70%);
+  animation: driftBlob4 36s ease-in-out infinite;
+}
+@keyframes driftBlob1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(8vw, 10vh) scale(1.15); }
+}
+@keyframes driftBlob2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-10vw, -6vh) scale(1.1); }
+}
+@keyframes driftBlob3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-6vw, 8vh) scale(1.2); }
+}
+@keyframes driftBlob4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(7vw, -8vh) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #forest-bg .blob { animation: none; }
+}
+
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
@@ -23,7 +87,7 @@ html {
 
 body {
   font-family: 'Cormorant Garamond', serif;
-  background: var(--forest-deep);
+  background: transparent; /* el color de fondo real lo da #forest-bg, fijo y fluido */
   color: var(--cream);
   overflow-x: hidden;
   width: 100%;
@@ -72,8 +136,10 @@ body > footer {
 }
 
 /* (el scroll es normal, como en la invitación original — no se usa sticky) */
-.section-dark { background: var(--forest-deep); }
-.section-mid { background: linear-gradient(180deg, var(--forest-deep), var(--teal-accent), var(--forest-deep)); }
+/* Semi-transparentes: el verde sólido de fondo (#forest-bg) se asoma y se mueve
+   detrás del contenido, dándole ese acabado "fluido" en vez de un verde plano. */
+.section-dark { background: rgba(10, 30, 22, 0.55); }
+.section-mid { background: linear-gradient(180deg, rgba(14,42,31,0.55), rgba(28,74,72,0.45), rgba(14,42,31,0.55)); }
 
 /* Costura suave entre secciones para que no se note el cambio de color */
 .section::before, .split::before {
@@ -393,7 +459,7 @@ button {
   overflow: hidden;
 }
 
-/* (fondo real ahora lo da #forest-bg fijo detrás de la página) */
+/* fondo real ahora lo da #forest-bg fijo detrás de la página, ver más abajo */
 
 .section-tag {
   font-size: 13px;
