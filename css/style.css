@@ -17,6 +17,7 @@
   --shadow-deep: rgba(6, 20, 14, 0.65);
   --glass-bg: linear-gradient(160deg, rgba(20,44,36,0.55) 0%, rgba(10,24,20,0.62) 100%);
   --glass-bg-blue: linear-gradient(160deg, rgba(24,64,102,0.55) 0%, rgba(8,28,52,0.62) 100%);
+  --glass-bg-black: linear-gradient(160deg, rgba(10,10,9,0.92) 0%, rgba(2,2,2,0.95) 100%);
   --glass-border: rgba(207,161,94,0.55);
 }
 
@@ -189,6 +190,7 @@ img { max-width: 100%; }
   position: relative;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 /* version reducida: solo para el fondo-forest, para que no cubra toda la pantalla */
@@ -348,6 +350,7 @@ img { max-width: 100%; }
 .photo-overlay-section {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -583,6 +586,7 @@ button {
 .section {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 90px 24px;
   display: flex;
   flex-direction: column;
@@ -635,6 +639,7 @@ button {
 /* ===================== HERO (una sola foto grande de fondo) ===================== */
 #hero {
   min-height: 100vh;
+  min-height: 100dvh;
   padding: 0 24px 7vh;
   justify-content: flex-end;
   align-items: center;
@@ -737,6 +742,7 @@ button {
   position: relative;
   overflow: hidden;
   min-height: 90vh;
+  min-height: 90dvh;
   justify-content: center;
 }
 #countdown .bg-photo {
@@ -894,27 +900,42 @@ button {
   position: relative;
   width: min(260px, 100%);
   margin: 24px auto 0;
+  overflow: hidden;
+  border-radius: 14px;
 }
 
-.carousel-track { position: relative; height: 230px; }
+/* El track ahora es una fila flex de tarjetas del 100% de ancho cada
+   una; JS mueve esta fila con transform:translateX según el índice
+   actual, y como el contenedor .carousel tiene overflow:hidden, se ve
+   y se siente como un carrusel real que se desliza, en vez del cambio
+   instantáneo de antes (display:none/flex). No se tocó el scroll de la
+   página ni el sistema de capas sticky, solo el movimiento interno de
+   esta tarjeta. */
+.carousel-track {
+  position: relative;
+  height: 230px;
+  display: flex;
+  transition: transform .5s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
 
 .carousel-card {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
   background: var(--glass-bg);
   backdrop-filter: blur(9px);
   -webkit-backdrop-filter: blur(9px);
   color: var(--cream);
   border-radius: 14px;
   border: 1px solid var(--glass-border);
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 18px;
   box-shadow: 0 12px 24px rgba(0,0,0,0.4), 0 0 36px 7px rgba(244,166,204,0.35);
 }
-.carousel-card.active { display: flex; }
 
 .carousel-card .icon {
   font-size: 24px;
@@ -1086,10 +1107,17 @@ button {
   width: min(300px, 82%);
   padding: 10px 10px 20px;
   border-radius: 14px;
-  background: var(--glass-bg);
+  background: var(--glass-bg-black);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 12px 26px var(--shadow-deep), 0 0 24px 5px rgba(207,161,94,0.2);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.55), 0 0 24px 5px rgba(207,161,94,0.25);
   margin: 10px auto;
+}
+/* Tarjeta negra de la ceremonia (iglesia): mismo formato que las de
+   hospedaje, pero aún más oscura/opaca para que resalte como "tarjeta
+   negra" pedida, sin confundirse con la foto de fondo. */
+.church-card {
+  background: rgba(0,0,0,0.9);
+  border-color: var(--glass-border);
 }
 .hotel-photo { border-radius: 6px; overflow: hidden; contain: layout style paint; }
 .hotel-photo img { width: 100%; max-height: 24vh; object-fit: cover; display: block; }
@@ -1236,6 +1264,14 @@ button {
 .share-photos img { flex: 1 1 45%; width: 45%; height: auto; aspect-ratio: 3/4; object-fit: cover; object-position: center 18%; border-radius: 4px; }
 
 /* ===================== WISHES ===================== */
+/* El título "Send Wishes" se pedía en una sola línea horizontal en vez
+   de partido en dos renglones (el span .script es display:block por
+   defecto en el resto del sitio); aquí se vuelve inline solo para esta
+   sección. */
+#wishes .section-title .script {
+  display: inline;
+}
+
 .wishes-form {
   width: min(480px, 100%);
   margin-top: 34px;
@@ -1337,21 +1373,23 @@ button {
   box-shadow: 0 16px 32px var(--shadow-deep), 0 0 36px 7px rgba(244,166,204,0.35);
   contain: layout style paint;
 }
+/* Fila deslizante: cada foto ocupa el 100% del track y JS mueve esta
+   fila con transform:translateX según el índice, así las fotos se
+   deslizan como un carrusel real en vez de solo desvanecerse. */
+.baby-carousel-slides {
+  display: flex;
+  height: 100%;
+  transition: transform .45s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
 .baby-slide {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 0 0 100%;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 22%;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .35s ease;
   cursor: pointer;
-}
-.baby-slide.active {
-  opacity: 1;
-  visibility: visible;
 }
 .baby-carousel .carousel-nav {
   top: 50%;

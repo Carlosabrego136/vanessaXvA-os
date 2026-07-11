@@ -228,6 +228,10 @@ updateCountdown();
 })();
 
 // ===================== PADRINOS CAROUSEL =====================
+// Ahora el track se mueve de verdad con transform:translateX (antes solo
+// se intercambiaba qué tarjeta era visible con display:none/flex, sin
+// ningún movimiento). El contenedor .carousel tiene overflow:hidden en
+// el CSS, así que solo se ve una tarjeta a la vez mientras se desliza.
 (function () {
   const track = document.getElementById('padrinosTrack');
   const cards = track.querySelectorAll('.carousel-card');
@@ -239,10 +243,26 @@ updateCountdown();
     cards.forEach(c => c.classList.remove('active'));
     index = (i + cards.length) % cards.length;
     cards[index].classList.add('active');
+    track.style.transform = `translateX(-${index * 100}%)`;
   }
 
   prevBtn.addEventListener('click', () => show(index - 1));
   nextBtn.addEventListener('click', () => show(index + 1));
+
+  // Swipe izquierda/derecha en móvil, igual que en las demás galerías del sitio
+  let touchStartX = 0;
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  track.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) show(index + 1);
+      else show(index - 1);
+    }
+  }, { passive: true });
+
+  show(0);
 })();
 
 // ===================== STORY CAROUSEL =====================
@@ -263,22 +283,39 @@ updateCountdown();
 })();
 
 // ===================== BABY PHOTO CAROUSEL (Love Story) =====================
+// Las fotos ahora se deslizan de verdad: se mueve el wrapper interno
+// (.baby-carousel-slides) con transform:translateX según el índice,
+// en vez del crossfade (opacity) que había antes.
 (function () {
   const carousel = document.getElementById('babyCarousel');
   if (!carousel) return;
+  const slidesTrack = document.getElementById('babyCarouselSlides');
   const slides = Array.from(carousel.querySelectorAll('.baby-slide'));
   const prevBtn = document.getElementById('babyPrev');
   const nextBtn = document.getElementById('babyNext');
   let index = 0;
 
   function show(i) {
-    slides.forEach(s => s.classList.remove('active'));
     index = (i + slides.length) % slides.length;
-    slides[index].classList.add('active');
+    slidesTrack.style.transform = `translateX(-${index * 100}%)`;
   }
 
   prevBtn.addEventListener('click', (e) => { e.stopPropagation(); show(index - 1); });
   nextBtn.addEventListener('click', (e) => { e.stopPropagation(); show(index + 1); });
+
+  // Swipe izquierda/derecha en móvil directamente sobre las fotos
+  let carouselTouchStartX = 0;
+  const trackEl = carousel.querySelector('.baby-carousel-track');
+  trackEl.addEventListener('touchstart', (e) => {
+    carouselTouchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  trackEl.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - carouselTouchStartX;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) show(index + 1);
+      else show(index - 1);
+    }
+  }, { passive: true });
 
   // ---- Lightbox: click en la foto para verla completa, con flechas ----
   const lightbox = document.getElementById('babyLightbox');
