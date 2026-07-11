@@ -63,6 +63,14 @@ img { max-width: 100%; }
   position: sticky !important;
   top: 0 !important;
   z-index: 1;
+  /* will-change le avisa al navegador con anticipación que esta sección
+     va a moverse/quedar fija, para que la prepare en su propia capa de
+     GPU (compositing layer) ANTES de que entre a pantalla. Sin esto, el
+     navegador a veces la pinta "a medias" justo cuando aparece y luego
+     termina de pintarla completa un instante después — eso es lo que se
+     sentía como que la página se traba/carga a la mitad al scrollear.
+     No cambia el scroll ni el sticky en sí, solo cómo se pinta. */
+  will-change: transform;
 }
 
 /* (el scroll es normal, como en la invitación original — no se usa sticky) */
@@ -785,7 +793,10 @@ button {
   padding: 22px 26px;
   min-width: 90px;
   flex: 1 1 90px;
-  background: rgba(207,161,94,0.06);
+  background: rgba(8, 20, 16, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
 @media (max-width: 420px) {
@@ -1322,13 +1333,14 @@ button {
   gap: 16px;
 }
 .wishes-form input, .wishes-form textarea {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(207,161,94,0.4);
+  background: rgba(8, 8, 7, 0.8);
+  border: 1px solid rgba(207,161,94,0.4);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.3);
   color: var(--cream);
   font-family: 'Cormorant Garamond', serif;
   font-size: 18px;
-  padding: 10px 4px;
+  padding: 12px 14px;
 }
 .wishes-form textarea { resize: vertical; min-height: 80px; }
 .wishes-form input::placeholder, .wishes-form textarea::placeholder { color: rgba(246,241,230,0.5); }
