@@ -972,15 +972,16 @@ button {
 
 /* ===================== DRESS CODE ===================== */
 #dresscode {
-  min-height: 70vh;
-  padding: 60px 24px 40px;
+  aspect-ratio: 1154 / 912;
+  min-height: 0;
+  height: auto;
+  padding: 42px 24px 20px;
   justify-content: flex-start;
 }
 #dresscode .bg-photo {
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center 60%;
-  background-color: #10142c;
+  background-position: center center;
 }
 
 .dress-icons {
@@ -1025,6 +1026,18 @@ button {
 .swatch { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--cream); }
 
 /* ===================== LOCATION / HOTELS ===================== */
+/* Placa semitransparente detrás del título para que se lea bien sobre
+   la foto de fondo del bosque (que es más "ocupada" visualmente). */
+.title-plate {
+  background: rgba(8, 20, 16, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 18px 30px 20px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+}
+
 .venue-frame {
   position: relative;
   width: min(500px, 100%);
