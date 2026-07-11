@@ -1001,32 +1001,58 @@ button {
 .swatch { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--cream); }
 
 /* ===================== LOCATION / HOTELS ===================== */
-.venue-photo, .hotel-photo {
+.venue-frame {
+  position: relative;
   width: min(500px, 100%);
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 16px 34px var(--shadow-deep), 0 0 42px 8px rgba(244,166,204,0.35);
-  margin: 18px 0;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 16px 34px var(--shadow-deep), 0 0 30px 6px rgba(207,161,94,0.22);
+  margin: 18px 0 30px;
   contain: layout style paint;
 }
-.venue-photo img, .hotel-photo img { width: 100%; max-height: 42vh; object-fit: cover; display: block; }
+.venue-photo {
+  border-radius: 8px;
+  overflow: hidden;
+  contain: layout style paint;
+}
+.venue-photo img { width: 100%; max-height: 42vh; object-fit: cover; display: block; }
+.frame-ornament {
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--forest-deep);
+  border: 1px solid var(--glass-border);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+.frame-ornament.small { width: 22px; height: 22px; font-size: 11px; bottom: -11px; }
 
-.hotel-photo {
-  width: min(300px, 78%);
+.hotel-card {
+  position: relative;
+  width: min(300px, 82%);
+  padding: 10px 10px 20px;
+  border-radius: 14px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 12px 26px var(--shadow-deep), 0 0 24px 5px rgba(207,161,94,0.2);
   margin: 10px auto;
 }
-.hotel-photo img {
-  max-height: 24vh;
-}
+.hotel-photo { border-radius: 6px; overflow: hidden; contain: layout style paint; }
+.hotel-photo img { width: 100%; max-height: 24vh; object-fit: cover; display: block; }
+.hotel-card h4 { margin-top: 14px; color: var(--gold-light); font-size: 16px; letter-spacing: 1px; }
+.hotel-card .map-btn { margin-bottom: 4px; }
 
 #location, #hotels {
-  justify-content: flex-start;
-  padding-top: 70px;
-}
-
-#hotels {
-  padding-top: 50px;
-  padding-bottom: 40px;
+  justify-content: center;
 }
 
 .map-btn {
@@ -1123,12 +1149,22 @@ button {
 /* ===================== SHARE MOMENTS ===================== */
 /* El texto se recorre hacia abajo para que no quede montado sobre la
    cara en la foto de fondo (que está enfocada en la parte de arriba). */
-#share .section-tag { margin-top: clamp(50px, 11vh, 110px); }
+#share .section-tag {
+  margin-top: clamp(65px, 13vh, 130px);
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.7);
+}
+#share .section-title,
+#share .section-title .script {
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.7);
+}
 .hashtag {
   font-size: 26px;
-  color: var(--gold-light);
+  color: #ffffff;
   letter-spacing: 2px;
   margin-top: 14px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.7);
 }
 
 .qr-wrap {
@@ -1285,6 +1321,16 @@ button {
 }
 
 /* ===================== CONTACTS ===================== */
+#contacts .section-tag {
+  margin-top: clamp(50px, 11vh, 110px);
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.7);
+}
+#contacts .section-title,
+#contacts .section-title .script {
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.7);
+}
 .contacts-frame {
   background: var(--glass-bg);
   backdrop-filter: blur(6px);
@@ -1292,7 +1338,7 @@ button {
   border: 1px solid var(--glass-border);
   border-radius: 22px;
   padding: 36px 30px;
-  margin-top: 6px;
+  margin-top: 26px;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 16px 34px rgba(0,0,0,0.4), 0 0 42px 8px rgba(244,166,204,0.25);
@@ -1320,7 +1366,7 @@ button {
   color: var(--forest-deep);
   box-shadow: 0 0 20px rgba(246,241,230,0.55), 0 0 40px rgba(185,163,209,0.45);
 }
-.contact-note { margin-top: 26px; color: var(--gold-light); font-size: 17px; }
+.contact-note { margin-top: 26px; color: #ffffff; font-size: 17px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 
 /* ===================== VERSE (PARALLAX FULL BLEED) ===================== */
 /* Antes usaba "fixed" en el fondo: eso obliga al navegador a repintar
@@ -1599,7 +1645,16 @@ footer .brand-logo {
 #verse .script { color: var(--cream); }
 
 /* Enviar Deseos: bajar el título para que no tape la cara de la foto de fondo */
-#wishes .section-tag { margin-top: clamp(70px, 16vh, 160px); }
+#wishes .section-tag {
+  margin-top: clamp(85px, 18vh, 180px);
+  color: #ffffff;
+  text-shadow: 0 0 14px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.7);
+}
+#wishes .section-title,
+#wishes .section-title .script {
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.7);
+}
 
 /* Footer: quitar el espacio extra entre el nombre/fecha y el logo, y arriba/abajo */
 footer { padding: 30px 20px; }
