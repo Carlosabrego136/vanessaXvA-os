@@ -386,7 +386,7 @@ img { max-width: 100%; }
   padding: 34px 30px;
   max-width: 380px;
   width: 100%;
-  box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 80px 16px rgba(244,166,204,0.45);
+  box-shadow: 0 16px 30px rgba(0,0,0,0.45), 0 0 42px 8px rgba(244,166,204,0.35);
   contain: layout style paint;
 }
 .floating-card .section-tag { color: var(--gold); }
@@ -895,7 +895,7 @@ button {
   align-items: center;
   justify-content: center;
   padding: 18px;
-  box-shadow: 0 18px 30px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.45);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.4), 0 0 36px 7px rgba(244,166,204,0.35);
 }
 .carousel-card.active { display: flex; }
 
@@ -983,8 +983,9 @@ button {
   width: min(500px, 100%);
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 25px 55px var(--shadow-deep), 0 0 80px 16px rgba(244,166,204,0.45);
+  box-shadow: 0 16px 34px var(--shadow-deep), 0 0 42px 8px rgba(244,166,204,0.35);
   margin: 18px 0;
+  contain: layout style paint;
 }
 .venue-photo img, .hotel-photo img { width: 100%; max-height: 42vh; object-fit: cover; display: block; }
 
@@ -1045,9 +1046,9 @@ button {
 /* Gallery: se compacta el espacio antes del mosaico (menos padding arriba,
    menos margen bajo el separador dorado) para que las fotos aparezcan más
    arriba y no haya que scrollear tanto para verlas. */
-#gallery { padding-top: 46px; padding-bottom: 46px; }
+#gallery { padding-top: 26px; padding-bottom: 46px; }
 #gallery .ornament-divider { margin: 14px auto 4px; }
-#gallery .gallery-frame { margin-top: 16px; }
+#gallery .gallery-frame { margin-top: 8px; }
 
 /* ===================== GALLERY (mismo acomodo asimétrico 3x3 que la referencia) ===================== */
 .gallery-frame {
@@ -1056,11 +1057,11 @@ button {
   -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
-  padding: 18px;
-  margin-top: 34px;
+  padding: 14px;
+  margin-top: 18px;
   width: 100%;
-  max-width: 720px;
-  box-shadow: 0 25px 55px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.3);
+  max-width: 600px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px 8px rgba(244,166,204,0.28);
   contain: layout style paint;
 }
 /* La galería usaba una cuadrícula cuadrada fija de 3 columnas con
@@ -1071,9 +1072,9 @@ button {
    y bastante más grandes. */
 .gallery-grid {
   columns: 2;
-  column-gap: 10px;
+  column-gap: 8px;
   width: 100%;
-  max-width: 700px;
+  max-width: 580px;
   margin-top: 0;
 }
 .gallery-grid .g-item {
@@ -1097,6 +1098,9 @@ button {
 }
 
 /* ===================== SHARE MOMENTS ===================== */
+/* El texto se recorre hacia abajo para que no quede montado sobre la
+   cara en la foto de fondo (que está enfocada en la parte de arriba). */
+#share .section-tag { margin-top: clamp(50px, 11vh, 110px); }
 .hashtag {
   font-size: 26px;
   color: var(--gold-light);
@@ -1110,11 +1114,12 @@ button {
   padding: 22px;
   border-radius: 18px;
   border: 1px solid var(--glass-border);
-  box-shadow: 0 25px 55px var(--shadow-deep), 0 0 80px 16px rgba(244,166,204,0.45);
+  box-shadow: 0 16px 34px var(--shadow-deep), 0 0 42px 8px rgba(244,166,204,0.35);
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
+  contain: layout style paint;
 }
 .qr-wrap img { width: 200px; height: 200px; display: block; }
 .qr-wrap .qr-caption {
@@ -1166,18 +1171,22 @@ button {
   border-radius: 14px;
   max-width: 420px;
   margin-top: 30px;
-  box-shadow: 0 0 80px 16px rgba(244,166,204,0.4);
+  box-shadow: 0 0 42px 8px rgba(244,166,204,0.35);
   contain: layout style paint;
 }
 .wish-card p:first-child { font-size: 19px; font-style: italic; color: var(--cream); }
 .wish-card .author { margin-top: 10px; color: var(--gold-light); font-size: 14px; letter-spacing: 1px; }
 
 /* ===================== MY STORY ===================== */
+/* Mismo ajuste que en Share Moments: el título se baja para que no
+   quede encima de la cara en la foto de fondo. */
+#story .section-tag { margin-top: clamp(50px, 11vh, 110px); }
 .story-track { position: relative; width: min(700px, 100%); margin-top: 40px; }
 .story-slide { display: none; flex-direction: column; align-items: center; }
 .story-slide.active { display: flex; }
 .story-photos { display: flex; gap: 12px; }
-.story-photos img { width: 260px; height: 320px; object-fit: cover; object-position: center 18%; border-radius: 4px; box-shadow: 0 25px 50px var(--shadow-deep), 0 0 70px 14px rgba(244,166,204,0.4); }
+.story-photos img { width: 260px; height: 320px; object-fit: cover; object-position: center 18%; border-radius: 4px; box-shadow: 0 16px 32px var(--shadow-deep), 0 0 36px 7px rgba(244,166,204,0.35); }
+.story-photos { contain: layout style paint; }
 .story-slide h4 { margin-top: 26px; letter-spacing: 3px; color: var(--gold-light); font-size: 16px; text-transform: uppercase; }
 .story-slide p { color: var(--cream); font-size: 18px; margin-top: 4px; }
 
@@ -1196,7 +1205,7 @@ button {
   margin-top: 6px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 25px 55px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.3);
+  box-shadow: 0 16px 34px rgba(0,0,0,0.4), 0 0 42px 8px rgba(244,166,204,0.25);
   contain: layout style paint;
 }
 .contacts-grid { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
@@ -1224,9 +1233,14 @@ button {
 .contact-note { margin-top: 26px; color: var(--gold-light); font-size: 17px; }
 
 /* ===================== VERSE (PARALLAX FULL BLEED) ===================== */
+/* Antes usaba "fixed" en el fondo: eso obliga al navegador a repintar
+   toda la imagen en cada frame de scroll (muy pesado en móvil, sobre
+   todo aquí abajo donde ya se acumulan varias secciones con blur).
+   La sección ya es .layer y usa el mismo sistema sticky que el resto,
+   así que quitamos el "fixed" y se ve igual pero mucho más ligera. */
 #verse {
   min-height: 70vh;
-  background: url('../assets/fondo/fondo-forest.jpg') center/cover fixed;
+  background: url('../assets/fondo/fondo-forest.jpg') center/cover;
   position: relative;
   justify-content: center;
 }
@@ -1262,8 +1276,9 @@ button {
   width: 90%;
   padding: 30px 26px;
   border-radius: 10px;
-  box-shadow: 0 25px 55px rgba(0,0,0,0.55), 0 0 80px 16px rgba(244,166,204,0.45);
+  box-shadow: 0 16px 34px rgba(0,0,0,0.5), 0 0 42px 8px rgba(244,166,204,0.35);
   margin: 0 auto;
+  contain: layout style paint;
 }
 
 .rsvp-form {
