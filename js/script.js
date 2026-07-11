@@ -252,13 +252,17 @@ document.querySelectorAll('.lang-toggle span').forEach(span => {
 function addSparkleLayer(container, count = 14) {
   const layer = document.createElement('div');
   layer.className = 'sparkle-layer';
+  const palette = ['#e8caa0', '#f0a8cc', '#b98af0', '#9db8f2'];
   for (let i = 0; i < count; i++) {
     const s = document.createElement('span');
     s.className = 'sparkle';
+    const color = palette[Math.floor(Math.random() * palette.length)];
     s.style.left = Math.random() * 100 + '%';
     s.style.top = Math.random() * 100 + '%';
     s.style.animationDelay = (Math.random() * 4) + 's';
     s.style.animationDuration = (3 + Math.random() * 2.5) + 's';
+    s.style.background = color;
+    s.style.boxShadow = `0 0 5px 1.5px ${color}, 0 0 10px 3px ${color}55`;
     layer.appendChild(s);
   }
   container.style.position = container.style.position || 'relative';
@@ -292,3 +296,68 @@ function spawnScrollGlow() {
 }
 
 window.addEventListener('scroll', spawnScrollGlow, { passive: true });
+
+// ===================== HADITA MÁGICA =====================
+// De vez en cuando aparece una hadita que cruza la pantalla de un lado
+// a otro dejando un rastro de destellos, y luego se va. No depende del
+// scroll ni de ninguna sección: aparece flotando sobre toda la página.
+const fairyPalette = ['#e8caa0', '#f0a8cc', '#b98af0', '#9db8f2'];
+
+function spawnFairySpark(x, y) {
+  const spark = document.createElement('div');
+  spark.className = 'fairy-spark';
+  const color = fairyPalette[Math.floor(Math.random() * fairyPalette.length)];
+  spark.style.left = x + 'px';
+  spark.style.top = y + 'px';
+  spark.style.background = `radial-gradient(circle, ${color} 0%, transparent 75%)`;
+  spark.style.boxShadow = `0 0 6px 2px ${color}99`;
+  document.body.appendChild(spark);
+  setTimeout(() => spark.remove(), 1000);
+}
+
+function spawnFairy() {
+  const fairy = document.createElement('div');
+  fairy.className = 'fairy';
+  fairy.textContent = '🧚';
+
+  const fromLeft = Math.random() > 0.5;
+  const startX = fromLeft ? -8 : 108;
+  const endX = fromLeft ? 108 : -8;
+  const midX = (startX + endX) / 2 + (Math.random() * 16 - 8);
+  const startY = 12 + Math.random() * 55;
+  const midY = Math.max(6, startY + (Math.random() * 26 - 13));
+  const endY = 12 + Math.random() * 55;
+
+  fairy.style.setProperty('--startX', startX + 'vw');
+  fairy.style.setProperty('--endX', endX + 'vw');
+  fairy.style.setProperty('--midX', midX + 'vw');
+  fairy.style.setProperty('--startY', startY + 'vh');
+  fairy.style.setProperty('--midY', midY + 'vh');
+  fairy.style.setProperty('--endY', endY + 'vh');
+
+  document.body.appendChild(fairy);
+  requestAnimationFrame(() => fairy.classList.add('flying'));
+
+  const duration = 7000;
+  const trailInterval = setInterval(() => {
+    const rect = fairy.getBoundingClientRect();
+    if (rect.width) {
+      spawnFairySpark(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    }
+  }, 200);
+
+  setTimeout(() => {
+    clearInterval(trailInterval);
+    fairy.remove();
+  }, duration + 150);
+}
+
+function scheduleFairy() {
+  const delay = 14000 + Math.random() * 18000; // entre 14 y 32 segundos
+  setTimeout(() => {
+    spawnFairy();
+    scheduleFairy();
+  }, delay);
+}
+
+scheduleFairy();
