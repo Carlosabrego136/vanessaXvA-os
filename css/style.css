@@ -834,6 +834,11 @@ button {
 .calendar-dropdown {
   position: relative;
   display: inline-block;
+  background: var(--glass-bg-black);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 16px 20px;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.5), 0 0 24px 5px rgba(207,161,94,0.2);
 }
 
 .calendar-menu {
@@ -1137,6 +1142,17 @@ button {
 #location, #hotels {
   justify-content: center;
 }
+
+/* La sección de Alojamiento (Hotel Bay Suites) quedaba con mucho espacio
+   vacío de puro fondo arriba y abajo de la tarjeta, porque el contenido
+   (título + tarjeta) es más chico que el 100vh de la sección. En vez de
+   tocar el min-height/.layer (rompería el sistema de pin/scroll), se
+   agranda la tarjeta y sus separaciones para que ocupe más del espacio
+   disponible y los huecos arriba/abajo se reduzcan. */
+#hotels .hotel-photo img { max-height: 34vh; }
+#hotels .hotel-card { padding-bottom: 26px; }
+#hotels .hotels-grid-single { margin-top: 34px; }
+#hotels .title-plate { padding: 24px 30px 26px; }
 
 .map-btn {
   margin-top: 10px;
@@ -1574,11 +1590,11 @@ footer .brand-logo {
 
 /* --- Cajas del countdown (Días/Hrs/Mins/Segs) --- */
 .countdown-boxes .box.reveal {
-  transform: translateY(60px) scale(0.8) rotate(-6deg);
+  transform: translateY(26px) scale(0.92) rotate(-2deg);
   transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
 }
 .countdown-boxes .box:nth-child(even).reveal {
-  transform: translateY(60px) scale(0.8) rotate(6deg);
+  transform: translateY(26px) scale(0.92) rotate(2deg);
 }
 .countdown-boxes .box.reveal.is-visible {
   transform: translateY(0) scale(1) rotate(0deg);
@@ -1586,8 +1602,8 @@ footer .brand-logo {
 
 /* --- Tarjetas de Padrinos (Honor Court): pop de entrada cada vez que aparecen --- */
 @keyframes cardPopIn {
-  0%   { opacity: 0; transform: translateY(50px) scale(.82) rotate(-4deg); }
-  60%  { opacity: 1; transform: translateY(-6px) scale(1.03) rotate(1deg); }
+  0%   { opacity: 0; transform: translateY(26px) scale(.92) rotate(-2deg); }
+  60%  { opacity: 1; transform: translateY(-3px) scale(1.015) rotate(.5deg); }
   100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
 }
 .carousel-card.active {
@@ -1596,11 +1612,11 @@ footer .brand-logo {
 
 /* --- Tarjetas de Hoteles: entran con profundidad tipo parallax --- */
 .hotels-grid .reveal-left {
-  transform: translateY(40px) translateX(-40px) scale(.9) rotate(-4deg);
+  transform: translateY(18px) translateX(-20px) scale(.95) rotate(-1.5deg);
   transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
 }
 .hotels-grid .reveal-right {
-  transform: translateY(40px) translateX(40px) scale(.9) rotate(4deg);
+  transform: translateY(18px) translateX(20px) scale(.95) rotate(1.5deg);
   transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
   transition-delay: .12s;
 }
@@ -1780,17 +1796,50 @@ footer .brand-logo { margin: 14px auto 0; }
 
 /* ===================== AJUSTES SOLICITADOS 3 (Hero subtítulo / Verse / Galería) ===================== */
 
-/* "Mis XV Años" / "Y así comienza un viaje mágico": más grandes y legibles */
+/* "Mis XV Años" / "Y así comienza un viaje mágico": mucho más grandes,
+   casi a la altura del nombre "Vanessa" (que usa clamp 92-180px), pero
+   sin igualarlo del todo para que el nombre siga siendo el foco principal. */
 .hero-subtitle p:first-child {
-  font-size: clamp(19px, 3.6vw, 27px);
+  font-size: clamp(38px, 9vw, 64px);
   text-shadow: 0 2px 6px rgba(0,0,0,0.85), 0 4px 18px rgba(0,0,0,0.7);
 }
 .hero-subtitle p:last-child {
-  font-size: clamp(20px, 4vw, 27px);
+  font-size: clamp(32px, 7.6vw, 54px);
   text-shadow: 0 2px 6px rgba(0,0,0,0.85), 0 4px 18px rgba(0,0,0,0.7);
+}
+/* Como el subtítulo ahora es mucho más grande, se sube un poco el bloque
+   completo y se ajusta el interlineado/márgenes para que en pantallas
+   chicas no se corte contra el borde inferior del hero (que tiene
+   overflow:hidden). No se toca el tamaño de "Vanessa" ni el scroll. */
+.hero-text { top: 50%; }
+.hero-subtitle { margin-top: 20px; }
+.hero-subtitle p { line-height: 1.15; margin-top: 10px; }
+@media (max-width: 500px) {
+  .hero-text { top: 47%; }
+  .hero-subtitle { margin-top: 16px; }
+  .hero-subtitle::before { margin-bottom: 12px; }
 }
 
 /* Verse: sin la referencia bíblica abajo, el texto principal se agranda */
 #verse .script {
   font-size: clamp(38px, 7.5vw, 64px);
 }
+
+/* ===================== AJUSTES SOLICITADOS 4 (Quitar "saltos" al aparecer) =====================
+   Las animaciones de "reveal" (scale 1.12 + translateY 50px, y translateX
+   70px en las de lado) eran muy bruscas: al llegar el elemento al 18% de
+   visibilidad, saltaba de golpe a su tamaño/posición final y se sentía
+   como un "salto" de la página. Se deja el mismo mecanismo (Intersection
+   Observer, mismos umbrales, mismo scroll) pero con desplazamientos y
+   escala mucho más sutiles, para que la aparición sea suave en vez de
+   un salto. */
+.reveal {
+  transform: scale(1.03) translateY(22px);
+}
+.reveal.is-visible { transform: scale(1) translateY(0); }
+
+.reveal-left { transform: translateX(-32px); }
+.reveal-left.is-visible { transform: translateX(0); }
+
+.reveal-right { transform: translateX(32px); }
+.reveal-right.is-visible { transform: translateX(0); }
