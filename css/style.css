@@ -323,7 +323,8 @@ img { max-width: 100%; }
 .floating-card .itinerary-item { border-bottom-color: rgba(45,106,79,0.2); }
 .floating-card .itinerary-item h4 { color: var(--forest-mid); }
 .floating-card .itinerary-item p { color: var(--ink); }
-.floating-card .itinerary-item .icon { border-color: var(--forest-mid); color: var(--forest-mid); }
+.floating-card .itinerary-item .icon { border-color: #171412; color: #171412; }
+.floating-card .itinerary-item .icon svg { filter: drop-shadow(0 0 3px rgba(207,161,94,0.7)); }
 
 /* tarjeta del itinerario: más pequeña y con profundidad marcada */
 .floating-card.floating-card-compact {
