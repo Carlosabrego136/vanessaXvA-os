@@ -304,29 +304,28 @@ function addSparkleLayer(container, count = 14, boost = false) {
 const isSmallScreen = window.innerWidth < 700;
 const sparkleScale = isSmallScreen ? 0.55 : 1;
 
-document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section, .tag-band').forEach(el => {
-  const isItinerary = el.id === 'itinerary';
+// A partir de la sección Itinerary (inclusive) y todo lo que sigue hacia
+// abajo (Dresscode, Location, Hotels, Registry, Gallery, Share, Wishes,
+// Story, Contacts, Verse, RSVP, Footer) ya NO llevan destellos: era la
+// mitad de la página con más animaciones acumuladas al mismo tiempo y
+// donde más se sentían los tirones. Se calcula por posición real en el
+// documento, así que cubre cualquier sección que esté después de Itinerary
+// aunque cambie el orden más adelante.
+const itinerarySection = document.getElementById('itinerary');
+function isFromItineraryDown(el) {
+  if (!itinerarySection) return false;
+  return el === itinerarySection ||
+    !!(itinerarySection.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
+}
+
+// Destellos suaves (hero, countdown, franja dorada, fotos divisoras y
+// secciones con foto+tarjeta) — solo en la mitad de ARRIBA de la página.
+// Cantidades bajadas otra vez para que se sienta más leve en general.
+document.querySelectorAll('#hero, #countdown, .photo-divider, .photo-overlay-section, .tag-band').forEach(el => {
+  if (isFromItineraryDown(el)) return;
   const isTagBand = el.classList.contains('tag-band');
-  const base = isItinerary ? 22 : (isTagBand ? 16 : 10);
-  addSparkleLayer(el, Math.max(4, Math.round(base * sparkleScale)));
-});
-
-// Secciones azules (section-dark / section-mid): se bajó bastante la
-// cantidad de destellos (de 14 a 7) porque eran la parte con más carga
-// acumulada hacia el final del scroll. Se deja el mismo brillo intenso
-// (boost) para que sigan viéndose bonitos, solo que con menos partículas.
-document.querySelectorAll('.section-dark, .section-mid').forEach(el => {
-  addSparkleLayer(el, Math.max(3, Math.round(7 * sparkleScale)), true);
-});
-
-// El footer usaba el mismo destello "boost" (el más pesado: 3 capas de
-// blur grande, hasta 20 elementos) que las demás secciones oscuras, y era
-// el tramo con más carga acumulada de animaciones justo al llegar al final
-// de la página, lo cual se sentía como tirones/saltos en el scroll. Ahora
-// el footer tiene su propia capa, mucho más ligera y sutil: pocos destellos
-// pequeños, sin el glow boosteado.
-document.querySelectorAll('footer').forEach(el => {
-  addSparkleLayer(el, Math.max(3, Math.round(6 * sparkleScale)), false);
+  const base = isTagBand ? 8 : 6;
+  addSparkleLayer(el, Math.max(3, Math.round(base * sparkleScale)));
 });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
@@ -394,12 +393,15 @@ function spawnFairy() {
   requestAnimationFrame(() => fairy.classList.add('flying'));
 
   const duration = 7000;
+  // Se bajó la frecuencia del rastro de chispas (antes 200/380ms) para que
+  // suelte menos destellos durante el vuelo, sin quitar la hadita ni el
+  // rastro en sí — solo menos partículas por segundo.
   const trailInterval = setInterval(() => {
     const rect = fairy.getBoundingClientRect();
     if (rect.width) {
       spawnFairySpark(rect.left + rect.width / 2, rect.top + rect.height / 2);
     }
-  }, isSmallScreen ? 380 : 200);
+  }, isSmallScreen ? 520 : 320);
 
   setTimeout(() => {
     clearInterval(trailInterval);
