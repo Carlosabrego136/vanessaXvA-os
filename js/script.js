@@ -537,25 +537,33 @@ function isFromItineraryDown(el) {
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
 // Cada vez que el usuario hace scroll (con el dedo o el mouse), aparece
 // un destello suave y breve, como si dejara un rastro de luz.
-let lastGlow = 0;
-const glowInterval = isSmallScreen ? 420 : 220;
-function spawnScrollGlow() {
-  const now = Date.now();
-  if (now - lastGlow < glowInterval) return; // limita la frecuencia para que sea sutil
-  lastGlow = now;
-
-  const glow = document.createElement('div');
-  glow.className = 'scroll-glow';
-  const x = window.innerWidth * (0.15 + Math.random() * 0.7);
-  const y = window.innerHeight * (0.2 + Math.random() * 0.6);
-  glow.style.left = x + 'px';
-  glow.style.top = y + 'px';
-  document.body.appendChild(glow);
-
-  setTimeout(() => glow.remove(), 1200);
-}
-
-window.addEventListener('scroll', spawnScrollGlow, { passive: true });
+// DESACTIVADO a pedido: este efecto crea un elemento nuevo cada vez que
+// se scrollea (varias veces por segundo) y cada uno anima box-shadow con
+// blur, que es de lo más pesado para el navegador/GPU. Justo por eso era
+// la causa más probable de que la página se sintiera lenta/con saltos al
+// moverse, sobre todo en la mitad de abajo donde ya hay más cosas
+// renderizadas encima. Se comenta en vez de borrar por si se quiere
+// reactivar más adelante. El sistema de capas (.layer/sticky) no se
+// toca — sigue funcionando igual.
+// let lastGlow = 0;
+// const glowInterval = isSmallScreen ? 420 : 220;
+// function spawnScrollGlow() {
+//   const now = Date.now();
+//   if (now - lastGlow < glowInterval) return; // limita la frecuencia para que sea sutil
+//   lastGlow = now;
+//
+//   const glow = document.createElement('div');
+//   glow.className = 'scroll-glow';
+//   const x = window.innerWidth * (0.15 + Math.random() * 0.7);
+//   const y = window.innerHeight * (0.2 + Math.random() * 0.6);
+//   glow.style.left = x + 'px';
+//   glow.style.top = y + 'px';
+//   document.body.appendChild(glow);
+//
+//   setTimeout(() => glow.remove(), 1200);
+// }
+//
+// window.addEventListener('scroll', spawnScrollGlow, { passive: true });
 
 // ===================== HADITA MÁGICA =====================
 // De vez en cuando aparece una hadita que cruza la pantalla de un lado

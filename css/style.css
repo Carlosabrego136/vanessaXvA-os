@@ -1241,35 +1241,48 @@ button {
 .gallery-title-row .section-title { margin: 0; }
 #gallery .section-title .script { display: inline; }
 
-/* ===================== GALLERY (collage sin bordes, fotos pegadas) =====================
-   Antes era un mosaico tipo masonry con columnas desiguales y huecos.
-   Ahora es un collage real: cuadrícula fija de 3 columnas, sin gap, sin
-   bordes redondeados ni marco de vidrio, las fotos quedan pegadas unas
-   con otras (cada una recortada a cuadro con object-fit:cover). */
+/* ===================== GALLERY (masonry de 2 columnas, estilo collage) =====================
+   Collage tipo Pinterest: 2 columnas, cada foto conserva su proporción
+   real (nada se recorta), pegadas entre sí con un gap chico, de lado a
+   lado de la pantalla. Se usa column-count en vez de grid porque así
+   cada foto ocupa su alto natural (unas más altas, otras más bajas) en
+   vez de cuadros parejos y forzados.
+   El aspect-ratio de cada foto (nth-child) es el de la imagen real, para
+   que el espacio quede reservado ANTES de que la imagen cargue (son
+   loading="lazy") y no haya saltos de layout mientras se scrollea. */
 .gallery-frame {
   width: 100%;
-  max-width: 520px;
+  max-width: 640px;
   margin: 18px auto 0;
 }
 .gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
+  display: block;
+  column-count: 2;
+  column-gap: 6px;
   width: 100%;
 }
 .gallery-grid .g-item {
   overflow: hidden;
   border-radius: 0;
   position: relative;
-  aspect-ratio: 1 / 1;
-  margin: 0;
+  break-inside: avoid;
+  margin: 0 0 6px;
   cursor: pointer;
 }
-.gallery-grid img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+.gallery-grid img { width: 100%; height: auto; object-fit: cover; display: block; transition: transform .6s ease; }
 .gallery-grid .g-item:hover img { transform: scale(1.06); }
 
+/* Proporciones reales de las 6 fotos de Vanessa (ancho x alto de cada
+   archivo), para reservar el espacio exacto sin recortar nada. */
+.gallery-grid .g-item:nth-child(1) { aspect-ratio: 865 / 1300; }
+.gallery-grid .g-item:nth-child(2) { aspect-ratio: 865 / 1300; }
+.gallery-grid .g-item:nth-child(3) { aspect-ratio: 1300 / 867; }
+.gallery-grid .g-item:nth-child(4) { aspect-ratio: 1300 / 867; }
+.gallery-grid .g-item:nth-child(5) { aspect-ratio: 664 / 1300; }
+.gallery-grid .g-item:nth-child(6) { aspect-ratio: 618 / 1300; }
+
 @media (max-width: 800px) {
-  .gallery-frame { max-width: 420px; }
+  .gallery-frame { max-width: 480px; }
 }
 
 /* ===================== SHARE MOMENTS ===================== */
@@ -1799,27 +1812,11 @@ footer .brand-logo {
 footer { padding: 30px 20px; }
 footer .brand-logo { margin: 14px auto 0; }
 
-/* Galería: centrada verticalmente en su sección, collage de grid fijo
-   sin gap (ver reglas principales más arriba). El balanceo por JS del
-   masonry viejo ya no existe (el collage no lo necesita). */
-#gallery.section { justify-content: center; padding-left: 10px; padding-right: 10px; }
-#gallery .gallery-frame {
-  margin-top: 6px;
-  max-width: 620px; /* antes 340px: mucho más grande, casi de lado a lado */
-  width: 100%;
-}
-/* Antes cada foto se recortaba a cuadro perfecto (aspect-ratio 1/1 +
-   object-fit:cover) y se cortaban cabezas/pies. Ahora se usa una
-   proporción de retrato (3/4, más cercana a las fotos reales) con
-   object-fit:contain para que la foto se vea COMPLETA dentro de su
-   celda, sin recortar arriba ni abajo. El aspect-ratio sigue reservando
-   el espacio desde el inicio (las fotos son loading="lazy"), así que no
-   hay salto en el layout cuando terminan de cargar. */
-.gallery-grid .g-item {
-  aspect-ratio: 3 / 4;
-  background: rgba(6, 18, 16, 0.55);
-}
-.gallery-grid img { object-fit: contain; }
+/* Galería: centrada verticalmente en su sección, de lado a lado (poco
+   padding horizontal). El masonry de 2 columnas está definido arriba,
+   junto a las reglas principales de .gallery-grid. */
+#gallery.section { justify-content: center; padding-left: 8px; padding-right: 8px; }
+#gallery .gallery-frame { margin-top: 6px; }
 
 /* Fondos que son fotos: quitar por completo el oscurecido/velo, que se vean
    al 100% sin nada de opacidad encima */
