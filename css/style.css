@@ -206,11 +206,7 @@ img { max-width: 100%; }
   content: '';
   position: absolute; inset: 0;
   z-index: 1;
-  background:
-    radial-gradient(ellipse at 25% 30%, rgba(207,161,94,0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 78% 65%, rgba(185,163,209,0.16) 0%, transparent 55%),
-    linear-gradient(180deg, rgba(14,42,31,0.32) 0%, rgba(14,42,31,0.42) 100%);
-  animation: dividerGlowPulse 6s ease-in-out infinite;
+  background: none;
 }
 @keyframes dividerGlowPulse {
   0%, 100% { opacity: 0.75; }
@@ -263,9 +259,7 @@ img { max-width: 100%; }
 /* Variante más clara para la foto del bosque (fondo-forest), que ahora es HD
    y no debe taparse con tanta oscuridad. Solo se usa donde aparece esa foto. */
 .section-photo-tint .bg-photo.tint-light::after {
-  background:
-    radial-gradient(ellipse 55% 40% at 50% 15%, rgba(207,161,94,0.12) 0%, transparent 60%),
-    linear-gradient(180deg, rgba(6,18,16,0.5) 0%, rgba(7,20,18,0.32) 35%, rgba(6,18,16,0.58) 100%);
+  background: none;
 }
 
 /* Texto dorado con más brillo/contraste sobre las fotos de fondo */
@@ -364,7 +358,7 @@ img { max-width: 100%; }
 /* Fondo de bosque encantado con lámparas: nítido, sin oscurecer de más */
 .itinerary-bg .bg-photo { background-position: center 30%; }
 .itinerary-bg .bg-photo::after {
-  background: linear-gradient(180deg, rgba(6,20,20,0.16) 0%, rgba(6,20,20,0.06) 35%, rgba(6,20,20,0.4) 100%);
+  background: none;
 }
 .floating-card {
   position: relative;
@@ -1190,7 +1184,7 @@ button {
   position: relative;
   justify-content: center;
 }
-#verse::before { content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,28,30,0.2), rgba(6,20,20,0.4)); }
+#verse::before { content:''; position:absolute; inset:0; background: none; }
 #verse .content { position: relative; z-index: 2; }
 #verse .script { font-size: clamp(30px, 5vw, 48px); }
 #verse .ref { margin-top: 20px; letter-spacing: 3px; color: var(--gold); font-size: 14px; text-transform: uppercase; }
