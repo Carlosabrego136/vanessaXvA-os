@@ -1513,6 +1513,7 @@ footer .brand-logo {
 #itinerary.photo-overlay-section {
   align-items: flex-start;
   padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 /* Verse (Muchas aguas no pueden apagar el amor): menos espacio arriba y abajo */
@@ -1521,3 +1522,57 @@ footer .brand-logo {
   padding-top: 30px;
   padding-bottom: 30px;
 }
+
+/* ===================== AJUSTES SOLICITADOS 2 (Itinerary abajo / Enviar Deseos / Muchas aguas blanco / Footer / Galería / Opacidad fondos) ===================== */
+
+/* Itinerary: un poco menos de espacio abajo también */
+#itinerary.photo-overlay-section { padding-bottom: 40px; }
+
+/* "Muchas aguas no pueden apagar el amor" en blanco */
+#verse .script { color: var(--cream); }
+
+/* Enviar Deseos: bajar el título para que no tape la cara de la foto de fondo */
+#wishes .section-tag { margin-top: clamp(70px, 16vh, 160px); }
+
+/* Footer: quitar el espacio extra entre el nombre/fecha y el logo, y arriba/abajo */
+footer { padding: 30px 20px; }
+footer .brand-logo { margin: 14px auto 0; }
+
+/* Galería: la hace más chica y la sube más arriba dentro de la sección.
+   Los huecos vacíos del mosaico se resuelven con un pequeño script (más abajo
+   en script.js) que reparte las fotos en 2 columnas balanceadas por altura real;
+   estas reglas de aquí son el respaldo por si el script no llegara a correr. */
+#gallery.section { justify-content: flex-start; padding-top: 30px; }
+#gallery .gallery-frame { margin-top: 6px; max-width: 300px; }
+.gallery-grid {
+  max-width: 280px;
+  column-gap: 5px;
+}
+.gallery-grid .g-item { margin-bottom: 5px; }
+
+/* Cuando el script termina de balancear las columnas por altura real,
+   agrega esta clase: se pasa de "columns" (que deja huecos) a un flex real
+   de 2 columnas prearmadas, sin espacios vacíos. */
+.gallery-grid.js-balanced {
+  display: flex;
+  gap: 5px;
+}
+.gallery-grid.js-balanced .gallery-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.gallery-grid.js-balanced .g-item { margin-bottom: 0; }
+
+/* Fondos que son fotos: quitar por completo el oscurecido/velo, que se vean
+   al 100% sin nada de opacidad encima */
+.photo-overlay-section .bg-photo::after,
+.section-photo-tint .bg-photo::after,
+.hero-bg-wrap::after,
+#countdown .bg-photo::after,
+#rsvp .split-photo::after {
+  background: none;
+}
+.photo-divider.photo-divider-compact img { opacity: 1; }
