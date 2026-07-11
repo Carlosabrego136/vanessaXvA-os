@@ -326,8 +326,8 @@ img { max-width: 100%; }
 }
 .split-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--glass-border);
   color: var(--cream);
   display: flex;
@@ -336,6 +336,7 @@ img { max-width: 100%; }
   justify-content: center;
   text-align: center;
   padding: 60px 30px;
+  contain: layout style paint;
 }
 .split-card .section-tag { color: var(--gold); }
 .split-card h2 { color: var(--cream); }
@@ -384,6 +385,7 @@ img { max-width: 100%; }
   max-width: 380px;
   width: 100%;
   box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 80px 16px rgba(244,166,204,0.45);
+  contain: layout style paint;
 }
 .floating-card .section-tag { color: var(--gold); }
 .floating-card h2 { color: var(--cream); }
@@ -392,6 +394,16 @@ img { max-width: 100%; }
 .floating-card .itinerary-item p { color: var(--cream); }
 .floating-card .itinerary-item .icon { border-color: var(--gold); color: var(--gold-light); }
 .floating-card .itinerary-item .icon svg { filter: drop-shadow(0 0 3px rgba(207,161,94,0.7)); }
+
+/* Registry está después de Alojamiento en el scroll; se le baja un poco
+   el desenfoque (igual que Gallery/Wishes/Contacts/RSVP) para que esa
+   mitad de la página suba más fluida. No afecta a Blessing/Padrinos/
+   Itinerary, que comparten la misma clase .floating-card pero están
+   arriba y se quedan con el blur original. */
+#registry .floating-card {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
 
 /* tarjeta del itinerario: más pequeña y con profundidad marcada */
 .floating-card.floating-card-compact {
@@ -1025,8 +1037,8 @@ button {
 /* ===================== GALLERY (mismo acomodo asimétrico 3x3 que la referencia) ===================== */
 .gallery-frame {
   background: var(--glass-bg);
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
   padding: 18px;
@@ -1034,6 +1046,7 @@ button {
   width: 100%;
   max-width: 720px;
   box-shadow: 0 25px 55px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.3);
+  contain: layout style paint;
 }
 .gallery-grid {
   display: grid;
@@ -1125,8 +1138,8 @@ button {
 
 .wish-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   color: var(--cream);
   border: 1px solid var(--glass-border);
   padding: 24px 30px;
@@ -1134,6 +1147,7 @@ button {
   max-width: 420px;
   margin-top: 30px;
   box-shadow: 0 0 80px 16px rgba(244,166,204,0.4);
+  contain: layout style paint;
 }
 .wish-card p:first-child { font-size: 19px; font-style: italic; color: var(--cream); }
 .wish-card .author { margin-top: 10px; color: var(--gold-light); font-size: 14px; letter-spacing: 1px; }
@@ -1154,8 +1168,8 @@ button {
 /* ===================== CONTACTS ===================== */
 .contacts-frame {
   background: var(--glass-bg);
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--glass-border);
   border-radius: 22px;
   padding: 36px 30px;
@@ -1163,6 +1177,7 @@ button {
   width: 100%;
   max-width: 420px;
   box-shadow: 0 25px 55px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.3);
+  contain: layout style paint;
 }
 .contacts-grid { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
 .contact-btn {
