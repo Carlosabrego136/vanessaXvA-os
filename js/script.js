@@ -269,10 +269,11 @@ function addSparkleLayer(container, count = 14) {
   container.appendChild(layer);
 }
 
-document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section, .tag-band, .section-dark, .section-mid').forEach(el => {
+document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section, .tag-band, .section-dark, .section-mid, footer').forEach(el => {
   const isItinerary = el.id === 'itinerary';
   const isTagBand = el.classList.contains('tag-band');
-  addSparkleLayer(el, isItinerary ? 22 : (isTagBand ? 16 : 10));
+  const isFooter = el.tagName === 'FOOTER';
+  addSparkleLayer(el, isItinerary ? 22 : (isTagBand ? 16 : (isFooter ? 18 : 10)));
 });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
