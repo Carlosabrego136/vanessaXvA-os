@@ -354,7 +354,7 @@ function spawnFairy() {
 }
 
 function scheduleFairy() {
-  const delay = 14000 + Math.random() * 18000; // entre 14 y 32 segundos
+  const delay = 6000 + Math.random() * 8000; // entre 6 y 14 segundos
   setTimeout(() => {
     spawnFairy();
     scheduleFairy();

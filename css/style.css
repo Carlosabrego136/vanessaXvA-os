@@ -115,7 +115,7 @@ img { max-width: 100%; }
   position: fixed;
   left: 0;
   top: 0;
-  font-size: 24px;
+  font-size: 42px;
   z-index: 9999;
   pointer-events: none;
   opacity: 0;
@@ -184,10 +184,6 @@ img { max-width: 100%; }
   .photo-divider.photo-divider-compact { height: 48vh; }
 }
 /* un poco transparente + un toque mágico, para que no se vea tan simple */
-.photo-divider.photo-divider-compact {
-  background-color: rgba(14, 42, 31, 0.62);
-  background-blend-mode: normal;
-}
 .photo-divider.photo-divider-compact img {
   opacity: 0.4;
 }
@@ -196,9 +192,9 @@ img { max-width: 100%; }
   position: absolute; inset: 0;
   z-index: 1;
   background:
-    radial-gradient(ellipse at 25% 30%, rgba(207,161,94,0.28) 0%, transparent 55%),
-    radial-gradient(ellipse at 78% 65%, rgba(185,163,209,0.24) 0%, transparent 55%),
-    linear-gradient(180deg, rgba(14,42,31,0.15) 0%, rgba(14,42,31,0.3) 100%);
+    radial-gradient(ellipse at 25% 30%, rgba(207,161,94,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse at 78% 65%, rgba(185,163,209,0.2) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(14,42,31,0.6) 0%, rgba(14,42,31,0.72) 100%);
   animation: dividerGlowPulse 6s ease-in-out infinite;
 }
 @keyframes dividerGlowPulse {
@@ -560,10 +556,11 @@ button {
 
 .hero-text {
   position: absolute;
-  left: 50%;
-  top: 66%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  right: 0;
+  top: 58%;
   width: 100%;
+  text-align: center;
   z-index: 2;
   margin-top: 0;
 }
