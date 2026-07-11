@@ -741,8 +741,8 @@ button {
 #countdown {
   position: relative;
   overflow: hidden;
-  min-height: 90vh;
-  min-height: 90dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   justify-content: center;
 }
 #countdown .bg-photo {
@@ -1465,8 +1465,10 @@ button {
 /* Antes usaba "fixed" en el fondo: eso obliga al navegador a repintar
    toda la imagen en cada frame de scroll (muy pesado en móvil, sobre
    todo aquí abajo donde ya se acumulan varias secciones con blur).
-   La sección ya es .layer y usa el mismo sistema sticky que el resto,
-   así que quitamos el "fixed" y se ve igual pero mucho más ligera. */
+   Ya no es .layer/sticky (era mucho más baja que 100vh y se pineaba
+   por una fracción de segundo, causando un brinco al taparla la
+   siguiente capa). Ahora fluye normal en el scroll, como conector
+   entre secciones grandes, y se ve igual pero sin el salto. */
 #verse {
   min-height: 40vh;
   padding-top: 50px;
