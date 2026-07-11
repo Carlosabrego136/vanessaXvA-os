@@ -1115,6 +1115,16 @@ button {
 /* Tarjeta negra de la ceremonia (iglesia): mismo formato que las de
    hospedaje, pero aún más oscura/opaca para que resalte como "tarjeta
    negra" pedida, sin confundirse con la foto de fondo. */
+/* Esta tarjeta es más chica que las de Location/Hotels, así que al
+   centrarla verticalmente en toda la sección (comportamiento normal de
+   .section) dejaba mucho espacio vacío arriba. Se sube el contenido
+   para reducir ese espacio, sin tocar el alto de la sección ni el
+   scroll/sticky. */
+#church {
+  justify-content: flex-start;
+  padding-top: 130px;
+}
+
 .church-card {
   background: rgba(0,0,0,0.9);
   border-color: var(--glass-border);

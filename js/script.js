@@ -300,8 +300,23 @@ updateCountdown();
     slidesTrack.style.transform = `translateX(-${index * 100}%)`;
   }
 
-  prevBtn.addEventListener('click', (e) => { e.stopPropagation(); show(index - 1); });
-  nextBtn.addEventListener('click', (e) => { e.stopPropagation(); show(index + 1); });
+  // Autoplay: las fotos avanzan solas cada 3.2s. Si el usuario usa las
+  // flechas o desliza con el dedo, se reinicia el temporizador para que
+  // no compita con lo que el usuario acaba de hacer.
+  let autoplayTimer = null;
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => show(index + 1), 3200);
+  }
+  function stopAutoplay() {
+    if (autoplayTimer) clearInterval(autoplayTimer);
+  }
+  function restartAutoplay() {
+    startAutoplay();
+  }
+
+  prevBtn.addEventListener('click', (e) => { e.stopPropagation(); show(index - 1); restartAutoplay(); });
+  nextBtn.addEventListener('click', (e) => { e.stopPropagation(); show(index + 1); restartAutoplay(); });
 
   // Swipe izquierda/derecha en móvil directamente sobre las fotos
   let carouselTouchStartX = 0;
@@ -314,8 +329,11 @@ updateCountdown();
     if (Math.abs(dx) > 40) {
       if (dx < 0) show(index + 1);
       else show(index - 1);
+      restartAutoplay();
     }
   }, { passive: true });
+
+  startAutoplay();
 
   // ---- Lightbox: click en la foto para verla completa, con flechas ----
   const lightbox = document.getElementById('babyLightbox');
@@ -335,12 +353,14 @@ updateCountdown();
   }
 
   function openLb(i) {
+    stopAutoplay();
     showLb(i);
     lightbox.classList.add('open');
   }
 
   function closeLb() {
     lightbox.classList.remove('open');
+    startAutoplay();
   }
 
   slides.forEach((img, i) => {
@@ -543,14 +563,15 @@ function isFromItineraryDown(el) {
 }
 
 // Destellos suaves (hero, countdown, franja dorada, fotos divisoras y
-// secciones con foto+tarjeta) — solo en la mitad de ARRIBA de la página.
-// Cantidades bajadas otra vez para que se sienta más leve en general.
-document.querySelectorAll('#hero, #countdown, .photo-divider, .photo-overlay-section, .tag-band').forEach(el => {
-  if (isFromItineraryDown(el)) return;
-  const isTagBand = el.classList.contains('tag-band');
-  const base = isTagBand ? 8 : 6;
-  addSparkleLayer(el, Math.max(3, Math.round(base * sparkleScale)));
-});
+// secciones con foto+tarjeta) — DESACTIVADOS a pedido (se deja solo la
+// hadita y el brillo que sigue al scroll, más abajo). Se comenta en vez
+// de borrar la función addSparkleLayer por si se quiere reactivar luego.
+// document.querySelectorAll('#hero, #countdown, .photo-divider, .photo-overlay-section, .tag-band').forEach(el => {
+//   if (isFromItineraryDown(el)) return;
+//   const isTagBand = el.classList.contains('tag-band');
+//   const base = isTagBand ? 8 : 6;
+//   addSparkleLayer(el, Math.max(3, Math.round(base * sparkleScale)));
+// });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
 // Cada vez que el usuario hace scroll (con el dedo o el mouse), aparece
