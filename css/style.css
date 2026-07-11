@@ -835,6 +835,16 @@ button {
   margin-top: 30px;
   font-size: 60px;
 }
+.dress-icons .icon-glow {
+  display: inline-flex;
+  color: var(--cream);
+  filter: drop-shadow(0 0 8px rgba(232,202,160,0.85)) drop-shadow(0 0 18px rgba(185,163,209,0.55));
+  animation: iconGlowPulse 3.2s ease-in-out infinite;
+}
+@keyframes iconGlowPulse {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50%      { opacity: 1; transform: scale(1.08); }
+}
 
 .palette {
   display: flex;
@@ -853,9 +863,22 @@ button {
 }
 .venue-photo img, .hotel-photo img { width: 100%; max-height: 42vh; object-fit: cover; display: block; }
 
+.hotel-photo {
+  width: min(300px, 78%);
+  margin: 10px auto;
+}
+.hotel-photo img {
+  max-height: 24vh;
+}
+
 #location, #hotels {
   justify-content: flex-start;
   padding-top: 70px;
+}
+
+#hotels {
+  padding-top: 50px;
+  padding-bottom: 40px;
 }
 
 .map-btn {
@@ -871,10 +894,10 @@ button {
 
 .hotels-grid {
   display: flex;
-  gap: 40px;
+  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 /* ===================== GIFT REGISTRY ===================== */
@@ -1005,12 +1028,24 @@ button {
 .contacts-grid { display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
 .contact-btn {
   display: flex; align-items: center; gap: 10px;
-  background: #25D366;
-  color: #08341f;
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid var(--cream);
+  color: var(--cream);
   padding: 14px 30px;
   border-radius: 30px;
   font-size: 15px;
   letter-spacing: 1px;
+  box-shadow: 0 0 14px rgba(246,241,230,0.3), 0 0 26px rgba(185,163,209,0.3);
+  transition: all .35s ease;
+}
+.contact-btn svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(246,241,230,0.7));
+}
+.contact-btn:hover {
+  background: var(--cream);
+  color: var(--forest-deep);
+  box-shadow: 0 0 20px rgba(246,241,230,0.55), 0 0 40px rgba(185,163,209,0.45);
 }
 .contact-note { margin-top: 26px; color: var(--gold-light); font-size: 17px; }
 
