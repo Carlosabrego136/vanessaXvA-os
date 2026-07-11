@@ -1003,16 +1003,17 @@ button {
 }
 
 .wish-card {
-  background: rgba(207,161,94,0.08);
-  border: 1px solid rgba(207,161,94,0.3);
+  background: #ffffff;
+  color: var(--ink);
+  border: 1.5px solid rgba(20,20,20,0.85);
   padding: 24px 30px;
   border-radius: 6px;
   max-width: 420px;
   margin-top: 30px;
   box-shadow: 0 0 80px 16px rgba(244,166,204,0.4);
 }
-.wish-card p:first-child { font-size: 19px; font-style: italic; }
-.wish-card .author { margin-top: 10px; color: var(--gold-light); font-size: 14px; letter-spacing: 1px; }
+.wish-card p:first-child { font-size: 19px; font-style: italic; color: var(--ink); }
+.wish-card .author { margin-top: 10px; color: var(--forest-mid); font-size: 14px; letter-spacing: 1px; }
 
 /* ===================== MY STORY ===================== */
 .story-track { position: relative; width: min(700px, 100%); margin-top: 40px; }
