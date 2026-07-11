@@ -262,6 +262,84 @@ updateCountdown();
   nextBtn.addEventListener('click', () => show(index + 1));
 })();
 
+// ===================== BABY PHOTO CAROUSEL (Love Story) =====================
+(function () {
+  const carousel = document.getElementById('babyCarousel');
+  if (!carousel) return;
+  const slides = Array.from(carousel.querySelectorAll('.baby-slide'));
+  const prevBtn = document.getElementById('babyPrev');
+  const nextBtn = document.getElementById('babyNext');
+  let index = 0;
+
+  function show(i) {
+    slides.forEach(s => s.classList.remove('active'));
+    index = (i + slides.length) % slides.length;
+    slides[index].classList.add('active');
+  }
+
+  prevBtn.addEventListener('click', (e) => { e.stopPropagation(); show(index - 1); });
+  nextBtn.addEventListener('click', (e) => { e.stopPropagation(); show(index + 1); });
+
+  // ---- Lightbox: click en la foto para verla completa, con flechas ----
+  const lightbox = document.getElementById('babyLightbox');
+  const lightboxImg = document.getElementById('babyLightboxImg');
+  const counter = document.getElementById('babyLightboxCounter');
+  const closeBtn = document.getElementById('babyLightboxClose');
+  const lbPrevBtn = document.getElementById('babyLightboxPrev');
+  const lbNextBtn = document.getElementById('babyLightboxNext');
+  let current = 0;
+
+  function showLb(i) {
+    current = (i + slides.length) % slides.length;
+    lightboxImg.src = slides[current].src;
+    lightboxImg.alt = slides[current].alt || '';
+    counter.textContent = (current + 1) + ' / ' + slides.length;
+    show(current);
+  }
+
+  function openLb(i) {
+    showLb(i);
+    lightbox.classList.add('open');
+  }
+
+  function closeLb() {
+    lightbox.classList.remove('open');
+  }
+
+  slides.forEach((img, i) => {
+    img.addEventListener('click', () => openLb(i));
+  });
+
+  closeBtn.addEventListener('click', closeLb);
+  lbPrevBtn.addEventListener('click', () => showLb(current - 1));
+  lbNextBtn.addEventListener('click', () => showLb(current + 1));
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLb();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') showLb(current - 1);
+    if (e.key === 'ArrowRight') showLb(current + 1);
+  });
+
+  // Swipe izquierda/derecha en móvil dentro del visor
+  let touchStartX = 0;
+  const stage = lightbox.querySelector('.lightbox-stage');
+  stage.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  stage.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) showLb(current + 1);
+      else showLb(current - 1);
+    }
+  }, { passive: true });
+})();
+
 // ===================== GALERÍA: 2 COLUMNAS BALANCEADAS (sin huecos vacíos) =====================
 // El "columns:2" de CSS (masonry) a veces deja espacios en blanco cuando
 // reparte las fotos entre columnas. Aquí las repartimos nosotros mismos,

@@ -296,13 +296,22 @@
 
   <div class="story-track">
     <div class="story-slide active">
-      <div class="story-photos">
-        <img src="assets/story/story-01.jpg" loading="lazy" decoding="async" alt="Story 1">
-        <img src="assets/gallery/gallery-05.jpg" loading="lazy" decoding="async" alt="Story 1b">
+      <div class="baby-carousel" id="babyCarousel">
+        <div class="carousel-nav prev" id="babyPrev">&#10094;</div>
+        <div class="baby-carousel-track">
+          <img src="assets/story/baby/baby-01.jpg" loading="lazy" decoding="async" alt="Baby photo 1" class="baby-slide active" data-index="0">
+          <img src="assets/story/baby/baby-02.jpg" loading="lazy" decoding="async" alt="Baby photo 2" class="baby-slide" data-index="1">
+          <img src="assets/story/baby/baby-03.jpg" loading="lazy" decoding="async" alt="Baby photo 3" class="baby-slide" data-index="2">
+          <img src="assets/story/baby/baby-04.jpg" loading="lazy" decoding="async" alt="Baby photo 4" class="baby-slide" data-index="3">
+          <img src="assets/story/baby/baby-05.jpg" loading="lazy" decoding="async" alt="Baby photo 5" class="baby-slide" data-index="4">
+          <img src="assets/story/baby/baby-06.jpg" loading="lazy" decoding="async" alt="Baby photo 6" class="baby-slide" data-index="5">
+        </div>
+        <div class="carousel-nav next" id="babyNext">&#10095;</div>
       </div>
       <h4>The Journey Begins</h4>
       <p>A childhood full of dreams</p>
     </div>
+
     <div class="story-slide">
       <div class="story-photos">
         <img src="assets/story/story-02.jpg" loading="lazy" decoding="async" alt="Story 2">
@@ -364,6 +373,17 @@
   <p>XV AÑOS · SEPTEMBER 27, 2026</p>
   <img class="brand-logo" src="assets/branding/marca.png" loading="lazy" decoding="async" alt="Invitaciones4you">
 </footer>
+
+<!-- ============ BABY STORY LIGHTBOX (visor fotos de bebé) ============ -->
+<div id="babyLightbox" class="lightbox">
+  <button class="lightbox-close" id="babyLightboxClose" aria-label="Close">&#10005;</button>
+  <div class="lightbox-nav lightbox-prev" id="babyLightboxPrev">&#10094;</div>
+  <div class="lightbox-stage">
+    <img id="babyLightboxImg" src="" alt="">
+  </div>
+  <div class="lightbox-nav lightbox-next" id="babyLightboxNext">&#10095;</div>
+  <p class="lightbox-counter" id="babyLightboxCounter"></p>
+</div>
 
 <!-- ============ GALLERY LIGHTBOX (visor de fotos) ============ -->
 <div id="galleryLightbox" class="lightbox">
