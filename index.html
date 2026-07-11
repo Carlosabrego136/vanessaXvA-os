@@ -6,6 +6,8 @@
 <title>Vanessa | XV Años</title>
 <meta name="description" content="Vanessa's Sweet Fifteen — Enchanted Forest">
 <link rel="stylesheet" href="css/style.css">
+<link rel="preload" as="image" href="assets/branding/xv-emblem.jpg">
+<link rel="preload" as="image" href="assets/hero/hero-main.jpg">
 </head>
 <body>
 
@@ -29,7 +31,7 @@
 
 <!-- MUSIC BUTTON -->
 <button class="music-btn" id="musicBtn" title="Play music">&#9835;</button>
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="none">
   <source src="assets/audio/fantasy.mp3" type="audio/mpeg">
 </audio>
 
@@ -196,7 +198,7 @@
   <p class="section-tag">Venue</p>
   <h2 class="section-title">Enchanted <span class="script">Garden</span></h2>
   <div class="venue-photo reveal">
-    <img data-parallax src="assets/gallery/gallery-03.jpg" alt="Vanessa">
+    <img data-parallax src="assets/gallery/gallery-03.jpg" loading="lazy" decoding="async" alt="Vanessa">
   </div>
   <a class="map-btn" href="#" target="_blank">Go to Google Maps</a>
 </section>
@@ -207,12 +209,12 @@
   <h2 class="section-title">Accommo<span class="script">dations</span></h2>
   <div class="hotels-grid">
     <div class="reveal-left">
-      <div class="hotel-photo"><img src="assets/gallery/hotel1.jpg" alt="Hotel Bay Suites"></div>
+      <div class="hotel-photo"><img src="assets/gallery/hotel1.jpg" loading="lazy" decoding="async" alt="Hotel Bay Suites"></div>
       <h4>Hotel Bay Suites</h4>
       <a class="map-btn" href="#" target="_blank">Go to Google Maps</a>
     </div>
     <div class="reveal-right">
-      <div class="hotel-photo"><img src="assets/gallery/hotel2.jpg" alt="E-Central Hotel"></div>
+      <div class="hotel-photo"><img src="assets/gallery/hotel2.jpg" loading="lazy" decoding="async" alt="E-Central Hotel"></div>
       <h4>E-Central Hotel</h4>
       <a class="map-btn" href="#" target="_blank">Go to Google Maps</a>
     </div>
@@ -234,20 +236,20 @@
 
 <!-- ============ GALLERY ============ -->
 <section id="gallery" class="section section-dark section-photo-tint layer">
-  <div class="bg-photo fixed-bg" style="background-image:url('assets/fondo/fondo-forest.jpg'); background-position:center 30%;"></div>
+  <div class="bg-photo fixed-bg tint-light" style="background-image:url('assets/fondo/fondo-forest.jpg'); background-position:center 30%;"></div>
   <p class="section-tag reveal-fade">Memories</p>
   <h2 class="section-title reveal-fade">Photo <span class="script">Gallery</span></h2>
   <div class="ornament-divider reveal-fade"><span class="mark">&#10047;</span></div>
   <div class="gallery-frame reveal">
     <div class="gallery-grid">
-      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-01.jpg" alt="Gallery 1"></div>
-      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-02.jpg" alt="Gallery 2"></div>
-      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-03.jpg" alt="Gallery 3"></div>
-      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-04.jpg" alt="Gallery 4"></div>
-      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-05.jpg" alt="Gallery 5"></div>
-      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-06.jpg" alt="Gallery 6"></div>
-      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-07.jpg" alt="Gallery 7"></div>
-      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-08.jpg" alt="Gallery 8"></div>
+      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-01.jpg" loading="lazy" decoding="async" alt="Gallery 1"></div>
+      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-02.jpg" loading="lazy" decoding="async" alt="Gallery 2"></div>
+      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-03.jpg" loading="lazy" decoding="async" alt="Gallery 3"></div>
+      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-04.jpg" loading="lazy" decoding="async" alt="Gallery 4"></div>
+      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-05.jpg" loading="lazy" decoding="async" alt="Gallery 5"></div>
+      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-06.jpg" loading="lazy" decoding="async" alt="Gallery 6"></div>
+      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-07.jpg" loading="lazy" decoding="async" alt="Gallery 7"></div>
+      <div class="g-item reveal"><img data-parallax src="assets/gallery/gallery-08.jpg" loading="lazy" decoding="async" alt="Gallery 8"></div>
     </div>
   </div>
 </section>
@@ -260,7 +262,7 @@
   <div class="ornament-divider reveal-fade"><span class="mark">&#10047;</span></div>
   <p class="hashtag reveal-fade">#Vanessa2025XV</p>
   <div class="qr-wrap reveal">
-    <img src="assets/branding/qr-demo.png" alt="QR Code">
+    <img src="assets/branding/qr-demo.png" loading="lazy" decoding="async" alt="QR Code">
     <p class="qr-caption">Scan to upload your photos</p>
   </div>
 </section>
@@ -294,16 +296,16 @@
   <div class="story-track">
     <div class="story-slide active">
       <div class="story-photos">
-        <img src="assets/story/story-01.jpg" alt="Story 1">
-        <img src="assets/gallery/gallery-05.jpg" alt="Story 1b">
+        <img src="assets/story/story-01.jpg" loading="lazy" decoding="async" alt="Story 1">
+        <img src="assets/gallery/gallery-05.jpg" loading="lazy" decoding="async" alt="Story 1b">
       </div>
       <h4>The Journey Begins</h4>
       <p>A childhood full of dreams</p>
     </div>
     <div class="story-slide">
       <div class="story-photos">
-        <img src="assets/story/story-02.jpg" alt="Story 2">
-        <img src="assets/gallery/gallery-06.jpg" alt="Story 2b">
+        <img src="assets/story/story-02.jpg" loading="lazy" decoding="async" alt="Story 2">
+        <img src="assets/gallery/gallery-06.jpg" loading="lazy" decoding="async" alt="Story 2b">
       </div>
       <h4>Sweet Fifteen</h4>
       <p>September 27th, 2025</p>
@@ -360,7 +362,7 @@
 <footer class="layer">
   <p class="script">Vanessa</p>
   <p>XV AÑOS · SEPTEMBER 27, 2025</p>
-  <img class="brand-logo" src="assets/branding/marca.png" alt="Invitaciones4you">
+  <img class="brand-logo" src="assets/branding/marca.png" loading="lazy" decoding="async" alt="Invitaciones4you">
 </footer>
 
 <script src="js/script.js"></script>

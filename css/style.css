@@ -207,9 +207,9 @@ img { max-width: 100%; }
   position: absolute; inset: 0;
   z-index: 1;
   background:
-    radial-gradient(ellipse at 25% 30%, rgba(207,161,94,0.22) 0%, transparent 55%),
-    radial-gradient(ellipse at 78% 65%, rgba(185,163,209,0.2) 0%, transparent 55%),
-    linear-gradient(180deg, rgba(14,42,31,0.6) 0%, rgba(14,42,31,0.72) 100%);
+    radial-gradient(ellipse at 25% 30%, rgba(207,161,94,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 78% 65%, rgba(185,163,209,0.16) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(14,42,31,0.32) 0%, rgba(14,42,31,0.42) 100%);
   animation: dividerGlowPulse 6s ease-in-out infinite;
 }
 @keyframes dividerGlowPulse {
@@ -259,6 +259,14 @@ img { max-width: 100%; }
     linear-gradient(180deg, rgba(6,18,16,0.88) 0%, rgba(7,20,18,0.72) 35%, rgba(6,18,16,0.9) 100%);
 }
 .section-photo-tint > *:not(.bg-photo) { position: relative; z-index: 2; }
+
+/* Variante más clara para la foto del bosque (fondo-forest), que ahora es HD
+   y no debe taparse con tanta oscuridad. Solo se usa donde aparece esa foto. */
+.section-photo-tint .bg-photo.tint-light::after {
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 15%, rgba(207,161,94,0.12) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(6,18,16,0.5) 0%, rgba(7,20,18,0.32) 35%, rgba(6,18,16,0.58) 100%);
+}
 
 /* Texto dorado con más brillo/contraste sobre las fotos de fondo */
 .section-photo-tint .section-tag {
@@ -356,7 +364,7 @@ img { max-width: 100%; }
 /* Fondo de bosque encantado con lámparas: nítido, sin oscurecer de más */
 .itinerary-bg .bg-photo { background-position: center 30%; }
 .itinerary-bg .bg-photo::after {
-  background: linear-gradient(180deg, rgba(6,20,20,0.25) 0%, rgba(6,20,20,0.1) 35%, rgba(6,20,20,0.55) 100%);
+  background: linear-gradient(180deg, rgba(6,20,20,0.16) 0%, rgba(6,20,20,0.06) 35%, rgba(6,20,20,0.4) 100%);
 }
 .floating-card {
   position: relative;
@@ -635,15 +643,21 @@ button {
 }
 
 .hero-text .script {
-  font-size: clamp(76px, 15vw, 160px);
+  font-size: clamp(78px, 15.5vw, 168px);
   letter-spacing: 1px;
-  background: linear-gradient(180deg, #fff8ea 0%, var(--gold-light) 42%, var(--gold) 78%, #a9793a 100%);
+  background: linear-gradient(180deg, #fff9ec 0%, var(--gold-light) 32%, var(--gold) 68%, #8a622e 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: var(--gold-light); /* fallback si el navegador no soporta gradient text */
-  text-shadow: 0 14px 46px rgba(0,0,0,0.55);
-  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.35));
+  -webkit-text-stroke: 0.5px rgba(120,86,40,0.35);
+  text-shadow:
+    0 1px 0 rgba(255,246,225,0.5),
+    0 2px 0 rgba(196,153,88,0.55),
+    0 3px 1px rgba(150,108,50,0.5),
+    0 5px 10px rgba(0,0,0,0.4),
+    0 18px 50px rgba(0,0,0,0.55);
+  filter: drop-shadow(0 6px 16px rgba(0,0,0,0.4));
 }
 
 .hero-text p { color: var(--gold-light); letter-spacing: 3px; margin-top: 10px; font-size: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.6); }
@@ -1030,10 +1044,14 @@ button {
   overflow: hidden;
   border-radius: 6px;
   position: relative;
+  background: rgba(8,20,16,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .gallery-grid .g-item:nth-child(2) { grid-column: span 2; }
-.gallery-grid img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .6s ease; }
-.gallery-grid .g-item:hover img { transform: scale(1.1); }
+.gallery-grid img { width: 100%; height: 100%; object-fit: contain; object-position: center; transition: transform .6s ease; }
+.gallery-grid .g-item:hover img { transform: scale(1.06); }
 
 @media (max-width: 800px) {
   .gallery-grid { max-width: 100%; }
@@ -1172,7 +1190,7 @@ button {
   position: relative;
   justify-content: center;
 }
-#verse::before { content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,28,30,0.35), rgba(6,20,20,0.6)); }
+#verse::before { content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(8,28,30,0.2), rgba(6,20,20,0.4)); }
 #verse .content { position: relative; z-index: 2; }
 #verse .script { font-size: clamp(30px, 5vw, 48px); }
 #verse .ref { margin-top: 20px; letter-spacing: 3px; color: var(--gold); font-size: 14px; text-transform: uppercase; }
