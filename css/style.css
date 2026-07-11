@@ -241,8 +241,56 @@ img { max-width: 100%; }
   will-change: transform;
 }
 
-/* ===================== SPLIT (foto a un lado, tarjeta papel al otro) ===================== */
-.split {
+/* ===================== FONDO DE BOSQUE PARA SECCIONES QUE ERAN PLANAS =====================
+   Galería, Compartir/QR, Deseos, Mi Historia y Contactos usaban solo un
+   degradado de color liso. Se les agrega una foto del bosque de fondo,
+   bien oscurecida, para que tengan la misma riqueza visual que el resto
+   del sitio sin perder la legibilidad del texto. */
+.section-photo-tint { position: relative; overflow: hidden; }
+.section-photo-tint .bg-photo {
+  position: absolute; inset: 0;
+  z-index: 0;
+}
+.section-photo-tint .bg-photo::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 15%, rgba(207,161,94,0.14) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(6,18,16,0.88) 0%, rgba(7,20,18,0.72) 35%, rgba(6,18,16,0.9) 100%);
+}
+.section-photo-tint > *:not(.bg-photo) { position: relative; z-index: 2; }
+
+/* Texto dorado con más brillo/contraste sobre las fotos de fondo */
+.section-photo-tint .section-tag {
+  text-shadow: 0 0 14px rgba(207,161,94,0.55), 0 2px 8px rgba(0,0,0,0.7);
+}
+.section-photo-tint .section-title {
+  text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+}
+.section-photo-tint .section-title .script {
+  text-shadow: 0 0 22px rgba(232,202,160,0.4), 0 4px 20px rgba(0,0,0,0.6);
+}
+
+/* Separador dorado ornamental reutilizado bajo los títulos de estas secciones */
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 22px auto 6px;
+  color: var(--gold);
+}
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  width: 44px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.ornament-divider .mark {
+  font-size: 14px;
+  text-shadow: 0 0 12px rgba(232,202,160,0.8);
+}
   display: flex;
   flex-wrap: wrap;
   min-height: 100vh;
@@ -956,6 +1004,18 @@ button {
 }
 
 /* ===================== GALLERY (mismo acomodo asimétrico 3x3 que la referencia) ===================== */
+.gallery-frame {
+  background: var(--glass-bg);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 18px;
+  margin-top: 34px;
+  width: 100%;
+  max-width: 720px;
+  box-shadow: 0 25px 55px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.3);
+}
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -964,11 +1024,11 @@ button {
   width: 100%;
   max-width: 700px;
   aspect-ratio: 1 / 1;
-  margin-top: 40px;
+  margin-top: 0;
 }
 .gallery-grid .g-item {
   overflow: hidden;
-  border-radius: 0;
+  border-radius: 6px;
   position: relative;
 }
 .gallery-grid .g-item:nth-child(2) { grid-column: span 2; }
@@ -977,6 +1037,7 @@ button {
 
 @media (max-width: 800px) {
   .gallery-grid { max-width: 100%; }
+  .gallery-frame { padding: 10px; border-radius: 16px; }
 }
 
 /* ===================== SHARE MOMENTS ===================== */
@@ -1068,7 +1129,19 @@ button {
 }
 
 /* ===================== CONTACTS ===================== */
-.contacts-grid { display: flex; gap: 30px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
+.contacts-frame {
+  background: var(--glass-bg);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  border: 1px solid var(--glass-border);
+  border-radius: 22px;
+  padding: 36px 30px;
+  margin-top: 6px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 25px 55px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.3);
+}
+.contacts-grid { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
 .contact-btn {
   display: flex; align-items: center; gap: 10px;
   background: rgba(255,255,255,0.06);
