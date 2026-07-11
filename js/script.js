@@ -249,7 +249,7 @@ document.querySelectorAll('.lang-toggle span').forEach(span => {
 
 // ===================== DESTELLOS FLOTANTES (bosque encantado) =====================
 // Agrega una capa de "luciérnagas" doradas a las secciones con foto grande
-function addSparkleLayer(container, count = 14) {
+function addSparkleLayer(container, count = 14, boost = false) {
   const layer = document.createElement('div');
   layer.className = 'sparkle-layer';
   const palette = ['#e8caa0', '#f0a8cc', '#b98af0', '#9db8f2'];
@@ -262,18 +262,29 @@ function addSparkleLayer(container, count = 14) {
     s.style.animationDelay = (Math.random() * 4) + 's';
     s.style.animationDuration = (3 + Math.random() * 2.5) + 's';
     s.style.background = color;
-    s.style.boxShadow = `0 0 5px 1.5px ${color}, 0 0 10px 3px ${color}55`;
+    if (boost) {
+      const size = 4.5 + Math.random() * 3; // 4.5-7.5px
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.boxShadow = `0 0 12px 4px ${color}, 0 0 22px 7px ${color}bb, 0 0 34px 12px ${color}66`;
+    } else {
+      s.style.boxShadow = `0 0 5px 1.5px ${color}, 0 0 10px 3px ${color}55`;
+    }
     layer.appendChild(s);
   }
   container.style.position = container.style.position || 'relative';
   container.appendChild(layer);
 }
 
-document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section, .tag-band, .section-dark, .section-mid, footer').forEach(el => {
+document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section, .tag-band').forEach(el => {
   const isItinerary = el.id === 'itinerary';
   const isTagBand = el.classList.contains('tag-band');
+  addSparkleLayer(el, isItinerary ? 22 : (isTagBand ? 16 : 10));
+});
+
+document.querySelectorAll('.section-dark, .section-mid, footer').forEach(el => {
   const isFooter = el.tagName === 'FOOTER';
-  addSparkleLayer(el, isItinerary ? 22 : (isTagBand ? 16 : (isFooter ? 18 : 10)));
+  addSparkleLayer(el, isFooter ? 20 : 14, true);
 });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
