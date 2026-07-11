@@ -11,6 +11,8 @@
   --lavender: #b9a3d1;
   --ink: #2a2620;
   --shadow-deep: rgba(6, 20, 14, 0.65);
+  --glass-bg: linear-gradient(160deg, rgba(20,44,36,0.55) 0%, rgba(10,24,20,0.62) 100%);
+  --glass-border: rgba(207,161,94,0.55);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -262,8 +264,11 @@ img { max-width: 100%; }
   will-change: transform;
 }
 .split-card {
-  background: #ffffff;
-  color: var(--ink);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  color: var(--cream);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -271,8 +276,8 @@ img { max-width: 100%; }
   text-align: center;
   padding: 60px 30px;
 }
-.split-card .section-tag { color: var(--forest-mid); }
-.split-card h2 { color: var(--forest-mid); }
+.split-card .section-tag { color: var(--gold); }
+.split-card h2 { color: var(--cream); }
 .split-card h2 .script { color: var(--gold); }
 
 /* ===================== PHOTO BG + FLOATING CARD OVERLAY ===================== */
@@ -308,22 +313,23 @@ img { max-width: 100%; }
 .floating-card {
   position: relative;
   z-index: 2;
-  background: #ffffff;
-  color: var(--ink);
-  border-radius: 10px;
-  border: 1.5px solid rgba(20,20,20,0.85);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--cream);
+  border-radius: 18px;
+  border: 1px solid var(--glass-border);
   padding: 34px 30px;
   max-width: 380px;
   width: 100%;
-  box-shadow: 0 4px 0 rgba(20,20,20,0.85), 0 25px 45px rgba(0,0,0,0.5), 0 0 80px 16px rgba(244,166,204,0.45);
+  box-shadow: 0 25px 45px rgba(0,0,0,0.5), 0 0 80px 16px rgba(244,166,204,0.45);
 }
-.floating-card .section-tag { color: var(--forest-mid); }
-.floating-card h2 { color: var(--forest-mid); }
+.floating-card .section-tag { color: var(--gold); }
+.floating-card h2 { color: var(--cream); }
 .floating-card h2 .script { color: var(--gold); }
-.floating-card .itinerary-item { border-bottom-color: rgba(45,106,79,0.2); }
-.floating-card .itinerary-item h4 { color: var(--forest-mid); }
-.floating-card .itinerary-item p { color: var(--ink); }
-.floating-card .itinerary-item .icon { border-color: #171412; color: #171412; }
+.floating-card .itinerary-item h4 { color: var(--gold-light); }
+.floating-card .itinerary-item p { color: var(--cream); }
+.floating-card .itinerary-item .icon { border-color: var(--gold); color: var(--gold-light); }
 .floating-card .itinerary-item .icon svg { filter: drop-shadow(0 0 3px rgba(207,161,94,0.7)); }
 
 /* tarjeta del itinerario: más pequeña y con profundidad marcada */
@@ -331,7 +337,7 @@ img { max-width: 100%; }
   max-width: 300px;
   padding: 26px 22px;
   box-shadow:
-    0 3px 0 rgba(20,20,20,0.85),
+    0 3px 0 rgba(207,161,94,0.3),
     0 14px 18px rgba(0,0,0,0.35),
     0 32px 55px rgba(0,0,0,0.55),
     0 55px 90px rgba(0,0,0,0.35),
@@ -763,22 +769,24 @@ button {
 .carousel-card {
   position: absolute;
   inset: 0;
-  background: #ffffff;
-  color: var(--ink);
-  border-radius: 8px;
-  border: 1.5px solid rgba(20,20,20,0.85);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--cream);
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 18px;
-  box-shadow: 0 3px 0 rgba(20,20,20,0.85), 0 18px 30px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.45);
+  box-shadow: 0 18px 30px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.45);
 }
 .carousel-card.active { display: flex; }
 
-.carousel-card .icon { font-size: 26px; margin-bottom: 10px; color: var(--forest-mid); }
-.carousel-card h3 { font-size: 21px; color: var(--forest-mid); margin: 6px 0 10px; }
-.carousel-card p { font-size: 15px; }
+.carousel-card .icon { font-size: 26px; margin-bottom: 10px; color: var(--gold-light); }
+.carousel-card h3 { font-size: 21px; color: var(--cream); margin: 6px 0 10px; }
+.carousel-card p { font-size: 15px; color: var(--gold-light); }
 
 .carousel-nav {
   position: absolute;
@@ -954,8 +962,9 @@ button {
 .qr-wrap {
   margin-top: 34px;
   background: var(--cream);
-  padding: 24px;
-  border-radius: 8px;
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid var(--glass-border);
   box-shadow: 0 25px 55px var(--shadow-deep), 0 0 80px 16px rgba(244,166,204,0.45);
   display: inline-flex;
   flex-direction: column;
@@ -1003,17 +1012,19 @@ button {
 }
 
 .wish-card {
-  background: #ffffff;
-  color: var(--ink);
-  border: 1.5px solid rgba(20,20,20,0.85);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--cream);
+  border: 1px solid var(--glass-border);
   padding: 24px 30px;
-  border-radius: 6px;
+  border-radius: 14px;
   max-width: 420px;
   margin-top: 30px;
   box-shadow: 0 0 80px 16px rgba(244,166,204,0.4);
 }
-.wish-card p:first-child { font-size: 19px; font-style: italic; color: var(--ink); }
-.wish-card .author { margin-top: 10px; color: var(--forest-mid); font-size: 14px; letter-spacing: 1px; }
+.wish-card p:first-child { font-size: 19px; font-style: italic; color: var(--cream); }
+.wish-card .author { margin-top: 10px; color: var(--gold-light); font-size: 14px; letter-spacing: 1px; }
 
 /* ===================== MY STORY ===================== */
 .story-track { position: relative; width: min(700px, 100%); margin-top: 40px; }
