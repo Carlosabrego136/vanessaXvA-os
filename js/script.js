@@ -118,8 +118,10 @@ document.querySelectorAll('.layer').forEach((el, index) => {
 });
 
 // ===================== COUNTDOWN =====================
-// Cambia esta fecha por la fecha real del evento (formato: 'YYYY-MM-DDTHH:mm:ss')
-const eventDate = new Date('2025-09-27T16:00:00');
+// NOTA: Cambia esta fecha por la fecha REAL del evento cuando la tengas
+// confirmada (formato: 'YYYY-MM-DDTHH:mm:ss'). Se puso en el futuro para
+// que el contador funcione y cuente regresivamente en vez de mostrar 00.
+const eventDate = new Date('2026-09-27T16:00:00');
 
 function updateCountdown() {
   const now = new Date();
@@ -258,6 +260,69 @@ updateCountdown();
 
   prevBtn.addEventListener('click', () => show(index - 1));
   nextBtn.addEventListener('click', () => show(index + 1));
+})();
+
+// ===================== GALLERY LIGHTBOX (tocar foto + swipe izq/der) =====================
+(function () {
+  const items = Array.from(document.querySelectorAll('.gallery-grid .g-item img'));
+  if (!items.length) return;
+
+  const lightbox = document.getElementById('galleryLightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const counter = document.getElementById('lightboxCounter');
+  const closeBtn = document.getElementById('lightboxClose');
+  const prevBtn = document.getElementById('lightboxPrev');
+  const nextBtn = document.getElementById('lightboxNext');
+  let current = 0;
+
+  function show(i) {
+    current = (i + items.length) % items.length;
+    lightboxImg.src = items[current].src;
+    lightboxImg.alt = items[current].alt || '';
+    counter.textContent = (current + 1) + ' / ' + items.length;
+  }
+
+  function open(i) {
+    show(i);
+    lightbox.classList.add('open');
+  }
+
+  function close() {
+    lightbox.classList.remove('open');
+  }
+
+  items.forEach((img, i) => {
+    img.addEventListener('click', () => open(i));
+  });
+
+  closeBtn.addEventListener('click', close);
+  prevBtn.addEventListener('click', () => show(current - 1));
+  nextBtn.addEventListener('click', () => show(current + 1));
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  // Swipe izquierda/derecha en móvil
+  let touchStartX = 0;
+  const stage = lightbox.querySelector('.lightbox-stage');
+  stage.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  stage.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) {
+      if (dx < 0) show(current + 1);
+      else show(current - 1);
+    }
+  }, { passive: true });
 })();
 
 // ===================== LANGUAGE TOGGLE (placeholder) =====================

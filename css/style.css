@@ -193,13 +193,13 @@ img { max-width: 100%; }
 }
 /* version reducida: solo para el fondo-forest, para que no cubra toda la pantalla */
 .photo-divider.photo-divider-compact {
-  height: 55vh;
+  height: 38vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 @media (max-width: 700px) {
-  .photo-divider.photo-divider-compact { height: 48vh; }
+  .photo-divider.photo-divider-compact { height: 32vh; }
 }
 .photo-divider.photo-divider-compact .divider-message {
   position: relative;
@@ -374,6 +374,7 @@ img { max-width: 100%; }
 .itinerary-bg .bg-photo::after {
   background: none;
 }
+#registry.photo-overlay-section { padding-top: 40px; padding-bottom: 50px; }
 .floating-card {
   position: relative;
   z-index: 2;
@@ -863,14 +864,22 @@ button {
 }
 
 .parents-wrap h4 {
-  color: var(--gold);
+  color: var(--gold-light);
   letter-spacing: 3px;
-  font-size: 13px;
+  font-size: 14px;
   text-transform: uppercase;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
 }
 
-.parents-wrap p { font-size: 20px; color: var(--cream); margin: 4px 0; }
+.parents-wrap p {
+  font-size: clamp(24px, 4.5vw, 30px);
+  font-weight: 600;
+  color: #ffffff;
+  margin: 4px 0;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.75), 0 0 24px rgba(232,202,160,0.4);
+}
 
 /* ===================== PADRINOS CAROUSEL ===================== */
 .carousel {
@@ -899,9 +908,22 @@ button {
 }
 .carousel-card.active { display: flex; }
 
-.carousel-card .icon { font-size: 26px; margin-bottom: 10px; color: var(--gold-light); }
-.carousel-card h3 { font-size: 21px; color: var(--cream); margin: 6px 0 10px; }
-.carousel-card p { font-size: 15px; color: var(--gold-light); }
+.carousel-card .icon {
+  font-size: 24px;
+  margin-bottom: 12px;
+  color: var(--gold-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: radial-gradient(circle, rgba(232,202,160,0.22), rgba(232,202,160,0.02) 70%);
+  box-shadow: 0 0 18px rgba(232,202,160,0.4);
+}
+.carousel-card h3 { font-size: 17px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); margin: 6px 0 8px; }
+.carousel-card p { font-size: 21px; font-weight: 600; color: #ffffff; letter-spacing: 0.3px; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
 
 .carousel-nav {
   position: absolute;
@@ -1046,9 +1068,9 @@ button {
 /* Gallery: se compacta el espacio antes del mosaico (menos padding arriba,
    menos margen bajo el separador dorado) para que las fotos aparezcan más
    arriba y no haya que scrollear tanto para verlas. */
-#gallery { padding-top: 26px; padding-bottom: 46px; }
-#gallery .ornament-divider { margin: 14px auto 4px; }
-#gallery .gallery-frame { margin-top: 8px; }
+#gallery { padding-top: 16px; padding-bottom: 30px; }
+#gallery .ornament-divider { margin: 10px auto 4px; }
+#gallery .gallery-frame { margin-top: 4px; }
 
 /* ===================== GALLERY (mismo acomodo asimétrico 3x3 que la referencia) ===================== */
 .gallery-frame {
@@ -1057,10 +1079,10 @@ button {
   -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--glass-border);
   border-radius: 20px;
-  padding: 14px;
+  padding: 12px;
   margin-top: 18px;
   width: 100%;
-  max-width: 600px;
+  max-width: 520px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px 8px rgba(244,166,204,0.28);
   contain: layout style paint;
 }
@@ -1072,9 +1094,9 @@ button {
    y bastante más grandes. */
 .gallery-grid {
   columns: 2;
-  column-gap: 8px;
+  column-gap: 7px;
   width: 100%;
-  max-width: 580px;
+  max-width: 480px;
   margin-top: 0;
 }
 .gallery-grid .g-item {
@@ -1083,7 +1105,8 @@ button {
   position: relative;
   background: rgba(8,28,48,0.35);
   break-inside: avoid;
-  margin-bottom: 10px;
+  margin-bottom: 7px;
+  cursor: pointer;
 }
 .gallery-grid img { width: 100%; height: auto; display: block; object-fit: initial; transition: transform .6s ease; }
 .gallery-grid .g-item:hover img { transform: scale(1.06); }
@@ -1239,7 +1262,9 @@ button {
    La sección ya es .layer y usa el mismo sistema sticky que el resto,
    así que quitamos el "fixed" y se ve igual pero mucho más ligera. */
 #verse {
-  min-height: 70vh;
+  min-height: 40vh;
+  padding-top: 50px;
+  padding-bottom: 50px;
   background: url('../assets/fondo/fondo-forest.jpg') center/cover;
   position: relative;
   justify-content: center;
@@ -1368,4 +1393,87 @@ footer .brand-logo {
 .hotels-grid .reveal-left.is-visible,
 .hotels-grid .reveal-right.is-visible {
   transform: translateY(0) translateX(0) scale(1) rotate(0deg);
+}
+
+/* ===================== GALLERY LIGHTBOX ===================== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(6,18,20,0.94);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.lightbox.open {
+  display: flex;
+  opacity: 1;
+}
+.lightbox-stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 70px;
+  touch-action: none;
+}
+.lightbox-stage img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--glass-border);
+  color: var(--cream);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  cursor: pointer;
+}
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid var(--glass-border);
+  color: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  z-index: 2;
+  cursor: pointer;
+}
+.lightbox-prev { left: 12px; }
+.lightbox-next { right: 12px; }
+.lightbox-counter {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gold-light);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+@media (max-width: 600px) {
+  .lightbox-stage { padding: 60px 46px; }
+  .lightbox-nav { width: 38px; height: 38px; }
 }

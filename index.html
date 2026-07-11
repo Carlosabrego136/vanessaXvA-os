@@ -60,7 +60,7 @@
 <section id="countdown" class="section layer">
   <div class="bg-photo fixed-bg" style="background-image:url('assets/countdown/countdown-photo.jpg');"></div>
   <p class="section-tag reveal-fade reveal-early">Save the date</p>
-  <h2 class="countdown-date reveal-fade reveal-early" style="transition-delay:.15s;">SEPTEMBER 27, 2025</h2>
+  <h2 class="countdown-date reveal-fade reveal-early" style="transition-delay:.15s;">SEPTEMBER 27, 2026</h2>
   <div class="countdown-boxes">
     <div class="box reveal reveal-early"><div class="num" id="cd-days">00</div><div class="label">Days</div></div>
     <div class="box reveal reveal-early"><div class="num" id="cd-hours">00</div><div class="label">Hrs</div></div>
@@ -84,12 +84,12 @@
     <h2 class="section-title">My <span class="script">Parents</span></h2>
     <div class="parents-wrap" style="margin-top:24px;">
       <div>
-        <h4 style="color:var(--gold);">Mother</h4>
-        <p style="color:var(--cream);">Jessica Martínez</p>
+        <h4>Mother</h4>
+        <p>Jessica Martínez</p>
       </div>
       <div>
-        <h4 style="color:var(--gold);">Father</h4>
-        <p style="color:var(--cream);">Juan Pérez</p>
+        <h4>Father</h4>
+        <p>Juan Pérez</p>
       </div>
     </div>
   </div>
@@ -109,7 +109,7 @@
     <div class="carousel">
       <div class="carousel-track" id="padrinosTrack">
         <div class="carousel-card active">
-          <div class="icon">&#10047;</div>
+          <div class="icon">&#128144;</div>
           <h3>Bouquet</h3>
           <p>Name Surname</p>
         </div>
@@ -119,7 +119,7 @@
           <p>Name Surname</p>
         </div>
         <div class="carousel-card">
-          <div class="icon">&#128218;</div>
+          <div class="icon">&#128215;</div>
           <h3>Bible &amp; Rosary</h3>
           <p>Name Surname</p>
         </div>
@@ -227,11 +227,11 @@
 <!-- ============ GIFT REGISTRY ============ -->
 <section id="registry" class="photo-overlay-section layer">
   <div class="bg-photo fixed-bg" style="background-image:url('assets/gallery/gallery-07.jpg');"></div>
-  <div class="floating-card">
+  <div class="floating-card" style="padding-top:22px;">
     <p class="section-tag">Gift</p>
     <h2 class="section-title">Reg<span class="script">istry</span></h2>
-    <p style="max-width:420px;margin:20px auto 0;color:var(--cream);">Your presence is the best gift, but if you wish to help me celebrate this new chapter, you may visit my registry below.</p>
-    <div class="registry-links" style="margin-top:26px;">
+    <p style="max-width:260px;margin:16px auto 0;color:var(--cream);">Your presence is the best gift, but if you wish to help me celebrate this new chapter, you may visit my registry below.</p>
+    <div class="registry-links" style="margin-top:22px;">
       <a href="#" target="_blank" style="border-color:var(--gold);color:var(--gold-light);">Amazon</a>
     </div>
   </div>
@@ -311,7 +311,7 @@
         <img src="assets/gallery/gallery-06.jpg" loading="lazy" decoding="async" alt="Story 2b">
       </div>
       <h4>Sweet Fifteen</h4>
-      <p>September 27th, 2025</p>
+      <p>September 27th, 2026</p>
     </div>
   </div>
   <div style="margin-top:24px; display:flex; gap:20px;">
@@ -364,9 +364,20 @@
 
 <footer class="layer">
   <p class="script">Vanessa</p>
-  <p>XV AÑOS · SEPTEMBER 27, 2025</p>
+  <p>XV AÑOS · SEPTEMBER 27, 2026</p>
   <img class="brand-logo" src="assets/branding/marca.png" loading="lazy" decoding="async" alt="Invitaciones4you">
 </footer>
+
+<!-- ============ GALLERY LIGHTBOX (visor de fotos) ============ -->
+<div id="galleryLightbox" class="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#10005;</button>
+  <div class="lightbox-nav lightbox-prev" id="lightboxPrev">&#10094;</div>
+  <div class="lightbox-stage">
+    <img id="lightboxImg" src="" alt="">
+  </div>
+  <div class="lightbox-nav lightbox-next" id="lightboxNext">&#10095;</div>
+  <p class="lightbox-counter" id="lightboxCounter"></p>
+</div>
 
 <script src="js/script.js"></script>
 </body>
