@@ -972,8 +972,15 @@ button {
 
 /* ===================== DRESS CODE ===================== */
 #dresscode {
-  min-height: auto;
-  padding: 50px 24px;
+  min-height: 70vh;
+  padding: 60px 24px 40px;
+  justify-content: flex-start;
+}
+#dresscode .bg-photo {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center 60%;
+  background-color: #10142c;
 }
 
 .dress-icons {
