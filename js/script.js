@@ -311,10 +311,18 @@ document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-ove
   addSparkleLayer(el, Math.max(4, Math.round(base * sparkleScale)));
 });
 
-document.querySelectorAll('.section-dark, .section-mid, footer').forEach(el => {
-  const isFooter = el.tagName === 'FOOTER';
-  const base = isFooter ? 20 : 14;
-  addSparkleLayer(el, Math.max(4, Math.round(base * sparkleScale)), true);
+document.querySelectorAll('.section-dark, .section-mid').forEach(el => {
+  addSparkleLayer(el, Math.max(4, Math.round(14 * sparkleScale)), true);
+});
+
+// El footer usaba el mismo destello "boost" (el más pesado: 3 capas de
+// blur grande, hasta 20 elementos) que las demás secciones oscuras, y era
+// el tramo con más carga acumulada de animaciones justo al llegar al final
+// de la página, lo cual se sentía como tirones/saltos en el scroll. Ahora
+// el footer tiene su propia capa, mucho más ligera y sutil: pocos destellos
+// pequeños, sin el glow boosteado.
+document.querySelectorAll('footer').forEach(el => {
+  addSparkleLayer(el, Math.max(3, Math.round(6 * sparkleScale)), false);
 });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
