@@ -105,28 +105,24 @@ function updateCountdown() {
   const daysEl = document.getElementById('cd-days');
   const hoursEl = document.getElementById('cd-hours');
   const minsEl = document.getElementById('cd-mins');
-  const secsEl = document.getElementById('cd-secs');
 
   if (diff <= 0) {
     daysEl.textContent = '00';
     hoursEl.textContent = '00';
     minsEl.textContent = '00';
-    secsEl.textContent = '00';
     return;
   }
 
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const mins = Math.floor((diff / (1000 * 60)) % 60);
-  const secs = Math.floor((diff / 1000) % 60);
 
   daysEl.textContent = String(days).padStart(2, '0');
   hoursEl.textContent = String(hours).padStart(2, '0');
   minsEl.textContent = String(mins).padStart(2, '0');
-  secsEl.textContent = String(secs).padStart(2, '0');
 }
 
-setInterval(updateCountdown, 1000);
+setInterval(updateCountdown, 60000);
 updateCountdown();
 
 // ===================== ADD TO CALENDAR (funcional, como el sitio original) =====================
@@ -269,10 +265,10 @@ function addSparkleLayer(container, count = 14) {
   container.appendChild(layer);
 }
 
-document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section, .tag-band').forEach(el => {
+document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section, .tag-band, .section-dark, .section-mid').forEach(el => {
   const isItinerary = el.id === 'itinerary';
   const isTagBand = el.classList.contains('tag-band');
-  addSparkleLayer(el, isItinerary ? 22 : (isTagBand ? 16 : 12));
+  addSparkleLayer(el, isItinerary ? 22 : (isTagBand ? 16 : 10));
 });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================

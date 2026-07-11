@@ -57,8 +57,15 @@ img { max-width: 100%; }
 }
 
 /* (el scroll es normal, como en la invitación original — no se usa sticky) */
-.section-dark { background: var(--forest-deep); }
-.section-mid { background: linear-gradient(180deg, var(--forest-deep), var(--teal-accent), var(--forest-deep)); }
+.section-dark, .section-mid {
+  position: relative;
+  background:
+    radial-gradient(ellipse 60% 40% at 18% 12%, rgba(207,161,94,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 88% 20%, rgba(185,163,209,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(45,106,79,0.4) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 35% at 10% 90%, rgba(28,74,72,0.35) 0%, transparent 60%),
+    linear-gradient(180deg, var(--forest-deep) 0%, #113a2f 50%, var(--forest-deep) 100%);
+}
 
 /* (se quitó la costura oscura entre secciones — causaba una sombra no deseada) */
 
@@ -115,9 +122,9 @@ img { max-width: 100%; }
 .tag-band .script {
   position: relative;
   z-index: 2;
-  color: #ffffff;
+  color: #2d4d78;
   font-size: clamp(26px, 4vw, 40px);
-  text-shadow: 0 1px 0 #000, 0 2px 3px rgba(0,0,0,0.85), 0 6px 16px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 0 #000, 0 2px 3px rgba(0,0,0,0.55), 0 6px 16px rgba(0,0,0,0.3);
 }
 /* estrellitas suaves sobre la franja crema */
 .tag-band .sparkle {
@@ -138,6 +145,30 @@ img { max-width: 100%; }
 }
 @media (max-width: 700px) {
   .photo-divider.photo-divider-compact { height: 48vh; }
+}
+/* un poco transparente + un toque mágico, para que no se vea tan simple */
+.photo-divider.photo-divider-compact img {
+  opacity: 0.68;
+}
+.photo-divider.photo-divider-compact::after {
+  content: '';
+  position: absolute; inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(207,161,94,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 78% 65%, rgba(185,163,209,0.3) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(14,42,31,0.25) 0%, rgba(14,42,31,0.55) 100%);
+}
+.photo-divider.photo-divider-compact::before {
+  content: '✦';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  font-size: 26px;
+  color: var(--gold-light);
+  text-shadow: 0 0 18px rgba(232,202,160,0.9), 0 0 36px rgba(232,202,160,0.5);
+  opacity: 0.9;
 }
 .photo-divider img {
   width: 100%;
@@ -233,6 +264,19 @@ img { max-width: 100%; }
 .floating-card .itinerary-item h4 { color: var(--forest-mid); }
 .floating-card .itinerary-item p { color: var(--ink); }
 .floating-card .itinerary-item .icon { border-color: var(--forest-mid); color: var(--forest-mid); }
+
+/* tarjeta del itinerario: más pequeña y con profundidad marcada */
+.floating-card.floating-card-compact {
+  max-width: 300px;
+  padding: 26px 22px;
+  box-shadow:
+    0 3px 0 rgba(20,20,20,0.85),
+    0 14px 18px rgba(0,0,0,0.35),
+    0 32px 55px rgba(0,0,0,0.55),
+    0 55px 90px rgba(0,0,0,0.35);
+}
+.floating-card.floating-card-compact .section-title { font-size: clamp(26px, 4.2vw, 40px); }
+.floating-card.floating-card-compact .itinerary-item { padding: 12px 0; }
 
 /* ===================== PILL BUTTONS (no más cuadrados) ===================== */
 .enter-btn, .calendar-btn, .map-btn, .submit-btn, .registry-links a, .contact-btn {
@@ -381,7 +425,7 @@ button {
 .section {
   position: relative;
   min-height: 100vh;
-  padding: 120px 24px;
+  padding: 90px 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -433,8 +477,8 @@ button {
 /* ===================== HERO (una sola foto grande de fondo) ===================== */
 #hero {
   min-height: 100vh;
-  padding: 0;
-  justify-content: center;
+  padding: 0 24px 10vh;
+  justify-content: flex-end;
   align-items: center;
   background: none;
 }
@@ -733,9 +777,14 @@ button {
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 25px 55px var(--shadow-deep);
-  margin: 30px 0;
+  margin: 18px 0;
 }
-.venue-photo img, .hotel-photo img { width: 100%; display: block; }
+.venue-photo img, .hotel-photo img { width: 100%; max-height: 42vh; object-fit: cover; display: block; }
+
+#location, #hotels {
+  justify-content: flex-start;
+  padding-top: 70px;
+}
 
 .map-btn {
   margin-top: 10px;
