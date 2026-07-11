@@ -311,8 +311,12 @@ document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-ove
   addSparkleLayer(el, Math.max(4, Math.round(base * sparkleScale)));
 });
 
+// Secciones azules (section-dark / section-mid): se bajó bastante la
+// cantidad de destellos (de 14 a 7) porque eran la parte con más carga
+// acumulada hacia el final del scroll. Se deja el mismo brillo intenso
+// (boost) para que sigan viéndose bonitos, solo que con menos partículas.
 document.querySelectorAll('.section-dark, .section-mid').forEach(el => {
-  addSparkleLayer(el, Math.max(4, Math.round(14 * sparkleScale)), true);
+  addSparkleLayer(el, Math.max(3, Math.round(7 * sparkleScale)), true);
 });
 
 // El footer usaba el mismo destello "boost" (el más pesado: 3 capas de
