@@ -993,6 +993,23 @@ button {
   50%      { opacity: 1; transform: scale(1.08); }
 }
 
+/* Nueva foto de fondo (bosque encantado con vestido/traje y paleta ya
+   incluidos en la imagen); solo el texto va encima, en blanco. */
+#dresscode .section-tag,
+#dresscode .section-title,
+#dresscode .section-title .script {
+  color: #ffffff;
+}
+#dresscode .section-tag {
+  text-shadow: 0 0 14px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.75);
+}
+#dresscode .section-title {
+  text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+}
+#dresscode .section-title .script {
+  text-shadow: 0 0 20px rgba(0,0,0,0.6), 0 4px 20px rgba(0,0,0,0.8);
+}
+
 .palette {
   display: flex;
   gap: 14px;
