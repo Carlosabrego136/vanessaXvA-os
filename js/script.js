@@ -81,7 +81,20 @@ function updateParallax() {
   });
 }
 
-window.addEventListener('scroll', updateParallax, { passive: true });
+// Throttle con requestAnimationFrame: evita recalcular varias veces por
+// frame en móviles (antes corría en cada micro-evento de scroll, lo cual
+// se sentía pesado / con tirones en iPhone y Android).
+let parallaxTicking = false;
+function onScrollParallax() {
+  if (parallaxTicking) return;
+  parallaxTicking = true;
+  requestAnimationFrame(() => {
+    updateParallax();
+    parallaxTicking = false;
+  });
+}
+
+window.addEventListener('scroll', onScrollParallax, { passive: true });
 window.addEventListener('resize', updateParallax);
 updateParallax();
 
@@ -276,24 +289,32 @@ function addSparkleLayer(container, count = 14, boost = false) {
   container.appendChild(layer);
 }
 
+// En pantallas de celular reducimos la cantidad de destellos: cada uno anima
+// box-shadow con blur, y eso es lo más pesado para el GPU en un teléfono.
+const isSmallScreen = window.innerWidth < 700;
+const sparkleScale = isSmallScreen ? 0.55 : 1;
+
 document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section, .tag-band').forEach(el => {
   const isItinerary = el.id === 'itinerary';
   const isTagBand = el.classList.contains('tag-band');
-  addSparkleLayer(el, isItinerary ? 22 : (isTagBand ? 16 : 10));
+  const base = isItinerary ? 22 : (isTagBand ? 16 : 10);
+  addSparkleLayer(el, Math.max(4, Math.round(base * sparkleScale)));
 });
 
 document.querySelectorAll('.section-dark, .section-mid, footer').forEach(el => {
   const isFooter = el.tagName === 'FOOTER';
-  addSparkleLayer(el, isFooter ? 20 : 14, true);
+  const base = isFooter ? 20 : 14;
+  addSparkleLayer(el, Math.max(4, Math.round(base * sparkleScale)), true);
 });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
 // Cada vez que el usuario hace scroll (con el dedo o el mouse), aparece
 // un destello suave y breve, como si dejara un rastro de luz.
 let lastGlow = 0;
+const glowInterval = isSmallScreen ? 420 : 220;
 function spawnScrollGlow() {
   const now = Date.now();
-  if (now - lastGlow < 220) return; // limita la frecuencia para que sea sutil
+  if (now - lastGlow < glowInterval) return; // limita la frecuencia para que sea sutil
   lastGlow = now;
 
   const glow = document.createElement('div');
@@ -356,7 +377,7 @@ function spawnFairy() {
     if (rect.width) {
       spawnFairySpark(rect.left + rect.width / 2, rect.top + rect.height / 2);
     }
-  }, 200);
+  }, isSmallScreen ? 380 : 200);
 
   setTimeout(() => {
     clearInterval(trailInterval);
