@@ -70,14 +70,24 @@ const parallaxImgs = document.querySelectorAll('[data-parallax]');
 
 function updateParallax() {
   const vh = window.innerHeight;
+  const speed = 0.12;
+  // Primero se LEEN todas las posiciones (getBoundingClientRect) y solo
+  // después se ESCRIBEN los transform. Si se mezcla lectura y escritura
+  // dentro del mismo bucle, el navegador se ve obligado a recalcular el
+  // layout en cada iteración ("layout thrashing"), que es lo que se sentía
+  // como tirones/trabones al hacer scroll. Separarlo en dos pasadas deja
+  // el scroll mucho más fluido sin cambiar el efecto visual.
+  const updates = [];
   parallaxImgs.forEach(img => {
     const rect = img.parentElement.getBoundingClientRect();
     // Solo calcula si está cerca del viewport (performance)
     if (rect.bottom > -200 && rect.top < vh + 200) {
-      const speed = 0.12;
       const offset = (rect.top - vh / 2) * speed;
-      img.style.transform = `translateY(${offset}px)`;
+      updates.push({ img, offset });
     }
+  });
+  updates.forEach(({ img, offset }) => {
+    img.style.transform = `translateY(${offset}px)`;
   });
 }
 
