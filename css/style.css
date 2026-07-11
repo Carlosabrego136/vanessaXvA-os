@@ -49,6 +49,7 @@ img { max-width: 100%; }
   background-size: cover;
   background-position: center 20%;
   background-repeat: no-repeat;
+  contain: paint;
 }
 
 /* ===================== SISTEMA DE CAPAS =====================
@@ -1040,6 +1041,13 @@ button {
   text-transform: uppercase;
   color: var(--gold-light);
 }
+
+/* Gallery: se compacta el espacio antes del mosaico (menos padding arriba,
+   menos margen bajo el separador dorado) para que las fotos aparezcan más
+   arriba y no haya que scrollear tanto para verlas. */
+#gallery { padding-top: 46px; padding-bottom: 46px; }
+#gallery .ornament-divider { margin: 14px auto 4px; }
+#gallery .gallery-frame { margin-top: 16px; }
 
 /* ===================== GALLERY (mismo acomodo asimétrico 3x3 que la referencia) ===================== */
 .gallery-frame {
