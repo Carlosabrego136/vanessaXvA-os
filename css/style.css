@@ -315,7 +315,7 @@ img { max-width: 100%; }
   padding: 34px 30px;
   max-width: 380px;
   width: 100%;
-  box-shadow: 0 4px 0 rgba(20,20,20,0.85), 0 25px 45px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 0 rgba(20,20,20,0.85), 0 25px 45px rgba(0,0,0,0.5), 0 0 80px 16px rgba(244,166,204,0.45);
 }
 .floating-card .section-tag { color: var(--forest-mid); }
 .floating-card h2 { color: var(--forest-mid); }
@@ -334,7 +334,8 @@ img { max-width: 100%; }
     0 3px 0 rgba(20,20,20,0.85),
     0 14px 18px rgba(0,0,0,0.35),
     0 32px 55px rgba(0,0,0,0.55),
-    0 55px 90px rgba(0,0,0,0.35);
+    0 55px 90px rgba(0,0,0,0.35),
+    0 0 80px 16px rgba(244,166,204,0.45);
 }
 .floating-card.floating-card-compact .section-title { font-size: clamp(26px, 4.2vw, 40px); }
 .floating-card.floating-card-compact .itinerary-item { padding: 12px 0; }
@@ -771,7 +772,7 @@ button {
   align-items: center;
   justify-content: center;
   padding: 18px;
-  box-shadow: 0 3px 0 rgba(20,20,20,0.85), 0 18px 30px rgba(0,0,0,0.45);
+  box-shadow: 0 3px 0 rgba(20,20,20,0.85), 0 18px 30px rgba(0,0,0,0.45), 0 0 80px 16px rgba(244,166,204,0.45);
 }
 .carousel-card.active { display: flex; }
 
@@ -859,7 +860,7 @@ button {
   width: min(500px, 100%);
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 25px 55px var(--shadow-deep);
+  box-shadow: 0 25px 55px var(--shadow-deep), 0 0 80px 16px rgba(244,166,204,0.45);
   margin: 18px 0;
 }
 .venue-photo img, .hotel-photo img { width: 100%; max-height: 42vh; object-fit: cover; display: block; }
@@ -955,7 +956,7 @@ button {
   background: var(--cream);
   padding: 24px;
   border-radius: 8px;
-  box-shadow: 0 25px 55px var(--shadow-deep);
+  box-shadow: 0 25px 55px var(--shadow-deep), 0 0 80px 16px rgba(244,166,204,0.45);
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -1008,6 +1009,7 @@ button {
   border-radius: 6px;
   max-width: 420px;
   margin-top: 30px;
+  box-shadow: 0 0 80px 16px rgba(244,166,204,0.4);
 }
 .wish-card p:first-child { font-size: 19px; font-style: italic; }
 .wish-card .author { margin-top: 10px; color: var(--gold-light); font-size: 14px; letter-spacing: 1px; }
@@ -1017,7 +1019,7 @@ button {
 .story-slide { display: none; flex-direction: column; align-items: center; }
 .story-slide.active { display: flex; }
 .story-photos { display: flex; gap: 12px; }
-.story-photos img { width: 260px; height: 320px; object-fit: cover; object-position: center 18%; border-radius: 4px; box-shadow: 0 25px 50px var(--shadow-deep); }
+.story-photos img { width: 260px; height: 320px; object-fit: cover; object-position: center 18%; border-radius: 4px; box-shadow: 0 25px 50px var(--shadow-deep), 0 0 70px 14px rgba(244,166,204,0.4); }
 .story-slide h4 { margin-top: 26px; letter-spacing: 3px; color: var(--gold-light); font-size: 16px; text-transform: uppercase; }
 .story-slide p { color: var(--cream); font-size: 18px; margin-top: 4px; }
 
@@ -1089,7 +1091,7 @@ button {
   width: 90%;
   padding: 30px 26px;
   border-radius: 10px;
-  box-shadow: 0 25px 55px rgba(0,0,0,0.55);
+  box-shadow: 0 25px 55px rgba(0,0,0,0.55), 0 0 80px 16px rgba(244,166,204,0.45);
   margin: 0 auto;
 }
 
@@ -1126,6 +1128,14 @@ footer {
 }
 footer .script { font-size: 32px; }
 footer p { margin-top: 10px; color: rgba(246,241,230,0.5); font-size: 13px; letter-spacing: 2px; }
+footer .brand-logo {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 150px;
+  margin: 34px auto 0;
+  opacity: 0.85;
+}
 
 /* ===================== RESPONSIVE HERO ===================== */
 @media (max-width: 700px) {
