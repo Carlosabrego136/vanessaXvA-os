@@ -1088,7 +1088,7 @@ button {
   overflow: hidden;
   contain: layout style paint;
 }
-.venue-photo img { width: 100%; max-height: 42vh; object-fit: cover; display: block; }
+.venue-photo img { width: 100%; max-height: 42vh; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
 .frame-ornament {
   position: absolute;
   left: 50%;
@@ -1135,7 +1135,12 @@ button {
   border-color: var(--glass-border);
 }
 .hotel-photo { border-radius: 6px; overflow: hidden; contain: layout style paint; }
-.hotel-photo img { width: 100%; max-height: 24vh; object-fit: cover; display: block; }
+/* aspect-ratio reserva el alto de la foto ANTES de que cargue (son
+   loading="lazy"): sin esto, el contenedor no tiene alto hasta que la
+   imagen termina de cargar y la página "salta" justo cuando vas
+   scrolleando y la imagen aparece. Con el espacio reservado desde el
+   inicio, el salto desaparece sin tocar el scroll ni el sistema de capas. */
+.hotel-photo img { width: 100%; max-height: 24vh; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
 .hotel-card h4 { margin-top: 14px; color: var(--gold-light); font-size: 16px; letter-spacing: 1px; }
 .hotel-card .map-btn { margin-bottom: 4px; }
 
@@ -1143,16 +1148,21 @@ button {
   justify-content: center;
 }
 
-/* La sección de Alojamiento (Hotel Bay Suites) quedaba con mucho espacio
-   vacío de puro fondo arriba y abajo de la tarjeta, porque el contenido
-   (título + tarjeta) es más chico que el 100vh de la sección. En vez de
-   tocar el min-height/.layer (rompería el sistema de pin/scroll), se
-   agranda la tarjeta y sus separaciones para que ocupe más del espacio
-   disponible y los huecos arriba/abajo se reduzcan. */
-#hotels .hotel-photo img { max-height: 34vh; }
+/* Las secciones de Recepción (#location) y Alojamiento (#hotels) quedaban
+   con mucho espacio vacío de puro fondo arriba y abajo de la tarjeta,
+   porque el contenido (título + tarjeta) es más chico que el 100vh de
+   la sección. En vez de tocar el min-height/.layer (rompería el sistema
+   de pin/scroll), se agranda la tarjeta y sus separaciones en ambas para
+   que ocupen más del espacio disponible y los huecos arriba/abajo se
+   reduzcan. */
+#location .hotel-photo img,
+#hotels .hotel-photo img { max-height: 40vh; }
+#location .hotel-card,
 #hotels .hotel-card { padding-bottom: 26px; }
-#hotels .hotels-grid-single { margin-top: 34px; }
-#hotels .title-plate { padding: 24px 30px 26px; }
+#location .title-plate,
+#hotels .title-plate { padding: 26px 30px 28px; }
+#hotels .hotels-grid-single { margin-top: 38px; }
+#location .hotel-card { margin: 26px auto 0 !important; }
 
 .map-btn {
   margin-top: 10px;
@@ -1780,8 +1790,24 @@ footer .brand-logo { margin: 14px auto 0; }
 /* Galería: centrada verticalmente en su sección, collage de grid fijo
    sin gap (ver reglas principales más arriba). El balanceo por JS del
    masonry viejo ya no existe (el collage no lo necesita). */
-#gallery.section { justify-content: center; }
-#gallery .gallery-frame { margin-top: 6px; max-width: 340px; }
+#gallery.section { justify-content: center; padding-left: 10px; padding-right: 10px; }
+#gallery .gallery-frame {
+  margin-top: 6px;
+  max-width: 620px; /* antes 340px: mucho más grande, casi de lado a lado */
+  width: 100%;
+}
+/* Antes cada foto se recortaba a cuadro perfecto (aspect-ratio 1/1 +
+   object-fit:cover) y se cortaban cabezas/pies. Ahora se usa una
+   proporción de retrato (3/4, más cercana a las fotos reales) con
+   object-fit:contain para que la foto se vea COMPLETA dentro de su
+   celda, sin recortar arriba ni abajo. El aspect-ratio sigue reservando
+   el espacio desde el inicio (las fotos son loading="lazy"), así que no
+   hay salto en el layout cuando terminan de cargar. */
+.gallery-grid .g-item {
+  aspect-ratio: 3 / 4;
+  background: rgba(6, 18, 16, 0.55);
+}
+.gallery-grid img { object-fit: contain; }
 
 /* Fondos que son fotos: quitar por completo el oscurecido/velo, que se vean
    al 100% sin nada de opacidad encima */
