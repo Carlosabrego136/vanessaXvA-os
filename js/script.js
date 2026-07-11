@@ -47,6 +47,24 @@ const revealObserver = new IntersectionObserver((entries) => {
 
 revealEls.forEach(el => revealObserver.observe(el));
 
+// ===================== REVEAL ANTICIPADO (solo calendario y padrinos) =====================
+// Mismo sistema de arriba, pero dispara un poco antes de que el elemento
+// llegue realmente a la pantalla (rootMargin extiende el área hacia abajo).
+// No toca el scroll ni el sistema de capas sticky, solo adelanta el
+// momento en el que aparece el contenido (números del countdown y la
+// tarjeta de padrinos/sponsors) para que no quede tanto espacio de puro fondo.
+const earlyRevealEls = document.querySelectorAll('.reveal-early');
+
+const earlyRevealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+    }
+  });
+}, { threshold: 0, rootMargin: '0px 0px 220px 0px' });
+
+earlyRevealEls.forEach(el => earlyRevealObserver.observe(el));
+
 // ===================== PARALLAX ON IMAGES =====================
 const parallaxImgs = document.querySelectorAll('[data-parallax]');
 
@@ -251,9 +269,10 @@ function addSparkleLayer(container, count = 14) {
   container.appendChild(layer);
 }
 
-document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section').forEach(el => {
+document.querySelectorAll('#hero, #countdown, #verse, .photo-divider, .photo-overlay-section, .tag-band').forEach(el => {
   const isItinerary = el.id === 'itinerary';
-  addSparkleLayer(el, isItinerary ? 22 : 12);
+  const isTagBand = el.classList.contains('tag-band');
+  addSparkleLayer(el, isItinerary ? 22 : (isTagBand ? 16 : 12));
 });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
