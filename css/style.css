@@ -1477,3 +1477,47 @@ footer .brand-logo {
   .lightbox-stage { padding: 60px 46px; }
   .lightbox-nav { width: 38px; height: 38px; }
 }
+
+/* ===================== AJUSTES SOLICITADOS (Blessing / Padrinos / Itinerary / Registry / Verse) ===================== */
+
+/* Divider "Donde los sueños se convierten en magia": menos espacio arriba y abajo del texto */
+.photo-divider.photo-divider-compact { height: 24vh; }
+@media (max-width: 700px) {
+  .photo-divider.photo-divider-compact { height: 20vh; }
+}
+
+/* Blessing (Con la bendición de / Mi Padres) y Padrinos (Honor Corte): textos en blanco
+   y el nombre en script en la misma línea (horizontal) en vez de apilado */
+#blessing .section-tag,
+#padrinos .section-tag,
+#blessing .section-title,
+#padrinos .section-title,
+#blessing .section-title .script,
+#padrinos .section-title .script {
+  color: var(--cream);
+}
+#blessing .section-title .script,
+#padrinos .section-title .script {
+  display: inline;
+}
+#registry .section-title .script {
+  display: inline;
+}
+
+/* Padrinos: bajar un poco el título "Honor Corte" */
+#padrinos .section-title {
+  margin-top: 10px;
+}
+
+/* Itinerary: quitar espacio de arriba */
+#itinerary.photo-overlay-section {
+  align-items: flex-start;
+  padding-top: 50px;
+}
+
+/* Verse (Muchas aguas no pueden apagar el amor): menos espacio arriba y abajo */
+#verse {
+  min-height: 24vh;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
