@@ -682,7 +682,7 @@ button {
 }
 
 .hero-text .script {
-  font-size: clamp(78px, 15.5vw, 168px);
+  font-size: clamp(92px, 18vw, 180px);
   letter-spacing: 1px;
   background: linear-gradient(180deg, #fff9ec 0%, var(--gold-light) 32%, var(--gold) 68%, #8a622e 100%);
   -webkit-background-clip: text;
@@ -717,8 +717,8 @@ button {
   font-family: 'Marcellus', serif;
   text-transform: uppercase;
   font-weight: 400;
-  letter-spacing: 5px;
-  font-size: clamp(15px, 2.6vw, 20px);
+  letter-spacing: 4px;
+  font-size: clamp(20px, 4.6vw, 28px);
   color: var(--cream);
   margin-top: 0;
   text-shadow: 0 2px 12px rgba(0,0,0,0.6);
@@ -728,7 +728,7 @@ button {
   font-style: italic;
   font-weight: 500;
   letter-spacing: 0.5px;
-  font-size: clamp(17px, 3vw, 21px);
+  font-size: clamp(20px, 4.4vw, 25px);
   color: var(--gold-light);
   text-shadow: 0 2px 12px rgba(0,0,0,0.6);
 }
@@ -1156,6 +1156,15 @@ button {
   justify-content: center;
   margin-top: 20px;
 }
+/* Ahora que solo queda una tarjeta (Hotel Bay Suites, ya que Reception se
+   movió a la sección Enchanted Garden), se centra sola y se le quita el
+   ancho de "grid de dos" para que no quede con espacio vacío de sobra
+   a los lados. La altura de la sección (.layer, 100vh) no se toca para
+   no romper el sistema de pin/scroll. */
+.hotels-grid-single {
+  max-width: 300px;
+  margin: 20px auto 0;
+}
 
 /* ===================== GIFT REGISTRY ===================== */
 .registry-links {
@@ -1174,59 +1183,56 @@ button {
   color: var(--gold-light);
 }
 
-/* Gallery: se compacta el espacio antes del mosaico (menos padding arriba,
+/* Gallery: se compacta el espacio antes del collage (menos padding arriba,
    menos margen bajo el separador dorado) para que las fotos aparezcan más
    arriba y no haya que scrollear tanto para verlas. */
-#gallery { padding-top: 16px; padding-bottom: 30px; }
+#gallery { padding-top: 16px; padding-bottom: 30px; justify-content: center; }
 #gallery .ornament-divider { margin: 10px auto 4px; }
 #gallery .gallery-frame { margin-top: 4px; }
 
-/* ===================== GALLERY (mismo acomodo asimétrico 3x3 que la referencia) ===================== */
+/* Título de la sección (Memories / Photo Gallery) en línea horizontal,
+   en vez de apilado, para ahorrar espacio vertical. */
+.gallery-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  text-align: center;
+}
+.gallery-title-row .section-tag { margin: 0; }
+.gallery-title-row .section-title { margin: 0; }
+#gallery .section-title .script { display: inline; }
+
+/* ===================== GALLERY (collage sin bordes, fotos pegadas) =====================
+   Antes era un mosaico tipo masonry con columnas desiguales y huecos.
+   Ahora es un collage real: cuadrícula fija de 3 columnas, sin gap, sin
+   bordes redondeados ni marco de vidrio, las fotos quedan pegadas unas
+   con otras (cada una recortada a cuadro con object-fit:cover). */
 .gallery-frame {
-  background: var(--glass-bg-blue);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid var(--glass-border);
-  border-radius: 20px;
-  padding: 12px;
-  margin-top: 18px;
   width: 100%;
   max-width: 520px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px 8px rgba(244,166,204,0.28);
-  contain: layout style paint;
+  margin: 18px auto 0;
 }
-/* La galería usaba una cuadrícula cuadrada fija de 3 columnas con
-   object-fit:contain, y como la mayoría de las fotos son verticales
-   (retrato), quedaban chiquitas con mucho espacio vacío alrededor dentro
-   de su celda. Ahora cada foto se acomoda en 2 columnas (tipo mosaico)
-   respetando su propia proporción natural: se ven completas, sin recortar,
-   y bastante más grandes. */
 .gallery-grid {
-  columns: 2;
-  column-gap: 7px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
   width: 100%;
-  max-width: 480px;
-  margin-top: 0;
 }
 .gallery-grid .g-item {
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 0;
   position: relative;
-  background: rgba(8,28,48,0.35);
-  break-inside: avoid;
-  margin-bottom: 7px;
+  aspect-ratio: 1 / 1;
+  margin: 0;
   cursor: pointer;
 }
-.gallery-grid img { width: 100%; height: auto; display: block; object-fit: initial; transition: transform .6s ease; }
+.gallery-grid img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
 .gallery-grid .g-item:hover img { transform: scale(1.06); }
 
-@media (min-width: 640px) {
-  .gallery-grid { columns: 3; }
-}
-
 @media (max-width: 800px) {
-  .gallery-grid { max-width: 100%; }
-  .gallery-frame { padding: 10px; border-radius: 16px; }
+  .gallery-frame { max-width: 420px; }
 }
 
 /* ===================== SHARE MOMENTS ===================== */
@@ -1755,33 +1761,11 @@ footer .brand-logo {
 footer { padding: 30px 20px; }
 footer .brand-logo { margin: 14px auto 0; }
 
-/* Galería: la hace más chica y la sube más arriba dentro de la sección.
-   Los huecos vacíos del mosaico se resuelven con un pequeño script (más abajo
-   en script.js) que reparte las fotos en 2 columnas balanceadas por altura real;
-   estas reglas de aquí son el respaldo por si el script no llegara a correr. */
-#gallery.section { justify-content: flex-start; padding-top: 30px; }
-#gallery .gallery-frame { margin-top: 6px; max-width: 300px; }
-.gallery-grid {
-  max-width: 280px;
-  column-gap: 5px;
-}
-.gallery-grid .g-item { margin-bottom: 5px; }
-
-/* Cuando el script termina de balancear las columnas por altura real,
-   agrega esta clase: se pasa de "columns" (que deja huecos) a un flex real
-   de 2 columnas prearmadas, sin espacios vacíos. */
-.gallery-grid.js-balanced {
-  display: flex;
-  gap: 5px;
-}
-.gallery-grid.js-balanced .gallery-col {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.gallery-grid.js-balanced .g-item { margin-bottom: 0; }
+/* Galería: centrada verticalmente en su sección, collage de grid fijo
+   sin gap (ver reglas principales más arriba). El balanceo por JS del
+   masonry viejo ya no existe (el collage no lo necesita). */
+#gallery.section { justify-content: center; }
+#gallery .gallery-frame { margin-top: 6px; max-width: 340px; }
 
 /* Fondos que son fotos: quitar por completo el oscurecido/velo, que se vean
    al 100% sin nada de opacidad encima */

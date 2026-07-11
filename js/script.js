@@ -397,49 +397,10 @@ updateCountdown();
   }, { passive: true });
 })();
 
-// ===================== GALERÍA: 2 COLUMNAS BALANCEADAS (sin huecos vacíos) =====================
-// El "columns:2" de CSS (masonry) a veces deja espacios en blanco cuando
-// reparte las fotos entre columnas. Aquí las repartimos nosotros mismos,
-// una por una, siempre a la columna que en ese momento está más baja,
-// usando la altura real ya renderizada. Si algo falla, no pasa nada: se
-// queda con el CSS de respaldo (columns:2) que ya existía.
-(function () {
-  const grid = document.querySelector('.gallery-grid');
-  if (!grid) return;
-  const items = Array.from(grid.querySelectorAll(':scope > .g-item'));
-  if (!items.length) return;
-
-  function waitForImages() {
-    const imgs = Array.from(grid.querySelectorAll('img'));
-    return Promise.all(imgs.map((img) => {
-      if (img.complete) return Promise.resolve();
-      return new Promise((res) => {
-        img.addEventListener('load', res, { once: true });
-        img.addEventListener('error', res, { once: true });
-      });
-    }));
-  }
-
-  function balance() {
-    const col1 = document.createElement('div');
-    const col2 = document.createElement('div');
-    col1.className = 'gallery-col';
-    col2.className = 'gallery-col';
-    // Importante: se agregan al DOM primero (vacíos). Si no, mientras están
-    // "sueltos" en memoria, offsetHeight de todo lo que se les meta da 0,
-    // y la comparación de alturas para balancear no serviría de nada.
-    grid.appendChild(col1);
-    grid.appendChild(col2);
-    let h1 = 0, h2 = 0;
-    items.forEach((item) => {
-      if (h1 <= h2) { col1.appendChild(item); h1 += item.offsetHeight; }
-      else { col2.appendChild(item); h2 += item.offsetHeight; }
-    });
-    grid.classList.add('js-balanced');
-  }
-
-  waitForImages().then(() => requestAnimationFrame(balance));
-})();
+// ===================== GALERÍA: ahora es un collage de grid fijo (3 columnas,
+// sin gap, object-fit:cover) directamente por CSS, así que ya no hace falta
+// balancear columnas por JS como en el mosaico viejo. Se quitó esa función
+// para no mover las fotos de lugar y romper el nuevo collage.
 
 // ===================== GALLERY LIGHTBOX (tocar foto + swipe izq/der) =====================
 (function () {
