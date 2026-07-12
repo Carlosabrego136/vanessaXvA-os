@@ -451,8 +451,8 @@ function addSparkleLayer(container, count = 14, boost = false) {
     const color = palette[Math.floor(Math.random() * palette.length)];
     s.style.left = Math.random() * 100 + '%';
     s.style.top = Math.random() * 100 + '%';
-    s.style.animationDelay = (Math.random() * 2.2) + 's';
-    s.style.animationDuration = (2 + Math.random() * 1.6) + 's';
+    s.style.animationDelay = (Math.random() * 1.8) + 's';
+    s.style.animationDuration = (1.8 + Math.random() * 1.4) + 's';
     s.style.background = color;
     if (boost) {
       const size = 4.5 + Math.random() * 3; // 4.5-7.5px
@@ -460,7 +460,11 @@ function addSparkleLayer(container, count = 14, boost = false) {
       s.style.height = size + 'px';
       s.style.boxShadow = `0 0 12px 4px ${color}, 0 0 22px 7px ${color}bb, 0 0 34px 12px ${color}66`;
     } else {
-      s.style.boxShadow = `0 0 7px 2px ${color}, 0 0 14px 4px ${color}77`;
+      // mezcla de estrellas chicas y grandes para que se sienta más mágico
+      const size = 3 + Math.random() * 4; // 3-7px
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.boxShadow = `0 0 ${size * 2.4}px ${size * 0.8}px ${color}, 0 0 ${size * 4.4}px ${size * 1.4}px ${color}88`;
     }
     layer.appendChild(s);
   }
@@ -482,7 +486,7 @@ const sparkleScale = isSmallScreen ? 0.55 : 1;
 // destello es chico y NO se anima, se pinta una sola vez. Ahora cubre
 // TODA la página (antes se cortaba en Itinerary hacia abajo).
 document.querySelectorAll('#hero, #countdown, .photo-divider, .photo-overlay-section, .section, .split').forEach(el => {
-  addSparkleLayer(el, Math.max(3, Math.round(7 * sparkleScale)));
+  addSparkleLayer(el, Math.max(4, Math.round(10 * sparkleScale)));
 });
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
