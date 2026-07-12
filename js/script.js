@@ -103,7 +103,7 @@
       if (data[i + 3] < 40) cleared++;
     }
     checking = false;
-    if (total > 0 && cleared / total > 0.32) {
+    if (total > 0 && cleared / total > 0.93) {
       triggerReveal();
     }
   }
