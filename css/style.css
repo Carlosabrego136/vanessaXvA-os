@@ -506,12 +506,12 @@ button {
   pointer-events: none;
 }
 .scratch-title {
-  font-size: clamp(38px, 9vw, 58px);
+  font-size: clamp(48px, 12vw, 72px);
   color: var(--ink);
   transition: opacity .35s ease;
 }
 .scratch-hint {
-  font-size: 12px;
+  font-size: clamp(15px, 3.6vw, 18px);
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--gold);
@@ -519,8 +519,8 @@ button {
 }
 .scratch-heart-wrap {
   position: relative;
-  width: min(70vw, 260px);
-  height: min(65vw, 240px);
+  width: min(85vw, 340px);
+  height: min(80vw, 320px);
   touch-action: none;
 }
 .scratch-heart-reveal {
@@ -535,7 +535,7 @@ button {
   box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 .scratch-heart-reveal .script {
-  font-size: clamp(24px, 6vw, 32px);
+  font-size: clamp(28px, 7.5vw, 40px);
   color: var(--gold);
 }
 .scratch-heart-canvas {
