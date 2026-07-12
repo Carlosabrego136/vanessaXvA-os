@@ -268,65 +268,28 @@ musicBtn.addEventListener('click', () => {
 // en cada scroll, además queda un poco más liviano. Las clases se
 // dejaron en el HTML por si se quiere reactivar el efecto más adelante.
 
-// ===================== FADE LEVE (basado en el enganche sticky real): Countdown + Itinerary + Tarjetas (a pedido) =====================
-// Cada .layer usa position:sticky + top:0, así que se "engancha" arriba
-// de la pantalla (top llega a 0) justo cuando le toca su turno, y se
-// queda ahí hasta que la siguiente capa también se engancha y la tapa.
-// Usamos esa mecánica directamente en vez de porcentajes de
-// intersección (que eran poco fieles: se disparaban muy temprano,
-// apenas asomaba un pixel, por eso casi no se notaba bajando; o muy
-// tarde/mal en capas cortas como el footer).
-//
-// Una capa se considera "activa" (mostrando su contenido) cuando ya se
-// enganchó arriba (top <= 0) y sigue en pantalla. Se considera "tapada"
-// apenas la SIGUIENTE capa también se engancha. Con esto la animación
-// se dispara justo cuando la sección encaja en su lugar — se nota
-// mucho más — y al subir, en cuanto se destapa, se vuelve a animar.
-const allLayers = Array.from(document.querySelectorAll('.layer'));
-const layerRevealMap = allLayers.map((layer) =>
-  Array.from(layer.querySelectorAll('.reveal-fade-soft, .reveal-left, .reveal-right, .countdown-notable, .card-notable'))
-);
-
-// El RSVP es un caso aparte: pidieron que SOLO aparezca animando al
-// bajar (una vez), y que no se repita ni se esconda al subir. Se saca
-// del ciclo repetible de arriba y se maneja con su propio disparo único.
-const rsvpLayerIndex = allLayers.findIndex((layer) => layer.id === 'rsvp');
-let rsvpEls = [];
-if (rsvpLayerIndex !== -1) {
-  rsvpEls = layerRevealMap[rsvpLayerIndex];
-  layerRevealMap[rsvpLayerIndex] = [];
-}
-let rsvpRevealed = false;
-
-function computeLayerVisibility() {
-  const active = allLayers.map((layer) => {
-    const r = layer.getBoundingClientRect();
-    return r.top <= 1 && r.bottom > 0;
-  });
-  allLayers.forEach((layer, i) => {
-    const coveredByNext = i < allLayers.length - 1 ? active[i + 1] : false;
-    const visible = active[i] && !coveredByNext;
-    layerRevealMap[i].forEach((el) => el.classList.toggle('is-visible', visible));
-  });
-  if (!rsvpRevealed && rsvpLayerIndex !== -1 && active[rsvpLayerIndex]) {
-    rsvpRevealed = true;
-    rsvpEls.forEach((el) => el.classList.add('is-visible'));
-  }
-}
-
-if (allLayers.length) {
-  let tickingLayers = false;
-  const onScrollLayers = () => {
-    if (tickingLayers) return;
-    tickingLayers = true;
-    requestAnimationFrame(() => {
-      computeLayerVisibility();
-      tickingLayers = false;
+// ===================== FADE LEVE: Countdown + Itinerary + Tarjetas (a pedido) =====================
+// Se pidió que estas animaciones de entrada (calendario, Padres,
+// Padrinos y el resto de tarjetas/elementos con fade) se repitan cada
+// vez que el elemento vuelve a entrar en pantalla, tanto bajando como
+// subiendo el scroll — no solo la primera vez. Por eso ya no se hace
+// unobserve: se agrega 'is-visible' al entrar y se quita al salir de
+// vista, así la próxima vez que aparezca se vuelve a animar desde cero.
+const softRevealEls = document.querySelectorAll('.reveal-fade-soft, .reveal-left, .reveal-right, .countdown-notable, .card-notable');
+if (softRevealEls.length && 'IntersectionObserver' in window) {
+  const softRevealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      } else {
+        entry.target.classList.remove('is-visible');
+      }
     });
-  };
-  computeLayerVisibility();
-  window.addEventListener('scroll', onScrollLayers, { passive: true });
-  window.addEventListener('resize', onScrollLayers);
+  }, { threshold: 0.15 });
+  softRevealEls.forEach((el) => softRevealObserver.observe(el));
+} else {
+  // Sin soporte de IntersectionObserver: se muestran directo, sin fade.
+  softRevealEls.forEach((el) => el.classList.add('is-visible'));
 }
 
 // ===================== PARALLAX ELIMINADO A PEDIDO =====================
