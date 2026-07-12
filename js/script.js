@@ -248,7 +248,7 @@ enterBtn.addEventListener('click', () => {
 
 musicBtn.addEventListener('click', () => {
   if (!bgMusic.querySelector('source')) {
-    alert('Coloca tu archivo de música en assets/audio/song.mp3 y descoméntalo en el HTML para activar el sonido.');
+    alert('Add your music file to assets/audio/song.mp3 and uncomment it in the HTML to enable sound.');
     return;
   }
   if (bgMusic.paused) {
@@ -345,7 +345,7 @@ updateCountdown();
   const menu = document.getElementById('calendarMenu');
   if (!btn || !menu) return;
 
-  const eventTitle = "Vanessa's XV Años";
+  const eventTitle = "Vanessa's Sweet Fifteen";
   const eventLocation = "Enchanted Garden";
   const eventDescription = "Join us to celebrate Vanessa's Sweet Fifteen.";
   const startDate = eventDate; // ya definida arriba
