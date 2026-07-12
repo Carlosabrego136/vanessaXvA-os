@@ -42,6 +42,30 @@ musicBtn.addEventListener('click', () => {
 // en cada scroll, además queda un poco más liviano. Las clases se
 // dejaron en el HTML por si se quiere reactivar el efecto más adelante.
 
+// ===================== FADE LEVE: Countdown + Itinerary (a pedido) =====================
+// Se pidió que SOLO los números/botón de Agregar al calendario y la
+// tarjeta de Itinerary aparezcan levemente al llegar a su sección, sin
+// volver a traer el observer pesado de toda la página. Este es un
+// observer aparte, chiquito, que solo mira estos 2-3 elementos
+// (.reveal-fade-soft) y se apaga solo apenas cada uno ya apareció una
+// vez (unobserve), así que no hace ningún trabajo extra en el resto
+// del scroll.
+const softRevealEls = document.querySelectorAll('.reveal-fade-soft');
+if (softRevealEls.length && 'IntersectionObserver' in window) {
+  const softRevealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        softRevealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  softRevealEls.forEach((el) => softRevealObserver.observe(el));
+} else {
+  // Sin soporte de IntersectionObserver: se muestran directo, sin fade.
+  softRevealEls.forEach((el) => el.classList.add('is-visible'));
+}
+
 // ===================== PARALLAX ELIMINADO A PEDIDO =====================
 // Se sacó el efecto de parallax en las fotos de la galería (el translateY
 // que se aplicaba al hacer scroll). Ahora solo queda el scroll de capas
