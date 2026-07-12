@@ -268,28 +268,48 @@ musicBtn.addEventListener('click', () => {
 // en cada scroll, además queda un poco más liviano. Las clases se
 // dejaron en el HTML por si se quiere reactivar el efecto más adelante.
 
-// ===================== FADE LEVE: Countdown + Itinerary + Tarjetas (a pedido) =====================
-// Se pidió que estas animaciones de entrada (calendario, Padres,
-// Padrinos y el resto de tarjetas/elementos con fade) se repitan cada
-// vez que el elemento vuelve a entrar en pantalla, tanto bajando como
-// subiendo el scroll — no solo la primera vez. Por eso ya no se hace
-// unobserve: se agrega 'is-visible' al entrar y se quita al salir de
-// vista, así la próxima vez que aparezca se vuelve a animar desde cero.
-const softRevealEls = document.querySelectorAll('.reveal-fade-soft, .reveal-left, .reveal-right, .countdown-notable, .card-notable');
-if (softRevealEls.length && 'IntersectionObserver' in window) {
-  const softRevealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-      } else {
-        entry.target.classList.remove('is-visible');
-      }
+// ===================== FADE LEVE (consciente de las capas sticky): Countdown + Itinerary + Tarjetas (a pedido) =====================
+// Las secciones usan position:sticky apiladas (.layer): una sección
+// sigue estando geométricamente "dentro" del viewport aunque quede
+// TAPADA visualmente por la siguiente sección que se pone encima
+// (el z-index ascendente solo cambia el pintado, no la posición). Por
+// eso un IntersectionObserver simple nunca la marcaba como "fuera de
+// vista" al taparse, y por eso la animación no se repetía al subir el
+// scroll (solo funcionaba si subías más allá y volvías a bajar).
+//
+// Acá se arma un mapa por capa: cada capa se considera realmente
+// "visible" solo si ELLA está en pantalla Y la capa siguiente todavía
+// no empezó a taparla. Al subir el scroll y destaparse una capa
+// anterior, sus elementos con animación se resetean (is-visible se
+// quita) y se vuelven a animar apenas se destapan del todo.
+const allLayers = Array.from(document.querySelectorAll('.layer'));
+const layerRevealMap = allLayers.map((layer) =>
+  Array.from(layer.querySelectorAll('.reveal-fade-soft, .reveal-left, .reveal-right, .countdown-notable, .card-notable'))
+);
+const layerIntersecting = new Array(allLayers.length).fill(false);
+
+function applyLayerRevealVisibility() {
+  allLayers.forEach((layer, i) => {
+    const coveredByNext = i < allLayers.length - 1 ? layerIntersecting[i + 1] : false;
+    const visible = layerIntersecting[i] && !coveredByNext;
+    layerRevealMap[i].forEach((el) => {
+      el.classList.toggle('is-visible', visible);
     });
-  }, { threshold: 0.15 });
-  softRevealEls.forEach((el) => softRevealObserver.observe(el));
+  });
+}
+
+if (allLayers.length && 'IntersectionObserver' in window) {
+  const layerRevealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const idx = allLayers.indexOf(entry.target);
+      if (idx !== -1) layerIntersecting[idx] = entry.isIntersecting;
+    });
+    applyLayerRevealVisibility();
+  }, { threshold: 0 });
+  allLayers.forEach((layer) => layerRevealObserver.observe(layer));
 } else {
   // Sin soporte de IntersectionObserver: se muestran directo, sin fade.
-  softRevealEls.forEach((el) => el.classList.add('is-visible'));
+  layerRevealMap.forEach((els) => els.forEach((el) => el.classList.add('is-visible')));
 }
 
 // ===================== PARALLAX ELIMINADO A PEDIDO =====================
