@@ -52,7 +52,7 @@
   function erase(x, y) {
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 26, 0, Math.PI * 2);
+    ctx.arc(x, y, 34, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
   }
@@ -64,43 +64,59 @@
   }
 
   // Revisa cuánto % del corazón ya se borró, muestreando pixeles cada
-  // pocos px (no pixel por pixel) para que sea barato.
+  // pocos px (no pixel por pixel) para que sea barato. Usa un paso fijo
+  // en bytes (múltiplo de 4) para no depender de devicePixelRatio — en
+  // varios celulares Android ese valor tiene decimales (ej. 2.75) y eso
+  // rompía el muestreo (índices no enteros nunca contaban como "borrado").
   function checkProgress() {
     if (checking || revealed) return;
     checking = true;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     let total = 0, cleared = 0;
-    const step = 8 * dpr;
-    for (let i = 0; i < data.length; i += 4 * step) {
+    const step = 32; // cada 8vo pixel (32 bytes = 8 pixeles x 4 bytes RGBA)
+    for (let i = 0; i < data.length; i += step) {
       total++;
       if (data[i + 3] < 40) cleared++;
     }
     checking = false;
-    if (total > 0 && cleared / total > 0.4) {
+    if (total > 0 && cleared / total > 0.32) {
       triggerReveal();
     }
   }
 
   let drawing = false;
   let lastCheck = 0;
+  let lastPos = null;
   function handleMove(e) {
     if (revealed) return;
     e.preventDefault();
     const p = getPos(e);
-    erase(p.x, p.y);
+    if (lastPos) {
+      // Rellena la línea entre el punto anterior y el actual para que
+      // los swipes rápidos no dejen huecos sin rascar (se siente más
+      // rápido y generoso sin necesidad de pasar varias veces).
+      const dx = p.x - lastPos.x, dy = p.y - lastPos.y;
+      const dist = Math.hypot(dx, dy);
+      const steps = Math.max(1, Math.ceil(dist / 14));
+      for (let s = 0; s <= steps; s++) {
+        erase(lastPos.x + (dx * s) / steps, lastPos.y + (dy * s) / steps);
+      }
+    } else {
+      erase(p.x, p.y);
+    }
+    lastPos = p;
     const now = Date.now();
-    if (now - lastCheck > 180) {
+    if (now - lastCheck > 120) {
       lastCheck = now;
       checkProgress();
     }
   }
-  canvas.addEventListener('touchstart', (e) => { drawing = true; handleMove(e); }, { passive: false });
+  canvas.addEventListener('touchstart', (e) => { drawing = true; lastPos = null; handleMove(e); }, { passive: false });
   canvas.addEventListener('touchmove', (e) => { if (drawing) handleMove(e); }, { passive: false });
-  canvas.addEventListener('touchend', () => { drawing = false; });
-  canvas.addEventListener('mousedown', (e) => { drawing = true; handleMove(e); });
+  canvas.addEventListener('touchend', () => { drawing = false; lastPos = null; });
+  canvas.addEventListener('mousedown', (e) => { drawing = true; lastPos = null; handleMove(e); });
   canvas.addEventListener('mousemove', (e) => { if (drawing) handleMove(e); });
-  window.addEventListener('mouseup', () => { drawing = false; });
+  window.addEventListener('mouseup', () => { drawing = false; lastPos = null; });
 
   function launchConfetti() {
     const cctx = confettiCanvas.getContext('2d');
