@@ -1906,11 +1906,24 @@ footer .brand-logo { margin: 14px auto 0; }
 }
 .reveal.is-visible { transform: scale(1) translateY(0); }
 
-.reveal-left { transform: translateX(-32px); }
-.reveal-left.is-visible { transform: translateX(0); }
+/* ===================== AJUSTES SOLICITADOS 7 (Tarjetas notables desde un lado) =====================
+   A pedido: que el Itinerary y todas las tarjetas (hoteles, RSVP, deseos)
+   entren desde un lado de forma bien notable, pero fluida. Se mantiene el
+   mismo mecanismo liviano (un solo IntersectionObserver chiquito que se
+   apaga solo, ver softRevealObserver en el JS) — solo se anima opacity +
+   transform, nada de box-shadow ni filtros, así que sigue siendo barato
+   para el navegador. */
+.reveal-left {
+  transform: translateX(-64px) scale(0.94) rotate(-1.2deg);
+  transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
+}
+.reveal-left.is-visible { transform: translateX(0) scale(1) rotate(0deg); }
 
-.reveal-right { transform: translateX(32px); }
-.reveal-right.is-visible { transform: translateX(0); }
+.reveal-right {
+  transform: translateX(64px) scale(0.94) rotate(1.2deg);
+  transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
+}
+.reveal-right.is-visible { transform: translateX(0) scale(1) rotate(0deg); }
 
 /* ===================== AJUSTES SOLICITADOS 6 (Sin saltos, sin parallax) =====================
    Se pidió quitar las animaciones de aparición ("saltos" al hacer scroll)
@@ -1926,20 +1939,12 @@ footer .brand-logo { margin: 14px auto 0; }
    scrollea rápido hacia arriba o abajo, porque ya no depende de en qué
    momento el IntersectionObserver agregó la clase is-visible. */
 .reveal,
-.reveal-left,
-.reveal-right,
 .reveal-fade,
 .reveal.is-visible,
-.reveal-left.is-visible,
-.reveal-right.is-visible,
 .reveal-fade.is-visible,
 .countdown-boxes .box.reveal,
 .countdown-boxes .box:nth-child(even).reveal,
-.countdown-boxes .box.reveal.is-visible,
-.hotels-grid .reveal-left,
-.hotels-grid .reveal-right,
-.hotels-grid .reveal-left.is-visible,
-.hotels-grid .reveal-right.is-visible {
+.countdown-boxes .box.reveal.is-visible {
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;

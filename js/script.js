@@ -50,7 +50,7 @@ musicBtn.addEventListener('click', () => {
 // (.reveal-fade-soft) y se apaga solo apenas cada uno ya apareció una
 // vez (unobserve), así que no hace ningún trabajo extra en el resto
 // del scroll.
-const softRevealEls = document.querySelectorAll('.reveal-fade-soft');
+const softRevealEls = document.querySelectorAll('.reveal-fade-soft, .reveal-left, .reveal-right');
 if (softRevealEls.length && 'IntersectionObserver' in window) {
   const softRevealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
