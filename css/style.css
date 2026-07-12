@@ -1796,11 +1796,15 @@ footer .brand-logo {
   margin-top: 10px;
 }
 
-/* Itinerary: quitar espacio de arriba */
+/* Itinerary: la tarjeta es más chica que la pantalla, así que si se
+   pega arriba (como estaba antes) todo el espacio libre se acumula
+   abajo (el hueco grande que se veía antes de la siguiente capa).
+   Centrada verticalmente, ese espacio se reparte arriba y abajo por
+   igual, sin quedar un hueco enorme de un solo lado. */
 #itinerary.photo-overlay-section {
-  align-items: flex-start;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 /* Verse (Muchas aguas no pueden apagar el amor): menos espacio arriba y abajo */
@@ -1812,8 +1816,7 @@ footer .brand-logo {
 
 /* ===================== AJUSTES SOLICITADOS 2 (Itinerary abajo / Enviar Deseos / Muchas aguas blanco / Footer / Galería / Opacidad fondos) ===================== */
 
-/* Itinerary: un poco menos de espacio abajo también */
-#itinerary.photo-overlay-section { padding-bottom: 40px; }
+/* Itinerary: el espaciado ya quedó resuelto arriba (centrado). */
 
 /* "Muchas aguas no pueden apagar el amor" en blanco */
 #verse .script { color: var(--cream); }
@@ -1954,8 +1957,8 @@ footer .brand-logo { margin: 14px auto 0; }
    recortarse de más mientras se scrollea ese espacio, y recién después
    empieza a subir la capa siguiente. Ver .layer-gap más abajo. */
 .layer-gap {
-  height: 32vh;
-  height: 32dvh;
+  height: 16vh;
+  height: 16dvh;
   width: 100%;
   pointer-events: none;
 }
