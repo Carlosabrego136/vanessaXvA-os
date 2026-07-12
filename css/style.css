@@ -722,23 +722,27 @@ button {
 .reveal-right { opacity: 0; transform: translateX(70px); transition: opacity 1.1s ease, transform 1.1s ease; }
 .reveal-right.is-visible { opacity: 1; transform: translateX(0); }
 
-.reveal-fade { opacity: 0; transition: opacity 1.6s ease; }
-.reveal-fade.is-visible { opacity: 1; }
+.reveal-fade {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1s cubic-bezier(.19,1,.22,1), transform 1s cubic-bezier(.19,1,.22,1);
+}
+.reveal-fade.is-visible { opacity: 1; transform: translateY(0); }
 
-/* Se pidió quitar TODAS las animaciones de entrada (ver el bloque
-   "AJUSTES SOLICITADOS 6" más abajo, que las neutraliza con !important).
-   Esta clase es aparte a propósito, para no chocar con esa regla: es un
-   fade leve, SOLO de opacidad (nada de scale ni translate, así que no
-   cuesta layout/paint extra), usado únicamente en los números del
-   Countdown + botón de Agregar al calendario, y en la tarjeta de
-   Itinerary — los dos lugares donde se pidió que aparezcan suave al
-   llegar a su sección. Todo lo demás de la página se queda instantáneo,
-   como estaba. */
+/* AJUSTE (a pedido): esta clase se usa en casi todas las secciones
+   (etiquetas, títulos, tarjetas, formularios, QR, etc.), así que se
+   subió de un simple fade de opacidad a una entrada más notable —
+   sube desde abajo y crece levemente — para que TODA la página se
+   sienta con el mismo nivel de animación que ya tenían las tarjetas
+   de Padres y Padrinos. Sigue siendo solo opacity + transform (sin
+   box-shadow ni filtros), así que el costo para el navegador es el
+   mismo de siempre y el scroll se mantiene fluido. */
 .reveal-fade-soft {
   opacity: 0;
-  transition: opacity 0.9s ease;
+  transform: translateY(34px) scale(0.96);
+  transition: opacity 1s cubic-bezier(.19,1,.22,1), transform 1s cubic-bezier(.19,1,.22,1);
 }
-.reveal-fade-soft.is-visible { opacity: 1; }
+.reveal-fade-soft.is-visible { opacity: 1; transform: translateY(0) scale(1); }
 
 /* ===================== HERO (una sola foto grande de fondo) ===================== */
 #hero {
@@ -1970,8 +1974,12 @@ footer .brand-logo { margin: 14px auto 0; }
    Observer, mismos umbrales, mismo scroll) pero con desplazamientos y
    escala mucho más sutiles, para que la aparición sea suave en vez de
    un salto. */
+/* AJUSTE (a pedido): se pidió que la animación se note más en todas
+   las secciones — se sube un poco la escala/el desplazamiento respecto
+   a la versión anterior (más sutil), sin volver al "salto" brusco
+   original. Sigue siendo solo opacity + transform. */
 .reveal {
-  transform: scale(1.03) translateY(22px);
+  transform: scale(1.06) translateY(34px);
 }
 .reveal.is-visible { transform: scale(1) translateY(0); }
 
@@ -1994,30 +2002,17 @@ footer .brand-logo { margin: 14px auto 0; }
 }
 .reveal-right.is-visible { transform: translateX(0) scale(1) rotate(0deg); }
 
-/* ===================== AJUSTES SOLICITADOS 6 (Sin saltos, sin parallax) =====================
-   Se pidió quitar las animaciones de aparición ("saltos" al hacer scroll)
-   y el parallax de la galería, dejando SOLO el scroll de capas (sticky).
-   En vez de borrar todas las reglas de arriba (que están repartidas en
-   varios lugares del archivo: .reveal, .reveal-left, .reveal-right,
-   .reveal-fade, más las variantes específicas de countdown-boxes y
-   hotels-grid), se neutralizan todas acá al final con !important, que es
-   lo último que lee el navegador y gana siempre. Así el contenido queda
-   visible de entrada, sin opacity:0 inicial ni transform, y sin
-   transición — no hay "salto" porque no hay estado intermedio que
-   animar. Tampoco hay riesgo de que algo quede "a medias" si se
-   scrollea rápido hacia arriba o abajo, porque ya no depende de en qué
-   momento el IntersectionObserver agregó la clase is-visible. */
-.reveal,
-.reveal-fade,
-.reveal.is-visible,
-.reveal-fade.is-visible,
-.countdown-boxes .box.reveal,
-.countdown-boxes .box:nth-child(even).reveal,
-.countdown-boxes .box.reveal.is-visible {
-  opacity: 1 !important;
-  transform: none !important;
-  transition: none !important;
-}
+/* ===================== AJUSTES SOLICITADOS 8 (Animación notable en TODA la página) =====================
+   Antes, acá se neutralizaban .reveal y .reveal-fade con !important
+   (dejaban el contenido estático, sin animar), porque en un pedido
+   anterior se había pedido quitar el "salto" de las animaciones. Ahora
+   se pidió lo contrario: que la animación se note en todas las
+   secciones, igual que ya se veía en las tarjetas de Padres y
+   Padrinos. Por eso se quita ese bloque — así el hero, la galería, el
+   contador de días/hrs/mins y las etiquetas/títulos con fade vuelven a
+   animar al entrar en pantalla, usando el mismo IntersectionObserver
+   liviano de siempre (ver softRevealObserver en js/script.js), solo
+   con opacity + transform (sin box-shadow ni filtros pesados). */
 
 /* Parallax de la galería: ya no se mueve nada al hacer scroll (el JS que
    lo hacía se dejó de ejecutar), así que las imágenes se quedan quietas

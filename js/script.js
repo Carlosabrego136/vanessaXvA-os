@@ -260,13 +260,12 @@ musicBtn.addEventListener('click', () => {
   }
 });
 
-// ===================== REVEAL ELIMINADO A PEDIDO =====================
-// Se sacaron las animaciones de aparición al hacer scroll (el "salto" de
-// opacity 0 a 1 con movimiento). Ahora todo el contenido está visible de
-// entrada (ver el CSS: .reveal/.reveal-left/.reveal-right/.reveal-fade
-// quedaron neutralizados con opacity:1 fijo). Sin este observer corriendo
-// en cada scroll, además queda un poco más liviano. Las clases se
-// dejaron en el HTML por si se quiere reactivar el efecto más adelante.
+// ===================== REVEAL (animación notable en toda la página) =====================
+// A pedido: la animación de aparición (opacity + transform) ahora corre
+// en TODAS las secciones, no solo en las tarjetas de Padres/Padrinos.
+// Sigue siendo el mismo IntersectionObserver liviano de más abajo
+// (softRevealObserver), solo que ahora observa también .reveal y
+// .reveal-fade (antes solo veía las clases "soft"/"notable").
 
 // ===================== FADE LEVE: Countdown + Itinerary + Tarjetas (a pedido) =====================
 // Se pidió que estas animaciones de entrada (calendario, Padres,
@@ -275,7 +274,7 @@ musicBtn.addEventListener('click', () => {
 // subiendo el scroll — no solo la primera vez. Por eso ya no se hace
 // unobserve: se agrega 'is-visible' al entrar y se quita al salir de
 // vista, así la próxima vez que aparezca se vuelve a animar desde cero.
-const softRevealEls = document.querySelectorAll('.reveal-fade-soft, .reveal-left, .reveal-right, .countdown-notable, .card-notable');
+const softRevealEls = document.querySelectorAll('.reveal, .reveal-fade, .reveal-fade-soft, .reveal-left, .reveal-right, .countdown-notable, .card-notable');
 if (softRevealEls.length && 'IntersectionObserver' in window) {
   const softRevealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
