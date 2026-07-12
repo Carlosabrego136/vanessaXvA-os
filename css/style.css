@@ -18,6 +18,12 @@
   --glass-bg: linear-gradient(160deg, rgba(20,44,36,0.55) 0%, rgba(10,24,20,0.62) 100%);
   --glass-bg-blue: linear-gradient(160deg, rgba(24,64,102,0.55) 0%, rgba(8,28,52,0.62) 100%);
   --glass-bg-black: linear-gradient(160deg, rgba(10,10,9,0.92) 0%, rgba(2,2,2,0.95) 100%);
+  /* Versión "sólida" del mismo verde de --glass-bg, pero sin depender de
+     backdrop-filter: blur() para verse bien. Más opacidad en vez de blur,
+     mismo tono y el mismo look en pantalla, pero mucho más barata de
+     pintar para el GPU. Se usa en todas las tarjetas de vidrio EXCEPTO
+     Itinerary, que es la única que conserva el blur real. */
+  --glass-bg-solid: linear-gradient(160deg, rgba(19,42,34,0.86) 0%, rgba(9,22,18,0.92) 100%);
   --glass-border: rgba(207,161,94,0.55);
 }
 
@@ -338,9 +344,7 @@ img { max-width: 100%; }
   will-change: transform;
 }
 .split-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: var(--glass-bg-solid);
   border: 1px solid var(--glass-border);
   color: var(--cream);
   display: flex;
@@ -398,9 +402,7 @@ img { max-width: 100%; }
 .floating-card {
   position: relative;
   z-index: 2;
-  background: var(--glass-bg);
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
+  background: var(--glass-bg-solid);
   color: var(--cream);
   border-radius: 18px;
   border: 1px solid var(--glass-border);
@@ -418,15 +420,10 @@ img { max-width: 100%; }
 .floating-card .itinerary-item .icon { border-color: var(--gold); color: var(--gold-light); }
 .floating-card .itinerary-item .icon svg { filter: drop-shadow(0 0 3px rgba(207,161,94,0.7)); }
 
-/* Registry está después de Alojamiento en el scroll; se le baja un poco
-   el desenfoque (igual que Gallery/Wishes/Contacts/RSVP) para que esa
-   mitad de la página suba más fluida. No afecta a Blessing/Padrinos/
-   Itinerary, que comparten la misma clase .floating-card pero están
-   arriba y se quedan con el blur original. */
-#registry .floating-card {
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
+/* Blessing, Padrinos y Registry comparten .floating-card y ya NO llevan
+   backdrop-filter: blur() (ver --glass-bg-solid arriba) — así se quita
+   el peso más pesado para el GPU justo en Padrinos, que es donde venía
+   el traqueteo/stutter al hacer scroll con las capas sticky de fondo. */
 
 /* Itinerary: tarjeta en azul cristalino en vez del verde de las demás
    .floating-card (Blessing/Padrinos/Registry se quedan igual). */
@@ -434,10 +431,17 @@ img { max-width: 100%; }
   background: var(--glass-bg-blue);
 }
 
-/* tarjeta del itinerario: más pequeña y con profundidad marcada */
+/* tarjeta del itinerario: más pequeña y con profundidad marcada.
+   Esta es la ÚNICA tarjeta de la página que conserva el
+   backdrop-filter: blur() real (todas las demás usan --glass-bg-solid,
+   solo opacidad). Es el único lugar donde vale la pena pagar ese costo
+   de GPU, porque el fondo detrás es una foto de bosque muy "ocupada" y
+   el blur real se nota más que en el resto de secciones. */
 .floating-card.floating-card-compact {
   max-width: 300px;
   padding: 26px 22px;
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
   box-shadow:
     0 3px 0 rgba(207,161,94,0.3),
     0 14px 18px rgba(0,0,0,0.35),
@@ -447,6 +451,16 @@ img { max-width: 100%; }
 }
 .floating-card.floating-card-compact .section-title { font-size: clamp(26px, 4.2vw, 40px); }
 .floating-card.floating-card-compact .itinerary-item { padding: 12px 0; }
+
+/* "Itinerary" y "Accommodations" son una sola palabra partida en dos
+   spans (una parte en letra normal, otra en script); por default
+   .script es display:block y la parte cursiva se va a su propio
+   renglón, cortando la palabra a la mitad. Aquí se fuerza a que quede
+   en una sola línea horizontal, como debe leerse la palabra completa. */
+#itinerary .section-title .script,
+#hotels .section-title .script {
+  display: inline;
+}
 
 /* ===================== PILL BUTTONS (no más cuadrados) ===================== */
 .enter-btn, .calendar-btn, .map-btn, .submit-btn, .registry-links a, .contact-btn {
@@ -794,9 +808,7 @@ button {
   padding: 22px 26px;
   min-width: 90px;
   flex: 1 1 90px;
-  background: rgba(8, 20, 16, 0.55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(8, 20, 16, 0.85);
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
@@ -940,9 +952,7 @@ button {
   position: relative;
   flex: 0 0 100%;
   width: 100%;
-  background: var(--glass-bg);
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
+  background: var(--glass-bg-solid);
   color: var(--cream);
   border-radius: 14px;
   border: 1px solid var(--glass-border);
@@ -1075,9 +1085,7 @@ button {
 /* Placa semitransparente detrás del título para que se lea bien sobre
    la foto de fondo del bosque (que es más "ocupada" visualmente). */
 .title-plate {
-  background: rgba(8, 20, 16, 0.55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(8, 20, 16, 0.85);
   border: 1px solid var(--glass-border);
   border-radius: 18px;
   padding: 18px 30px 20px;
@@ -1285,22 +1293,14 @@ button {
   .gallery-frame { max-width: 480px; }
 }
 
-/* En celular, el "vidrio esmerilado" (backdrop-filter blur) de las tarjetas
-   flotantes es lo más pesado para el GPU, sobre todo combinado con las
-   secciones sticky de fondo completo (.layer). Se reduce el blur en
-   pantallas chicas — se nota casi igual visualmente pero cuesta mucho
-   menos de renderizar, así que el scroll deja de sentirse pesado a partir
-   de Padrinos (la primera sección donde se acumulan varias capas sticky
-   + esta tarjeta con blur al mismo tiempo). */
+/* En celular, Itinerary es la única tarjeta que sigue usando
+   backdrop-filter: blur() de verdad (todas las demás ya son solo
+   opacidad, ver --glass-bg-solid). Se le baja un poco el blur en
+   pantallas chicas, que es donde más cuesta al GPU. */
 @media (max-width: 700px) {
-  .floating-card,
-  .split-card {
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-  }
-  #registry .floating-card {
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
+  .floating-card.floating-card-compact {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
   .floating-card {
     box-shadow: 0 12px 22px rgba(0,0,0,0.4), 0 0 20px 4px rgba(244,166,204,0.22);
@@ -1391,9 +1391,7 @@ button {
 }
 
 .wish-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: var(--glass-bg-solid);
   color: var(--cream);
   border: 1px solid var(--glass-border);
   padding: 24px 30px;
@@ -1504,9 +1502,7 @@ button {
   text-shadow: 0 4px 20px rgba(0,0,0,0.7);
 }
 .contacts-frame {
-  background: var(--glass-bg);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: var(--glass-bg-solid);
   border: 1px solid var(--glass-border);
   border-radius: 22px;
   padding: 36px 30px;
