@@ -268,49 +268,65 @@ musicBtn.addEventListener('click', () => {
 // en cada scroll, además queda un poco más liviano. Las clases se
 // dejaron en el HTML por si se quiere reactivar el efecto más adelante.
 
-// ===================== FADE LEVE (consciente de las capas sticky): Countdown + Itinerary + Tarjetas (a pedido) =====================
-// Las secciones usan position:sticky apiladas (.layer): una sección
-// sigue estando geométricamente "dentro" del viewport aunque quede
-// TAPADA visualmente por la siguiente sección que se pone encima
-// (el z-index ascendente solo cambia el pintado, no la posición). Por
-// eso un IntersectionObserver simple nunca la marcaba como "fuera de
-// vista" al taparse.
+// ===================== FADE LEVE (basado en el enganche sticky real): Countdown + Itinerary + Tarjetas (a pedido) =====================
+// Cada .layer usa position:sticky + top:0, así que se "engancha" arriba
+// de la pantalla (top llega a 0) justo cuando le toca su turno, y se
+// queda ahí hasta que la siguiente capa también se engancha y la tapa.
+// Usamos esa mecánica directamente en vez de porcentajes de
+// intersección (que eran poco fieles: se disparaban muy temprano,
+// apenas asomaba un pixel, por eso casi no se notaba bajando; o muy
+// tarde/mal en capas cortas como el footer).
 //
-// Se arma un mapa por capa usando el % real de cada capa que está en
-// pantalla (intersectionRatio), no solo un true/false. Una capa se
-// considera "tapada" solo cuando la siguiente ya cubre más de la mitad
-// de la pantalla (ratio > 0.5) — así, mientras bajas el scroll y la
-// capa siguiente recién está asomando, el contenido de la capa actual
-// NO se esconde de golpe (nada de parpadeo). Recién se resetea cuando
-// de verdad queda tapada, y al subir y destaparse vuelve a animarse.
+// Una capa se considera "activa" (mostrando su contenido) cuando ya se
+// enganchó arriba (top <= 0) y sigue en pantalla. Se considera "tapada"
+// apenas la SIGUIENTE capa también se engancha. Con esto la animación
+// se dispara justo cuando la sección encaja en su lugar — se nota
+// mucho más — y al subir, en cuanto se destapa, se vuelve a animar.
 const allLayers = Array.from(document.querySelectorAll('.layer'));
 const layerRevealMap = allLayers.map((layer) =>
   Array.from(layer.querySelectorAll('.reveal-fade-soft, .reveal-left, .reveal-right, .countdown-notable, .card-notable'))
 );
-const layerRatio = new Array(allLayers.length).fill(0);
 
-function applyLayerRevealVisibility() {
-  allLayers.forEach((layer, i) => {
-    const coveredByNext = i < allLayers.length - 1 ? layerRatio[i + 1] > 0.5 : false;
-    const visible = layerRatio[i] > 0 && !coveredByNext;
-    layerRevealMap[i].forEach((el) => {
-      el.classList.toggle('is-visible', visible);
-    });
+// El RSVP es un caso aparte: pidieron que SOLO aparezca animando al
+// bajar (una vez), y que no se repita ni se esconda al subir. Se saca
+// del ciclo repetible de arriba y se maneja con su propio disparo único.
+const rsvpLayerIndex = allLayers.findIndex((layer) => layer.id === 'rsvp');
+let rsvpEls = [];
+if (rsvpLayerIndex !== -1) {
+  rsvpEls = layerRevealMap[rsvpLayerIndex];
+  layerRevealMap[rsvpLayerIndex] = [];
+}
+let rsvpRevealed = false;
+
+function computeLayerVisibility() {
+  const active = allLayers.map((layer) => {
+    const r = layer.getBoundingClientRect();
+    return r.top <= 1 && r.bottom > 0;
   });
+  allLayers.forEach((layer, i) => {
+    const coveredByNext = i < allLayers.length - 1 ? active[i + 1] : false;
+    const visible = active[i] && !coveredByNext;
+    layerRevealMap[i].forEach((el) => el.classList.toggle('is-visible', visible));
+  });
+  if (!rsvpRevealed && rsvpLayerIndex !== -1 && active[rsvpLayerIndex]) {
+    rsvpRevealed = true;
+    rsvpEls.forEach((el) => el.classList.add('is-visible'));
+  }
 }
 
-if (allLayers.length && 'IntersectionObserver' in window) {
-  const layerRevealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const idx = allLayers.indexOf(entry.target);
-      if (idx !== -1) layerRatio[idx] = entry.intersectionRatio;
+if (allLayers.length) {
+  let tickingLayers = false;
+  const onScrollLayers = () => {
+    if (tickingLayers) return;
+    tickingLayers = true;
+    requestAnimationFrame(() => {
+      computeLayerVisibility();
+      tickingLayers = false;
     });
-    applyLayerRevealVisibility();
-  }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
-  allLayers.forEach((layer) => layerRevealObserver.observe(layer));
-} else {
-  // Sin soporte de IntersectionObserver: se muestran directo, sin fade.
-  layerRevealMap.forEach((els) => els.forEach((el) => el.classList.add('is-visible')));
+  };
+  computeLayerVisibility();
+  window.addEventListener('scroll', onScrollLayers, { passive: true });
+  window.addEventListener('resize', onScrollLayers);
 }
 
 // ===================== PARALLAX ELIMINADO A PEDIDO =====================
