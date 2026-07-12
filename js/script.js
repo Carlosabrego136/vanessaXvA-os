@@ -473,30 +473,17 @@ function addSparkleLayer(container, count = 14, boost = false) {
 const isSmallScreen = window.innerWidth < 700;
 const sparkleScale = isSmallScreen ? 0.55 : 1;
 
-// A partir de la sección Itinerary (inclusive) y todo lo que sigue hacia
-// abajo (Dresscode, Location, Hotels, Registry, Gallery, Share, Wishes,
-// Story, Contacts, Verse, RSVP, Footer) ya NO llevan destellos: era la
-// mitad de la página con más animaciones acumuladas al mismo tiempo y
-// donde más se sentían los tirones. Se calcula por posición real en el
-// documento, así que cubre cualquier sección que esté después de Itinerary
-// aunque cambie el orden más adelante.
-const itinerarySection = document.getElementById('itinerary');
-function isFromItineraryDown(el) {
-  if (!itinerarySection) return false;
-  return el === itinerarySection ||
-    !!(itinerarySection.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
-}
-
-// Destellos suaves (hero, countdown, franja dorada, fotos divisoras y
-// secciones con foto+tarjeta) — DESACTIVADOS a pedido (se deja solo la
-// hadita y el brillo que sigue al scroll, más abajo). Se comenta en vez
-// de borrar la función addSparkleLayer por si se quiere reactivar luego.
-// document.querySelectorAll('#hero, #countdown, .photo-divider, .photo-overlay-section, .tag-band').forEach(el => {
-//   if (isFromItineraryDown(el)) return;
-//   const isTagBand = el.classList.contains('tag-band');
-//   const base = isTagBand ? 8 : 6;
-//   addSparkleLayer(el, Math.max(3, Math.round(base * sparkleScale)));
-// });
+// Destellos suaves (dorado, rosa, morado, azul) — reactivados a pedido,
+// pero MUCHO más livianos que la versión original: menos destellos por
+// sección (4, escalados a la mitad en celular) y sin el estilo "boost"
+// (que usaba sombras enormes y muy caras de pintar). La animación en sí
+// solo mueve opacity y transform (ver @keyframes sparkle-twinkle en el
+// CSS), que es lo barato para el navegador — el box-shadow de cada
+// destello es chico y NO se anima, se pinta una sola vez. Ahora cubre
+// TODA la página (antes se cortaba en Itinerary hacia abajo).
+document.querySelectorAll('#hero, #countdown, .photo-divider, .photo-overlay-section, .section, .split').forEach(el => {
+  addSparkleLayer(el, Math.max(2, Math.round(4 * sparkleScale)));
+});
 
 // ===================== BRILLO QUE SIGUE AL SCROLL =====================
 // Cada vez que el usuario hace scroll (con el dedo o el mouse), aparece
