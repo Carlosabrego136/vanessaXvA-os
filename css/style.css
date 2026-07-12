@@ -389,10 +389,10 @@ img { max-width: 100%; }
 #registry.photo-overlay-section { padding-top: 40px; padding-bottom: 50px; }
 
 /* La tarjeta de Padrinos se recorre hacia abajo dentro de la foto, para
-   que no quede montada sobre la cara. */
+   que no quede montada sobre la cara — pero no tan abajo como antes. */
 #padrinos.photo-overlay-section {
   align-items: flex-end;
-  padding-bottom: 64px;
+  padding-bottom: 130px;
 }
 
 .floating-card {

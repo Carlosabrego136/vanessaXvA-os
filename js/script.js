@@ -555,7 +555,7 @@ function spawnFairy() {
     if (rect.width) {
       spawnFairySpark(rect.left + rect.width / 2, rect.top + rect.height / 2);
     }
-  }, isSmallScreen ? 520 : 320);
+  }, isSmallScreen ? 750 : 480);
 
   setTimeout(() => {
     clearInterval(trailInterval);
@@ -564,7 +564,7 @@ function spawnFairy() {
 }
 
 function scheduleFairy() {
-  const delay = 6000 + Math.random() * 8000; // entre 6 y 14 segundos
+  const delay = 8000 + Math.random() * 9000; // entre 8 y 17 segundos
   setTimeout(() => {
     spawnFairy();
     scheduleFairy();
