@@ -29,20 +29,44 @@
   // así que no cuesta nada al navegador mientras el usuario rasca.
   function drawGoldLayer() {
     const grad = ctx.createLinearGradient(0, 0, w, h);
-    grad.addColorStop(0, '#e9c77a');
-    grad.addColorStop(0.5, '#cfa15e');
-    grad.addColorStop(1, '#b8863f');
+    grad.addColorStop(0, '#fff2c4');
+    grad.addColorStop(0.28, '#ffd968');
+    grad.addColorStop(0.55, '#e8b23e');
+    grad.addColorStop(0.8, '#cf9a2e');
+    grad.addColorStop(1, '#b8862a');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
-    // motitas de brillo (glitter) fijas, dibujadas una sola vez
-    for (let i = 0; i < 220; i++) {
+
+    // brillo diagonal tipo destello de metal pulido, fijo (no animado)
+    const shineGrad = ctx.createLinearGradient(0, 0, w * 0.6, h * 0.6);
+    shineGrad.addColorStop(0, 'rgba(255,255,255,0.55)');
+    shineGrad.addColorStop(0.25, 'rgba(255,255,255,0.05)');
+    shineGrad.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = shineGrad;
+    ctx.fillRect(0, 0, w, h);
+
+    // motitas de brillo (glitter) fijas, dibujadas una sola vez — más
+    // cantidad y algunas con destello extra para que se vea más vivo
+    for (let i = 0; i < 340; i++) {
       const x = Math.random() * w;
       const y = Math.random() * h;
-      const r = Math.random() * 1.4 + 0.3;
-      ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.5 + 0.15})`;
+      const r = Math.random() * 1.6 + 0.3;
+      ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.6 + 0.2})`;
       ctx.beginPath();
       ctx.arc(x, y, r, 0, Math.PI * 2);
       ctx.fill();
+    }
+    // unos pocos destellos más grandes tipo estrella para dar chispa
+    for (let i = 0; i < 10; i++) {
+      const x = Math.random() * w;
+      const y = Math.random() * h;
+      const s = Math.random() * 4 + 3;
+      ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x - s, y); ctx.lineTo(x + s, y);
+      ctx.moveTo(x, y - s); ctx.lineTo(x, y + s);
+      ctx.stroke();
     }
   }
 
@@ -126,36 +150,47 @@
     confettiCanvas.style.width = window.innerWidth + 'px';
     confettiCanvas.style.height = window.innerHeight + 'px';
     cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const colors = ['#cfa15e', '#e8caa0', '#f6f1e6', '#b8863f'];
+    const colors = ['#cfa15e', '#ffd968', '#e8caa0', '#f6f1e6', '#b8863f'];
     const pieces = [];
-    const count = window.innerWidth < 700 ? 45 : 70;
+    const count = window.innerWidth < 700 ? 55 : 85;
     for (let i = 0; i < count; i++) {
       pieces.push({
         x: Math.random() * window.innerWidth,
         y: -20 - Math.random() * window.innerHeight * 0.5,
-        w: Math.random() * 6 + 4,
-        h: Math.random() * 10 + 6,
+        w: Math.random() * 7 + 4,
+        h: Math.random() * 11 + 6,
         rot: Math.random() * Math.PI,
-        vRot: (Math.random() - 0.5) * 0.2,
-        vy: Math.random() * 2 + 2,
-        vx: (Math.random() - 0.5) * 1.6,
+        vRot: (Math.random() - 0.5) * 0.3,
+        vy: Math.random() * 3.5 + 5.5,
+        vx: (Math.random() - 0.5) * 1.8,
+        swayAmp: Math.random() * 18 + 6,
+        swaySpeed: Math.random() * 2 + 1.2,
+        phase: Math.random() * Math.PI * 2,
+        shape: Math.random() < 0.35 ? 'circle' : 'rect',
         color: colors[Math.floor(Math.random() * colors.length)]
       });
     }
     const startTime = Date.now();
-    const duration = 2200;
+    const duration = 1900;
     function frame() {
       const elapsed = Date.now() - startTime;
+      const t = elapsed / 1000;
       cctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       pieces.forEach(p => {
-        p.x += p.vx;
         p.y += p.vy;
         p.rot += p.vRot;
+        const sway = Math.sin(t * p.swaySpeed + p.phase) * p.swayAmp * 0.06;
         cctx.save();
-        cctx.translate(p.x, p.y);
+        cctx.translate(p.x + p.vx * t * 12 + sway, p.y);
         cctx.rotate(p.rot);
         cctx.fillStyle = p.color;
-        cctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        if (p.shape === 'circle') {
+          cctx.beginPath();
+          cctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+          cctx.fill();
+        } else {
+          cctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        }
         cctx.restore();
       });
       if (elapsed < duration) {
@@ -185,7 +220,7 @@
 
     setTimeout(() => {
       screen.classList.add('hidden');
-    }, 2700);
+    }, 2800);
   }
 })();
 
