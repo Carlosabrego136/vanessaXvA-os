@@ -1900,3 +1900,30 @@ footer .brand-logo { margin: 14px auto 0; }
 
 .reveal-right { transform: translateX(32px); }
 .reveal-right.is-visible { transform: translateX(0); }
+
+/* ===================== AJUSTES SOLICITADOS 5 (Más tiempo "asentada" antes de que la cubra la siguiente capa) =====================
+   Con el sistema de capas sticky, la capa siguiente empieza a deslizarse
+   y a tapar a la actual DESDE EL PRIMER PIXEL que se scrollea (no hay
+   pausa: apenas la sección actual queda fija, la de abajo ya está
+   subiendo). Para que cada sección se quede completamente asentada un
+   momento antes de que empiece a taparla la que sigue, se le agrega alto
+   extra (que no se ve como contenido, solo como espacio de scroll de
+   más). Ese alto extra es exactamente lo que tarda en empezar a
+   aparecer la siguiente capa por debajo, así que a más alto, más tiempo
+   "quieta" se siente cada sección. Se aplica de Galería para abajo (y a
+   las anteriores también) EXCEPTO Alojamiento (#hotels) y Recepción
+   (#location), que se dejan como están. */
+#countdown.layer,
+#blessing.layer,
+#padrinos.layer,
+#itinerary.layer,
+#church.layer,
+#registry.layer,
+#gallery.layer,
+#share.layer,
+#wishes.layer,
+#story.layer,
+#contacts.layer {
+  min-height: 130vh;
+  min-height: 130dvh;
+}
