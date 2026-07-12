@@ -14,6 +14,24 @@
 </head>
 <body>
 
+<!-- SCRATCH WELCOME SCREEN -->
+<div id="scratch-screen">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <clipPath id="heartClip" clipPathUnits="objectBoundingBox">
+        <path d="M0.5,0.92 C0.5,0.92 0.06,0.62 0.06,0.34 C0.06,0.18 0.19,0.06 0.34,0.06 C0.42,0.06 0.49,0.11 0.5,0.19 C0.51,0.11 0.58,0.06 0.66,0.06 C0.81,0.06 0.94,0.18 0.94,0.34 C0.94,0.62 0.5,0.92 0.5,0.92 Z"/>
+      </clipPath>
+    </defs>
+  </svg>
+  <p class="script scratch-title" id="scratchTitle">Bienvenido</p>
+  <div class="scratch-heart-wrap" id="scratchHeartWrap">
+    <div class="scratch-heart-reveal"><span class="script">Vanessa</span></div>
+    <canvas id="scratchCanvas" class="scratch-heart-canvas"></canvas>
+  </div>
+  <p class="scratch-hint" id="scratchHint">Rasca para revelar</p>
+  <canvas id="scratchConfetti" class="scratch-confetti-canvas"></canvas>
+</div>
+
 <!-- ENTER SCREEN -->
 <div id="enter-screen">
   <div class="enter-content">

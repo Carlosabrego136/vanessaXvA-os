@@ -1,3 +1,178 @@
+// ===================== SCRATCH WELCOME (corazón para rascar) =====================
+(function () {
+  const screen = document.getElementById('scratch-screen');
+  const wrap = document.getElementById('scratchHeartWrap');
+  const canvas = document.getElementById('scratchCanvas');
+  const title = document.getElementById('scratchTitle');
+  const hint = document.getElementById('scratchHint');
+  const confettiCanvas = document.getElementById('scratchConfetti');
+  if (!screen || !canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let w = 0, h = 0;
+  let revealed = false;
+  let checking = false;
+
+  function sizeCanvas() {
+    const rect = wrap.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = rect.width; h = rect.height;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawGoldLayer();
+  }
+
+  // Capa dorada tipo "glitter" — se dibuja UNA sola vez, no se anima nada,
+  // así que no cuesta nada al navegador mientras el usuario rasca.
+  function drawGoldLayer() {
+    const grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, '#e9c77a');
+    grad.addColorStop(0.5, '#cfa15e');
+    grad.addColorStop(1, '#b8863f');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+    // motitas de brillo (glitter) fijas, dibujadas una sola vez
+    for (let i = 0; i < 220; i++) {
+      const x = Math.random() * w;
+      const y = Math.random() * h;
+      const r = Math.random() * 1.4 + 0.3;
+      ctx.fillStyle = `rgba(255,255,255,${Math.random() * 0.5 + 0.15})`;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  sizeCanvas();
+  window.addEventListener('resize', () => { if (!revealed) sizeCanvas(); });
+
+  function erase(x, y) {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 26, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+  }
+
+  // Revisa cuánto % del corazón ya se borró, muestreando pixeles cada
+  // pocos px (no pixel por pixel) para que sea barato.
+  function checkProgress() {
+    if (checking || revealed) return;
+    checking = true;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let total = 0, cleared = 0;
+    const step = 8 * dpr;
+    for (let i = 0; i < data.length; i += 4 * step) {
+      total++;
+      if (data[i + 3] < 40) cleared++;
+    }
+    checking = false;
+    if (total > 0 && cleared / total > 0.4) {
+      triggerReveal();
+    }
+  }
+
+  let drawing = false;
+  let lastCheck = 0;
+  function handleMove(e) {
+    if (revealed) return;
+    e.preventDefault();
+    const p = getPos(e);
+    erase(p.x, p.y);
+    const now = Date.now();
+    if (now - lastCheck > 180) {
+      lastCheck = now;
+      checkProgress();
+    }
+  }
+  canvas.addEventListener('touchstart', (e) => { drawing = true; handleMove(e); }, { passive: false });
+  canvas.addEventListener('touchmove', (e) => { if (drawing) handleMove(e); }, { passive: false });
+  canvas.addEventListener('touchend', () => { drawing = false; });
+  canvas.addEventListener('mousedown', (e) => { drawing = true; handleMove(e); });
+  canvas.addEventListener('mousemove', (e) => { if (drawing) handleMove(e); });
+  window.addEventListener('mouseup', () => { drawing = false; });
+
+  function launchConfetti() {
+    const cctx = confettiCanvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    confettiCanvas.width = window.innerWidth * dpr;
+    confettiCanvas.height = window.innerHeight * dpr;
+    confettiCanvas.style.width = window.innerWidth + 'px';
+    confettiCanvas.style.height = window.innerHeight + 'px';
+    cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const colors = ['#cfa15e', '#e8caa0', '#f6f1e6', '#b8863f'];
+    const pieces = [];
+    const count = window.innerWidth < 700 ? 45 : 70;
+    for (let i = 0; i < count; i++) {
+      pieces.push({
+        x: Math.random() * window.innerWidth,
+        y: -20 - Math.random() * window.innerHeight * 0.5,
+        w: Math.random() * 6 + 4,
+        h: Math.random() * 10 + 6,
+        rot: Math.random() * Math.PI,
+        vRot: (Math.random() - 0.5) * 0.2,
+        vy: Math.random() * 2 + 2,
+        vx: (Math.random() - 0.5) * 1.6,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      });
+    }
+    const startTime = Date.now();
+    const duration = 2200;
+    function frame() {
+      const elapsed = Date.now() - startTime;
+      cctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      pieces.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vRot;
+        cctx.save();
+        cctx.translate(p.x, p.y);
+        cctx.rotate(p.rot);
+        cctx.fillStyle = p.color;
+        cctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        cctx.restore();
+      });
+      if (elapsed < duration) {
+        requestAnimationFrame(frame);
+      } else {
+        cctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      }
+    }
+    frame();
+  }
+
+  function triggerReveal() {
+    if (revealed) return;
+    revealed = true;
+    canvas.style.transition = 'opacity .6s ease';
+    canvas.style.opacity = '0';
+    hint.style.opacity = '0';
+
+    setTimeout(() => {
+      title.style.opacity = '0';
+      setTimeout(() => {
+        title.textContent = 'Welcome';
+        title.style.opacity = '1';
+        launchConfetti();
+      }, 350);
+    }, 500);
+
+    setTimeout(() => {
+      screen.classList.add('hidden');
+    }, 2700);
+  }
+})();
+
 // ===================== ENTER SCREEN =====================
 const enterScreen = document.getElementById('enter-screen');
 const enterBtn = document.getElementById('enterBtn');
