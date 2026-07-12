@@ -807,6 +807,27 @@ button {
   filter: drop-shadow(0 6px 16px rgba(0,0,0,0.4));
 }
 
+/* ===================== ANIMACIÓN NOTABLE: Texto del Hero al presionar Enter (a pedido) =====================
+   Antes esta entrada usaba la clase genérica ".reveal" (la que vigila el
+   scroll), pero como el Hero queda técnicamente "visible" en el DOM
+   detrás de la pantalla de Enter desde que carga la página, ese
+   observer la disparaba de inmediato — y para cuando el usuario tocaba
+   "Enter" el texto ya estaba en su lugar final, sin animación visible.
+   Ahora esta entrada es independiente: solo se activa cuando el JS le
+   agrega la clase "is-visible" a #heroText, justo al presionar Enter
+   (ver enterBtn en js/script.js). El título, la línea dorada y cada
+   línea del subtítulo entran en cascada, con opacity + transform
+   nada más (liviano). */
+.hero-text .script {
+  opacity: 0;
+  transform: translateY(46px) scale(0.9);
+  transition: opacity 1.3s cubic-bezier(.19,1,.22,1), transform 1.3s cubic-bezier(.19,1,.22,1);
+}
+#heroText.is-visible .script {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 .hero-text p { color: var(--gold-light); letter-spacing: 3px; margin-top: 10px; font-size: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.6); }
 
 .hero-subtitle { margin-top: 30px; }
@@ -817,9 +838,23 @@ button {
   height: 1px;
   margin: 0 auto 18px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0;
+  transform: scaleX(0);
+  transition: opacity .7s ease .55s, transform .9s cubic-bezier(.19,1,.22,1) .55s;
+}
+#heroText.is-visible .hero-subtitle::before {
+  opacity: 1;
+  transform: scaleX(1);
 }
 .hero-subtitle p {
   margin-top: 14px;
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 1s cubic-bezier(.19,1,.22,1), transform 1s cubic-bezier(.19,1,.22,1);
+}
+#heroText.is-visible .hero-subtitle p {
+  opacity: 1;
+  transform: translateY(0);
 }
 .hero-subtitle p:first-child {
   font-family: 'Marcellus', serif;
@@ -830,6 +865,7 @@ button {
   color: var(--cream);
   margin-top: 0;
   text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  transition-delay: .7s;
 }
 .hero-subtitle p:last-child {
   font-family: 'Cormorant Garamond', serif;
@@ -839,6 +875,7 @@ button {
   font-size: clamp(20px, 4.4vw, 25px);
   color: var(--gold-light);
   text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+  transition-delay: .9s;
 }
 @media (max-width: 500px) {
   .hero-subtitle { margin-top: 22px; }

@@ -230,8 +230,16 @@ const enterBtn = document.getElementById('enterBtn');
 const bgMusic = document.getElementById('bgMusic');
 const musicBtn = document.getElementById('musicBtn');
 
+const heroText = document.getElementById('heroText');
+
 enterBtn.addEventListener('click', () => {
   enterScreen.classList.add('hidden');
+  // Animación notable del texto del Hero (Vanessa / My XV Years / ...),
+  // disparada justo al presionar Enter — no depende del scroll ni del
+  // observer general, así que siempre se ve completa en este momento.
+  if (heroText) {
+    setTimeout(() => heroText.classList.add('is-visible'), 300);
+  }
   // NOTA: NO poner aquí document.body.style.overflowY = 'auto'.
   // Un overflow-y distinto de "visible" en el <body> (aunque sea inline por JS)
   // rompe el position:sticky de las secciones .layer, que es lo que hace que
