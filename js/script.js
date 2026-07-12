@@ -34,79 +34,19 @@ musicBtn.addEventListener('click', () => {
   }
 });
 
-// ===================== SCROLL REVEAL (Intersection Observer) =====================
-const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-fade');
+// ===================== REVEAL ELIMINADO A PEDIDO =====================
+// Se sacaron las animaciones de aparición al hacer scroll (el "salto" de
+// opacity 0 a 1 con movimiento). Ahora todo el contenido está visible de
+// entrada (ver el CSS: .reveal/.reveal-left/.reveal-right/.reveal-fade
+// quedaron neutralizados con opacity:1 fijo). Sin este observer corriendo
+// en cada scroll, además queda un poco más liviano. Las clases se
+// dejaron en el HTML por si se quiere reactivar el efecto más adelante.
 
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-    }
-  });
-}, { threshold: 0.18 });
-
-revealEls.forEach(el => revealObserver.observe(el));
-
-// ===================== REVEAL ANTICIPADO (solo calendario y padrinos) =====================
-// Mismo sistema de arriba, pero dispara un poco antes de que el elemento
-// llegue realmente a la pantalla (rootMargin extiende el área hacia abajo).
-// No toca el scroll ni el sistema de capas sticky, solo adelanta el
-// momento en el que aparece el contenido (números del countdown y la
-// tarjeta de padrinos/sponsors) para que no quede tanto espacio de puro fondo.
-const earlyRevealEls = document.querySelectorAll('.reveal-early');
-
-const earlyRevealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-    }
-  });
-}, { threshold: 0, rootMargin: '0px 0px 220px 0px' });
-
-earlyRevealEls.forEach(el => earlyRevealObserver.observe(el));
-
-// ===================== PARALLAX ON IMAGES =====================
-const parallaxImgs = document.querySelectorAll('[data-parallax]');
-
-function updateParallax() {
-  const vh = window.innerHeight;
-  const speed = 0.12;
-  // Primero se LEEN todas las posiciones (getBoundingClientRect) y solo
-  // después se ESCRIBEN los transform. Si se mezcla lectura y escritura
-  // dentro del mismo bucle, el navegador se ve obligado a recalcular el
-  // layout en cada iteración ("layout thrashing"), que es lo que se sentía
-  // como tirones/trabones al hacer scroll. Separarlo en dos pasadas deja
-  // el scroll mucho más fluido sin cambiar el efecto visual.
-  const updates = [];
-  parallaxImgs.forEach(img => {
-    const rect = img.parentElement.getBoundingClientRect();
-    // Solo calcula si está cerca del viewport (performance)
-    if (rect.bottom > -200 && rect.top < vh + 200) {
-      const offset = (rect.top - vh / 2) * speed;
-      updates.push({ img, offset });
-    }
-  });
-  updates.forEach(({ img, offset }) => {
-    img.style.transform = `translateY(${offset}px)`;
-  });
-}
-
-// Throttle con requestAnimationFrame: evita recalcular varias veces por
-// frame en móviles (antes corría en cada micro-evento de scroll, lo cual
-// se sentía pesado / con tirones en iPhone y Android).
-let parallaxTicking = false;
-function onScrollParallax() {
-  if (parallaxTicking) return;
-  parallaxTicking = true;
-  requestAnimationFrame(() => {
-    updateParallax();
-    parallaxTicking = false;
-  });
-}
-
-window.addEventListener('scroll', onScrollParallax, { passive: true });
-window.addEventListener('resize', updateParallax);
-updateParallax();
+// ===================== PARALLAX ELIMINADO A PEDIDO =====================
+// Se sacó el efecto de parallax en las fotos de la galería (el translateY
+// que se aplicaba al hacer scroll). Ahora solo queda el scroll de capas
+// (sticky), sin nada más moviéndose por encima. El atributo data-parallax
+// se dejó en el HTML por si se quiere reactivar, pero ya no se usa.
 
 // ===================== SISTEMA DE CAPAS (funciona igual en PC, Android e iPhone) =====================
 // Cada capa (.layer) usa position:sticky, que SÍ funciona de forma nativa,

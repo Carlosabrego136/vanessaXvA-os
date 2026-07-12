@@ -1901,29 +1901,61 @@ footer .brand-logo { margin: 14px auto 0; }
 .reveal-right { transform: translateX(32px); }
 .reveal-right.is-visible { transform: translateX(0); }
 
+/* ===================== AJUSTES SOLICITADOS 6 (Sin saltos, sin parallax) =====================
+   Se pidió quitar las animaciones de aparición ("saltos" al hacer scroll)
+   y el parallax de la galería, dejando SOLO el scroll de capas (sticky).
+   En vez de borrar todas las reglas de arriba (que están repartidas en
+   varios lugares del archivo: .reveal, .reveal-left, .reveal-right,
+   .reveal-fade, más las variantes específicas de countdown-boxes y
+   hotels-grid), se neutralizan todas acá al final con !important, que es
+   lo último que lee el navegador y gana siempre. Así el contenido queda
+   visible de entrada, sin opacity:0 inicial ni transform, y sin
+   transición — no hay "salto" porque no hay estado intermedio que
+   animar. Tampoco hay riesgo de que algo quede "a medias" si se
+   scrollea rápido hacia arriba o abajo, porque ya no depende de en qué
+   momento el IntersectionObserver agregó la clase is-visible. */
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-fade,
+.reveal.is-visible,
+.reveal-left.is-visible,
+.reveal-right.is-visible,
+.reveal-fade.is-visible,
+.countdown-boxes .box.reveal,
+.countdown-boxes .box:nth-child(even).reveal,
+.countdown-boxes .box.reveal.is-visible,
+.hotels-grid .reveal-left,
+.hotels-grid .reveal-right,
+.hotels-grid .reveal-left.is-visible,
+.hotels-grid .reveal-right.is-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Parallax de la galería: ya no se mueve nada al hacer scroll (el JS que
+   lo hacía se dejó de ejecutar), así que las imágenes se quedan quietas
+   en su lugar dentro de cada recuadro. */
+.gallery-grid img[data-parallax] {
+  transform: none !important;
+}
+
 /* ===================== AJUSTES SOLICITADOS 5 (Más tiempo "asentada" antes de que la cubra la siguiente capa) =====================
-   Con el sistema de capas sticky, la capa siguiente empieza a deslizarse
-   y a tapar a la actual DESDE EL PRIMER PIXEL que se scrollea (no hay
-   pausa: apenas la sección actual queda fija, la de abajo ya está
-   subiendo). Para que cada sección se quede completamente asentada un
-   momento antes de que empiece a taparla la que sigue, se le agrega alto
-   extra (que no se ve como contenido, solo como espacio de scroll de
-   más). Ese alto extra es exactamente lo que tarda en empezar a
-   aparecer la siguiente capa por debajo, así que a más alto, más tiempo
-   "quieta" se siente cada sección. Se aplica de Galería para abajo (y a
-   las anteriores también) EXCEPTO Alojamiento (#hotels) y Recepción
-   (#location), que se dejan como están. */
-#countdown.layer,
-#blessing.layer,
-#padrinos.layer,
-#itinerary.layer,
-#church.layer,
-#registry.layer,
-#gallery.layer,
-#share.layer,
-#wishes.layer,
-#story.layer,
-#contacts.layer {
-  min-height: 130vh;
-  min-height: 130dvh;
+   OJO: la primera versión de este ajuste agrandaba el min-height de la
+   sección (130vh). Eso rompió las fotos de fondo (background-size:cover):
+   al agrandar la caja, la foto se ve obligada a escalar MÁS para cubrir
+   ese alto extra, lo que se traduce en más zoom/recorte — por eso Padrinos
+   se veía "muy cerca". Se revierte: las secciones vuelven a su alto
+   normal (100vh, el de la regla base .section) y en su lugar se usa un
+   separador invisible (.layer-gap) puesto en el HTML entre una sección y
+   la siguiente. Ese separador no tiene fondo ni foto — es solo espacio de
+   scroll — así que la sección actual se sigue viendo completa y sin
+   recortarse de más mientras se scrollea ese espacio, y recién después
+   empieza a subir la capa siguiente. Ver .layer-gap más abajo. */
+.layer-gap {
+  height: 32vh;
+  height: 32dvh;
+  width: 100%;
+  pointer-events: none;
 }
