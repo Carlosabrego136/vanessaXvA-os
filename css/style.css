@@ -183,9 +183,10 @@ img { max-width: 100%; }
 .tag-band .script {
   position: relative;
   z-index: 2;
-  color: #2d4d78;
+  color: #1a1712;
+  font-weight: 600;
   font-size: clamp(26px, 4vw, 40px);
-  text-shadow: 0 1px 0 #000, 0 2px 3px rgba(0,0,0,0.55), 0 6px 16px rgba(0,0,0,0.3);
+  text-shadow: none;
 }
 /* estrellitas suaves sobre la franja crema */
 .tag-band .sparkle {
@@ -1223,9 +1224,9 @@ button {
 /* Gallery: se compacta el espacio antes del collage (menos padding arriba,
    menos margen bajo el separador dorado) para que las fotos aparezcan más
    arriba y no haya que scrollear tanto para verlas. */
-#gallery { padding-top: 16px; padding-bottom: 30px; justify-content: center; }
-#gallery .ornament-divider { margin: 10px auto 4px; }
-#gallery .gallery-frame { margin-top: 4px; }
+#gallery { padding-top: 12px; padding-bottom: 24px; justify-content: center; }
+#gallery .ornament-divider { margin: 8px auto 2px; }
+#gallery .gallery-frame { margin-top: 2px; }
 
 /* Título de la sección (Memories / Photo Gallery) en línea horizontal,
    en vez de apilado, para ahorrar espacio vertical. */
@@ -1256,17 +1257,16 @@ button {
   margin: 18px auto 0;
 }
 .gallery-grid {
-  display: block;
-  column-count: 2;
-  column-gap: 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
   width: 100%;
 }
 .gallery-grid .g-item {
   overflow: hidden;
   border-radius: 0;
   position: relative;
-  break-inside: avoid;
-  margin: 0 0 6px;
+  margin: 0;
   cursor: pointer;
 }
 .gallery-grid img { width: 100%; height: auto; object-fit: cover; display: block; transition: transform .6s ease; }
@@ -1283,6 +1283,28 @@ button {
 
 @media (max-width: 800px) {
   .gallery-frame { max-width: 480px; }
+}
+
+/* En celular, el "vidrio esmerilado" (backdrop-filter blur) de las tarjetas
+   flotantes es lo más pesado para el GPU, sobre todo combinado con las
+   secciones sticky de fondo completo (.layer). Se reduce el blur en
+   pantallas chicas — se nota casi igual visualmente pero cuesta mucho
+   menos de renderizar, así que el scroll deja de sentirse pesado a partir
+   de Padrinos (la primera sección donde se acumulan varias capas sticky
+   + esta tarjeta con blur al mismo tiempo). */
+@media (max-width: 700px) {
+  .floating-card,
+  .split-card {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  #registry .floating-card {
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+  .floating-card {
+    box-shadow: 0 12px 22px rgba(0,0,0,0.4), 0 0 20px 4px rgba(244,166,204,0.22);
+  }
 }
 
 /* ===================== SHARE MOMENTS ===================== */
@@ -1815,8 +1837,8 @@ footer .brand-logo { margin: 14px auto 0; }
 /* Galería: centrada verticalmente en su sección, de lado a lado (poco
    padding horizontal). El masonry de 2 columnas está definido arriba,
    junto a las reglas principales de .gallery-grid. */
-#gallery.section { justify-content: center; padding-left: 8px; padding-right: 8px; }
-#gallery .gallery-frame { margin-top: 6px; }
+#gallery.section { justify-content: center; padding-left: 6px; padding-right: 6px; }
+#gallery .gallery-frame { margin-top: 2px; }
 
 /* Fondos que son fotos: quitar por completo el oscurecido/velo, que se vean
    al 100% sin nada de opacidad encima */
