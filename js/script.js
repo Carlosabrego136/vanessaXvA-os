@@ -274,24 +274,25 @@ musicBtn.addEventListener('click', () => {
 // TAPADA visualmente por la siguiente sección que se pone encima
 // (el z-index ascendente solo cambia el pintado, no la posición). Por
 // eso un IntersectionObserver simple nunca la marcaba como "fuera de
-// vista" al taparse, y por eso la animación no se repetía al subir el
-// scroll (solo funcionaba si subías más allá y volvías a bajar).
+// vista" al taparse.
 //
-// Acá se arma un mapa por capa: cada capa se considera realmente
-// "visible" solo si ELLA está en pantalla Y la capa siguiente todavía
-// no empezó a taparla. Al subir el scroll y destaparse una capa
-// anterior, sus elementos con animación se resetean (is-visible se
-// quita) y se vuelven a animar apenas se destapan del todo.
+// Se arma un mapa por capa usando el % real de cada capa que está en
+// pantalla (intersectionRatio), no solo un true/false. Una capa se
+// considera "tapada" solo cuando la siguiente ya cubre más de la mitad
+// de la pantalla (ratio > 0.5) — así, mientras bajas el scroll y la
+// capa siguiente recién está asomando, el contenido de la capa actual
+// NO se esconde de golpe (nada de parpadeo). Recién se resetea cuando
+// de verdad queda tapada, y al subir y destaparse vuelve a animarse.
 const allLayers = Array.from(document.querySelectorAll('.layer'));
 const layerRevealMap = allLayers.map((layer) =>
   Array.from(layer.querySelectorAll('.reveal-fade-soft, .reveal-left, .reveal-right, .countdown-notable, .card-notable'))
 );
-const layerIntersecting = new Array(allLayers.length).fill(false);
+const layerRatio = new Array(allLayers.length).fill(0);
 
 function applyLayerRevealVisibility() {
   allLayers.forEach((layer, i) => {
-    const coveredByNext = i < allLayers.length - 1 ? layerIntersecting[i + 1] : false;
-    const visible = layerIntersecting[i] && !coveredByNext;
+    const coveredByNext = i < allLayers.length - 1 ? layerRatio[i + 1] > 0.5 : false;
+    const visible = layerRatio[i] > 0 && !coveredByNext;
     layerRevealMap[i].forEach((el) => {
       el.classList.toggle('is-visible', visible);
     });
@@ -302,10 +303,10 @@ if (allLayers.length && 'IntersectionObserver' in window) {
   const layerRevealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       const idx = allLayers.indexOf(entry.target);
-      if (idx !== -1) layerIntersecting[idx] = entry.isIntersecting;
+      if (idx !== -1) layerRatio[idx] = entry.intersectionRatio;
     });
     applyLayerRevealVisibility();
-  }, { threshold: 0 });
+  }, { threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1] });
   allLayers.forEach((layer) => layerRevealObserver.observe(layer));
 } else {
   // Sin soporte de IntersectionObserver: se muestran directo, sin fade.
