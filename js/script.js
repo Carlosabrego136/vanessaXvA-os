@@ -268,21 +268,21 @@ musicBtn.addEventListener('click', () => {
 // en cada scroll, además queda un poco más liviano. Las clases se
 // dejaron en el HTML por si se quiere reactivar el efecto más adelante.
 
-// ===================== FADE LEVE: Countdown + Itinerary (a pedido) =====================
-// Se pidió que SOLO los números/botón de Agregar al calendario y la
-// tarjeta de Itinerary aparezcan levemente al llegar a su sección, sin
-// volver a traer el observer pesado de toda la página. Este es un
-// observer aparte, chiquito, que solo mira estos 2-3 elementos
-// (.reveal-fade-soft) y se apaga solo apenas cada uno ya apareció una
-// vez (unobserve), así que no hace ningún trabajo extra en el resto
-// del scroll.
+// ===================== FADE LEVE: Countdown + Itinerary + Tarjetas (a pedido) =====================
+// Se pidió que estas animaciones de entrada (calendario, Padres,
+// Padrinos y el resto de tarjetas/elementos con fade) se repitan cada
+// vez que el elemento vuelve a entrar en pantalla, tanto bajando como
+// subiendo el scroll — no solo la primera vez. Por eso ya no se hace
+// unobserve: se agrega 'is-visible' al entrar y se quita al salir de
+// vista, así la próxima vez que aparezca se vuelve a animar desde cero.
 const softRevealEls = document.querySelectorAll('.reveal-fade-soft, .reveal-left, .reveal-right, .countdown-notable, .card-notable');
 if (softRevealEls.length && 'IntersectionObserver' in window) {
   const softRevealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
-        softRevealObserver.unobserve(entry.target);
+      } else {
+        entry.target.classList.remove('is-visible');
       }
     });
   }, { threshold: 0.15 });
