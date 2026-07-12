@@ -76,7 +76,7 @@
   function erase(x, y) {
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 34, 0, Math.PI * 2);
+    ctx.arc(x, y, 42, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
   }
@@ -103,7 +103,7 @@
       if (data[i + 3] < 40) cleared++;
     }
     checking = false;
-    if (total > 0 && cleared / total > 0.93) {
+    if (total > 0 && cleared / total > 0.7) {
       triggerReveal();
     }
   }
